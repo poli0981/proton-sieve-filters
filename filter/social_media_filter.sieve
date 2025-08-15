@@ -7,8 +7,17 @@
 require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
 
 # Whitelist
-if header :list "from" ":addrbook:personal"{
+if anyof (
+    header :list "from" ":addrbook:personal",
+    header :list "from" ":addrbook:myself"
+){
     stop;
+}
+
+# Delete messages if they are in the spam list
+if header :list "from" ":incomingdefaults:spam" {
+        discard;
+        stop;
 }
 
 # Filter messages from social networks
@@ -54,6 +63,7 @@ if anyof (
 elsif allof (header :contains "subject" ["Spam", "Ads", "Offers", "Promotions"]) {
     fileinto "Spam";
 }
+
 else {
     # Fallback: if no conditions matched, keep in Inbox
     addflag "\\Flagged";
