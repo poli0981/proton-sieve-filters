@@ -262,21 +262,115 @@ if anyof (
     # Move to Gaming folder first
     fileinto "Gaming";
 
-    
-    # Delete promotional emails after 9 days
-    if allof (
-        header :contains "subject" ["game", "update", "patch", "event", "sale", "dlc", "beta", "access", "launch", "announcement", "pre-order", "release", "mod"],
-        size :under 500K,
+    # Delete Playtest/ Beta Test Messages
+    if anyof (
+        header :contains "subject" ["Playtest" "Early Access", "Beta Invite", "Playtest Invitation", "Early Access Beta", 
+        "Test Our Game", "You're Invited to Beta", "Beta Program Access", "Join Beta Testing", "Exclusive Beta",
+        "Beta Registration", "Try Beta Now"],
+        size :under 500K
     ) {
-        expire "day" "9";
+        expire "day" "21";
+    }
+
+    # Delete notification sales
+    if anyof (
+        header :contains "subject" ["Steam wishlist is now on sale","steam sale", "Steam Sale Alert", "Epic Deals Now", "Discount on Games", "Flash Sale Steam", "Weekly Deals Epic", 
+        "Game Discounts Live", "Steam Midweek Madness", "Epic Mega Sale","Holiday Sale Steam"
+        , "Bundle Deals Now", "Summer Sale", "Winter Sale", "Spring Sale", "Autumn Sale", "Epic Games Sale", "Steam Sale Event"],
+        size :under 500K
+    ) {
+        expire "day" "5";
+    }
+
+    # Delete message about EULA, ToS, or Privacy Policy
+    if anyof (
+        header :contains "subject" ["eula", "EULA Update", "Terms Change Notice", "Policy Revision",
+         "Updated Terms of Service", "License Agreement Change", "New EULA Version",
+         "Service Terms Update", "Agreement Modification", "Legal Update Alert", "Policy Amendment", "ToS"
+         , "Privacy Policy Update", "Terms of Use Change", "User Agreement Revision", "Updated Privacy Policy"],
+        size :under 500K
+    ) {
+        expire "day" "6";
+    }
+
+    # Delete messages about News
+    if anyof (
+        header :contains "subject" ["IGN Daily News", "Gamespot Update", "Breaking Gaming News", "IGN Review Roundup", "Gamespot Newsletter",
+        "Daily Gaming Digest", "IGN Top Stories", "Gamespot Game Releases", "Weekly Gaming Recap", "IGN Insider News",
+        "gaming news", "weekly roundup", "latest updates", "breaking gaming", "game newsletter", "daily digest", "news alert",
+        "industry news", "esports update", "review roundup", "top stories gaming"],
+        size :under 500K
+    ) {
+        expire "day" "2";
     }
     
-    # Stop processing further rules
+    # Delete messages about Recipts, purchases, Orders or Invoice
+    if anyof (
+        header :contains "subject" ["Purchase Confirmation", "Your Game Receipt", "Order Invoice", 
+        "Digital Purchase Details", "Game Buy Receipt", "Transaction Summary", 
+        "Your Order Shipped", "Payment Confirmation", "Receipt for Game", "Invoice Attached", "Epic Games Receipt", "Steam purchase"],
+        size :under 500K
+    ) {
+        expire "day" "14";
+    }
+
+    # Delete messages about Game Updates, Patches
+    if anyof (
+        header :contains "subject" ["Patch Notes", "Hotfix", "Patch Notes Released", "Game Update Available", 
+        "Version X Patch", "Update Notes Inside", "New Patch Details", "Balance Update", "Bug Fix Patch", 
+        "Maintenance Update", "Hotfix Notes", "Game Version Update", "Version Update", "Patch Release Notes",
+        "Server Update"],
+        size :under 500K
+    ) {
+        expire "day" "7";
+    }
+
+    # Delete mess about DLC
+        if anyof (
+        header :contains "subject" ["New DLC Available", "Expansion Release",
+        "DLC Launch Alert", "Add-On Now Live", "Download New DLC", "DLC Content Update", 
+        "Season Pass DLC", "Free DLC Drop", "Premium DLC Out", "Story DLC Released"],
+        size :under 500K
+    ) {
+        expire "day" "7";
+    }
+
+    # Delete Event
+        if anyof ( header :contains "subject" ["live event", "Upcoming Game Event", "Event Registration Open", 
+        "Join Our Event", "Live Event Alert", "Gaming Expo Invite", "In-Game Event", 
+        "Community Event", "Tournament Announcement", "Webinar on Games",
+        "Special Event Details", "holiday event", "limited event"],
+        size :under 500K
+    ) {
+        expire "day" "10";
+    }
+
+    # Delete messages about Pre-Order and Release Date
+            if anyof ( header :contains "subject" ["Available on Steam","Pre-Order Reminder", "Your Pre-Order Update", "Pre-Order Now Live",
+             "Secure Your Pre-Order", "Pre-Order Bonus Alert", "Reminder: Pre-Order Ends", 
+             "Game Pre-Order Details", "Early Pre-Order Access", "Pre-Order Confirmation", "Don't Miss Pre-Order"],
+        size :under 500K
+    ) {
+        expire "day" "3";
+    }
+
+    # Messages Community Update
+    if anyof (
+        header :contains "subject" ["Community Newsletter", "Insider Community Update", "Forum Update Alert", 
+        "Player Community News", "Dev Community Post", "Weekly Community Recap", 
+        "Community Feedback Update", "Server Community News", "Guild Update", 
+        "Fan Community Digest", "Dev Community Insights", "Community Engagement News",
+        "Dev Diary", "Community Spotlight", "Player Community Highlights",],
+        size :under 500K
+    ) {
+        expire "day" "7";
+    }
+
     stop;
 }
 
 # Filter spam messages (only if not matched above)
-elsif anyof (
+if anyof (
     header :contains "subject" ["100% free", "act now", "apply now", "avoid bankruptcy"],
     header :contains "subject" ["bargain", "best price", "big money", "beneficiary"],
     header :contains "subject" ["cash", "claims", "debt", "earn cash"],
