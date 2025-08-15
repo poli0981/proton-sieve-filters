@@ -37,10 +37,10 @@ if anyof (
     address :domain :matches "from" "*medium.com",
     address :domain :matches "from" "*spotify.com"
 ) {
-    # Move to "Social Account" folder
-    fileinto "Social Account";
     # Mark e-mail as read
     addflag "\\Seen";
+    # Move to "Social Account" folder
+    fileinto "Social Account";
 
     # Delete messages containing "alert", "notification", etc. in subject after 7 days
     if allof (header :contains "subject" ["alert", "notification", "update", "reminder"],

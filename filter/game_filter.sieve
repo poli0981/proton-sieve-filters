@@ -248,11 +248,11 @@ if anyof (
     address :domain :matches "from" "*resetera.com",
     address :domain :matches "from" "*nrvnqsr.com"
 ) {
-    # Move to Gaming folder first
-    fileinto "Gaming";
-    
     # Mark as read
     addflag "\\Seen";
+    # Move to Gaming folder first
+    fileinto "Gaming";
+
     
     # Delete promotional emails after 9 days
     if allof (
