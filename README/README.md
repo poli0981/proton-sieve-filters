@@ -1,8 +1,8 @@
 # Proton Sieve Filters
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-[![GitHub contributors](https://img.shields.io/github/contributors/poli0981/proton-sieve-filters.svg)](https://github.com/poli0981/protonmail-sieve-filters/graphs/contributors)
-[![GitHub issues](https://img.shields.io/github/issues/poli0981/proton-sieve-filters.svg)](https://github.com/poli0981/protonmail-sieve-filters/issues)
+[![GitHub contributors](https://img.shields.io/github/contributors/poli0981/proton-sieve-filters.svg)](https://github.com/poli0981/proton-sieve-filters/graphs/contributors)
+[![GitHub issues](https://img.shields.io/github/issues/poli0981/proton-sieve-filters.svg)](https://github.com/poli0981/proton-sieve-filters/issues)
 
 ## Description
 
