@@ -14,9 +14,9 @@ if header :list "from" ":addrbook:personal" {
 # Filter messages related to gaming
 if anyof (
     # Store gaming-related domains here
-    address :domain :matches "from" "*.steampowered.com",
-    address :domain :matches "from" "*.epicgames.com",
-    address :domain :matches "from" "*.gog.com",
+    address :domain :matches "from" "*steampowered.com",
+    address :domain :matches "from" "*epicgames.com",
+    address :domain :matches "from" "*gog.com",
     address :domain :matches "from" "*origin.com",
     address :domain :matches "from" "*humblebundle.com",
     address :domain :matches "from" "*steam.com",
