@@ -120,6 +120,7 @@ if anyof (
     address :domain :matches "from" "*87kgames.com",
 
     # Domain for newsletters, updates, and gaming news
+    address :domain :matches "from" "*metacritic.com",
     address :domain :matches "from" "*ign.com",
     address :domain :matches "from" "*gamespot.com",
     address :domain :matches "from" "*kotaku.com",
@@ -257,7 +258,6 @@ if anyof (
     if allof (
         header :contains "subject" ["game", "update", "patch", "event", "sale", "dlc", "beta", "access", "launch", "announcement", "pre-order", "release", "mod"],
         size :under 500K,
-        not header :contains "subject" ["important", "urgent", "critical"]
     ) {
         expire "day" "9";
     }
