@@ -13,7 +13,7 @@ if header :list "from" ":addrbook:personal"{
 
 # Filter messages from social networks
 if anyof (
-    address :domain :matches "from" "*x.com",
+    address :domain :matches "from" "x.com",
     address :domain "from" "twitter.com",
     address :domain "from" "tiktok.com",
     address :domain :matches "from" "*instagram.com",
