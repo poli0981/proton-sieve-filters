@@ -1,0 +1,25 @@
+List of domain:
+
+- X: *x.com,
+- Twitter: *twitter.com
+- TikTok: *tiktok.com
+- Instagram: *instagram.com
+- Bluesky: bsky.social
+- Twitch: twitch.tv
+- Pinterest: pinterest.com
+- Facebook: *facebookmail.com
+- Linkedin: linkedin.com
+- Snapchat: snapchat.com
+- Last.fm: last.fm
+- Reddit: redditmail.com",
+- Google: *google.com
+- YouTube: *youtube.com
+- DevineArt: deviantart.com
+- Mastodon: mastodon.social
+- Discord: discord.com
+- Tumblr: tumblr.com
+- Flickr: flickr.com
+- VK: vk.com
+- Quora: quora.com
+- Medium: medium.com
+- Spotify: *spotify.com
