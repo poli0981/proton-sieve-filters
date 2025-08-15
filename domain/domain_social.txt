@@ -1,5 +1,5 @@
 List of domain:
-
+* Social
 - X: *x.com,
 - Twitter: *twitter.com
 - TikTok: *tiktok.com
