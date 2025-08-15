@@ -4,7 +4,7 @@
 # Version: 0.1.0
 # This Sieve script filters messages related to gaming service, newspaper, game publisher, etc. and moves them to "Gaming" folder.
 
-require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists", "date", "relational"];
+require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
 
 # Whitelist
 if header :list "from" ":addrbook:personal" {
@@ -173,7 +173,6 @@ if anyof (
     address :domain :matches "from" "*bloggers.feedspot.com",
     address :domain :matches "from" "*prnews.io",
     address :domain :matches "from" "*codesupply.co",
-    address :domain :matches "from" "*vbrae.com",
     address :domain :matches "from" "*quartertothree.com",
 
     # E-sport domains
@@ -198,7 +197,7 @@ if anyof (
     address :domain :matches "from" "*teamliquid.com",
     address :domain :matches "from" "*tsm.gg",
     address :domain :matches "from" "*100thieves.com",
-    address :domain :matches "from" "*themongnolz.gg",
+    address :domain :matches "from" "*themongolz.gg",
     address :domain :matches "from" "*gaimingladiators.gg",
     address :domain :matches "from" "*parivision.gg",
     address :domain :matches "from" "*fnatic.com",
@@ -214,12 +213,11 @@ if anyof (
     address :domain :matches "from" "*joblife.gg",
     address :domain :matches "from" "*mandatory.gg",
     address :domain :matches "from" "*repeat.gg",
-    address :domain :matches "from" "*turtle-entertainment.com"
+    address :domain :matches "from" "*turtle-entertainment.com",
 
     # Domain for key resellers and gaming deals
     address :domain :matches "from" "*cdkeys.com",
     address :domain :matches "from" "*kinguin.net",
-    address :domain :matches "from" "*greenmangaming.com",
     address :domain :matches "from" "*eneba.com",
     address :domain :matches "from" "*allkeyshop.com",
     address :domain :matches "from" "*k4g.com",
@@ -248,24 +246,27 @@ if anyof (
     address :domain :matches "from" "*beebom.com",
     address :domain :matches "from" "*resetera.com",
     address :domain :matches "from" "*nrvnqsr.com"
-) 
-
-{
-    # Move to "Gaming" folder.
+) {
+    # Move to Gaming folder first
     fileinto "Gaming";
-    # Mark e-mail as read
+    
+    # Mark as read
     addflag "\\Seen";
-
-    # Delete messages containing specific gaming terms in subject after 9 days
-    if allof (header :contains "subject" ["game", "update", "patch", "event", "sale", "dlc", "beta", "access", "launch", "announcement", "pre-order", "release", "mod"],
-              size :under 500K,
-              not header :contains "subject" ["important", "urgent", "critical"]) {
+    
+    # Delete promotional emails after 9 days
+    if allof (
+        header :contains "subject" ["game", "update", "patch", "event", "sale", "dlc", "beta", "access", "launch", "announcement", "pre-order", "release", "mod"],
+        size :under 500K,
+        not header :contains "subject" ["important", "urgent", "critical"]
+    ) {
         expire "day" "9";
     }
+    
+    # Stop processing further rules
     stop;
 }
 
-# Reject/ Move into Spam/ Discard messages with specific spam keywords in subject (if not matched above)
+# Filter spam messages (only if not matched above)
 if anyof (
     header :contains "subject" ["100% free", "act now", "apply now", "avoid bankruptcy"],
     header :contains "subject" ["bargain", "best price", "big money", "beneficiary"],
@@ -356,17 +357,15 @@ if anyof (
     header :contains "subject" ["www", "you are a winner!", "your income"]
 ) {
     fileinto "Spam";
-
-    # if you want to reject these messages instead of moving them to Spam, uncomment the next line
-    # reject "Your message has been rejected as spam.";
-    # stop; 
-
-    # If you want to delete these messages instead of moving them to Spam, uncomment the next line
-    # discard;
-    
-} else {
-    # Fallback: if no conditions matched, keep in Inbox
-    addflag "\\Flagged";
+    stop;
 }
 
 # End of Sieve script for gaming filter
+
+
+# if you want to reject these messages instead of moving them to Spam, uncomment the next line
+# reject "Your message has been rejected as spam.";
+# stop; 
+
+# If you want to delete these messages instead of moving them to Spam, uncomment the next line
+# discard;
