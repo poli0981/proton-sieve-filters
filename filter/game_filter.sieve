@@ -6,14 +6,6 @@
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
 
-# Whitelist
-if anyof (
-    header :list "from" ":addrbook:personal",
-    header :list "from" ":addrbook:myself"
-){
-    stop;
-}
-
 # Delete messages if they are in the spam list
 if header :list "from" ":incomingdefaults:spam" {
         discard;
