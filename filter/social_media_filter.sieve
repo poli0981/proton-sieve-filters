@@ -1,7 +1,7 @@
 # Sieve filter
 # Filter_Social.sieve
 # Only for user use Proton Mail
-# Version: 0.1.0
+# Version: 0.1.0 -> 0.2.0
 # This Sieve script filters messages from social networks and moves them to "Social Account" folder.
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
@@ -20,206 +20,174 @@ if header :list "from" ":incomingdefaults:spam" {
         stop;
 }
 
-# Filter messages from social networks
+# Filter messages from social networks and messaging platforms
 if anyof (
-    # Social media domains
-    address :domain :matches "from" "*facebook.com",
-    address :domain :matches "from" "*instagram.com",
-    address :domain :matches "from" "*tiktok.com",
-    address :domain :matches "from" "*x.com",  # X (formerly Twitter)
-    address :domain :matches "from" "*linkedin.com",
-    address :domain :matches "from" "*reddit.com",
-    address :domain :matches "from" "*pinterest.com",
-    address :domain :matches "from" "*youtube.com",
-    address :domain :matches "from" "*threads.net",
-    address :domain :matches "from" "*discord.com",
-    address :domain :matches "from" "*snapchat.com",
-    address :domain :matches "from" "*bsky.social",
-    address :domain :matches "from" "*mastodon.social",
-    address :domain :matches "from" "*bere.al",
-    address :domain :matches "from" "*vero.co",
-    address :domain :matches "from" "*mewe.com",
-    address :domain :matches "from" "*noplace.com",
-    address :domain :matches "from" "*tenten.app",
-    address :domain :matches "from" "*air.chat",
-    address :domain :matches "from" "*substack.com",
-    address :domain :matches "from" "*coverstar.com",
-    address :domain :matches "from" "*jagat.io",
-    address :domain :matches "from" "*twitch.tv",
-    address :domain :matches "from" "*kick.com",
-    address :domain :matches "from" "*vk.com",
+    # Major social media platforms
+    address :domain :matches "from" ["*facebook.com", "*instagram.com", "*tiktok.com",
+    "*x.com", "*twitter.com", "*linkedin.com", "*reddit.com", "*pinterest.com",
+    "*youtube.com", "*threads.net", "*snapchat.com", "*twitch.tv", "*kick.com"],
 
-    # Messaging apps domains
-    address :domain :matches "from" "*whatsapp.com",
-    address :domain :matches "from" "*wechat.com",
-    address :domain :matches "from" "*messenger.com",
-    address :domain :matches "from" "*telegram.org",
-    address :domain :matches "from" "*viber.com",
-    address :domain :matches "from" "*line.me",
-    address :domain :matches "from" "*signal.org",
-    address :domain :matches "from" "*apple.com", # iMessage
-    address :domain :matches "from" "*kakao.com",
-    address :domain :matches "from" "*zalo.me",
-    address :domain :matches "from" "*skype.com",
-    address :domain :matches "from" "*briarproject.org",
-    address :domain :matches "from" "*getsession.org",
-    address :domain :matches "from" "*beeper.com",
-    address :domain :matches "from" "*texts.com"
+    # Alternative and emerging social platforms
+    address :domain :matches "from" ["*bsky.social", "*mastodon.social", "*bere.al",
+    "*vero.co", "*mewe.com", "*noplace.com", "*tenten.app", "*air.chat",
+    "*substack.com", "*coverstar.com", "*jagat.io", "*vk.com", "*ok.ru",
+    "*weibo.com", "*douyin.com", "*xiaohongshu.com", "*clubhouse.com",
+    "*spaces.live", "*poparazzi.com", "*dispo.fun", "*lapse.com"],
+
+    # Professional and business networks
+    address :domain :matches "from" ["*xing.com", "*meetup.com", "*eventbrite.com",
+    "*sharechat.com", "*bumble.com", "*hinge.co", "*badoo.com", "*plenty offish.com",
+    "*zoosk.com", "*match.com", "*eharmony.com", "*okcupid.com"],
+
+    # Gaming and streaming social platforms
+    address :domain :matches "from" ["*steam.com", "*discord.com", "*guilded.gg",
+    "*revolt.chat", "*teamspeak.com", "*mumble.info", "*ventrilo.com",
+    "*raidcall.com", "*curse.com", "*overwolf.com"],
+
+    # Messaging apps and communication platforms
+    address :domain :matches "from" ["*whatsapp.com", "*wechat.com", "*messenger.com",
+    "*telegram.org", "*viber.com", "*line.me", "*signal.org", "*apple.com",
+    "*kakao.com", "*zalo.me", "*skype.com", "*briarproject.org",
+    "*getsession.org", "*beeper.com", "*texts.com"],
+
+    # International messaging platforms
+    address :domain :matches "from" ["*wechat.com", "*qq.com", "*dingtalk.com",
+    "*feishu.cn", "*lark.com", "*slack.com", "*mattermost.com", "*rocket.chat",
+    "*element.io", "*matrix.org", "*wire.com", "*threema.ch", "*wickr.com"],
+
+    # Regional social platforms
+    address :domain :matches "from" ["*odnoklassniki.ru", "*taringa.net", "*orkut.com",
+    "*myspace.com", "*friendster.com", "*hi5.com", "*tagged.com", "*badoo.com",
+    "*migente.com", "*sonico.com", "*tuenti.com", "*cyworld.com", "*mixi.jp",
+    "*gree.jp", "*ameba.jp", "*pixiv.net", "*niconico.jp"],
+
+    # Content creation and sharing platforms
+    address :domain :matches "from" ["*medium.com", "*wordpress.com", "*blogger.com",
+    "*tumblr.com", "*deviantart.com", "*behance.net", "*dribbble.com",
+    "*500px.com", "*flickr.com", "*imgur.com", "*giphy.com", "*tenor.com"],
+
+    # Live streaming and video platforms
+    address :domain :matches "from" ["*periscope.tv", "*meerkat.co", "*bigo.tv",
+    "*liveme.com", "*younow.com", "*17.live", "*uplive.com", "*streamlabs.com",
+    "*obs.live", "*restream.io", "*streamyard.com"],
+
+    # Professional and career platforms
+    address :domain :matches "from" ["*glassdoor.com", "*indeed.com", "*monster.com",
+    "*careerbuilder.com", "*ziprecruiter.com", "*upwork.com", "*freelancer.com",
+    "*fiverr.com", "*toptal.com", "*guru.com"],
+
+    # Community and forum platforms
+    address :domain :matches "from" ["*stackexchange.com", "*stackoverflow.com",
+    "*quora.com", "*askfm.com", "*answers.yahoo.com", "*reddit.com",
+    "*digg.com", "*stumbleupon.com", "*slashdot.org", "*hackernews.com"],
+
+    # Voice and audio social platforms
+    address :domain :matches "from" ["*spotify.com", "*soundcloud.com", "*anchor.fm",
+    "*castbox.fm", "*podbean.com", "*buzzsprout.com", "*libsyn.com",
+    "*spreaker.com", "*audioboom.com", "*stitcher.com"]
 
     ) {
-    # Mark e-mail as read
-    addflag "\\Seen";
-    # Move to "Social Account" folder
+    # Move to "Social Account" folder first
     fileinto "Social Account";
+    
+    # Mark email as read
+    addflag "\\Seen";
 
-    # Delete mail about social media notifications
-    if allof (header :contains "subject" ["Friend Request", "New Friend", "Connection Request",
-    "Like Notification", "New Like", "Post Liked", "Share Alert", "Post Shared", "Live Stream Started",
-    "Live Now", "Message Read", "Seen Your Message", "Comment Added", "New Comment", "Tag Notification",
-    "You Were Tagged", "Follow Request", "New Follower", "Notfication"],
-              size :under 500K) {
-            expire "day" "1";
+    # Social media notifications (expire 1 day)
+    if allof (
+        header :contains "subject" ["Friend Request", "New Friend", "Connection Request",
+        "Like Notification", "New Like", "Post Liked", "Share Alert", "Post Shared", 
+        "Live Stream Started", "Live Now", "Message Read", "Seen Your Message", 
+        "Comment Added", "New Comment", "Tag Notification", "You Were Tagged", 
+        "Follow Request", "New Follower", "Notification", "Activity Alert",
+        "Story Update", "Status Update", "Mention Alert", "Reply Notification"],
+        size :under 500K
+    ) {
+        expire "day" "1";
     }
 
-    # EULA/Terms/Policy Updates
-    if allof (header :contains "subject" ["EULA Update", "Terms Change", "Policy Revision",
-     "Updated Terms of Service", "License Agreement Change", "New EULA Version", 
-     "Service Terms Update", "Agreement Modification", "Legal Update Alert", "Policy Amendment", 
-     "Privacy Policy Update", "ToS Changes", "Data Policy Revision"],
-              size :under 500K) {
+    # EULA/Terms/Policy Updates (expire 2 days)
+    if allof (
+        header :contains "subject" ["EULA Update", "Terms Change", "Policy Revision",
+        "Updated Terms of Service", "License Agreement Change", "New EULA Version", 
+        "Service Terms Update", "Agreement Modification", "Legal Update Alert", 
+        "Policy Amendment", "Privacy Policy Update", "ToS Changes", "Data Policy Revision"],
+        size :under 500K
+    ) {
         expire "day" "2";
     }
 
-    if allof (header :contains "subject" ["Account Locked", "Ban Notification", "Restriction Alert", "Weak Password Warning", "Password Change Required", "Hack Detected", "Unauthorized Access", "Security Breach", "Account Compromised", "Login Attempt Alert", "Two-Factor Setup", "Verification Code", "Suspicious Activity", "Account Suspended", "Password Reset"],
-              size :under 500K) {
+    # Security alerts (expire 28 days - important to keep for reference)
+    if allof (
+        header :contains "subject" ["Account Locked", "Ban Notification", "Restriction Alert", 
+        "Weak Password Warning", "Password Change Required", "Hack Detected", 
+        "Unauthorized Access", "Security Breach", "Account Compromised", 
+        "Login Attempt Alert", "Two-Factor Setup", "Verification Code", 
+        "Suspicious Activity", "Account Suspended", "Password Reset",
+        "Security Warning", "Login Alert", "New Device Login"],
+        size :under 500K
+    ) {
         expire "day" "28";
     }
 
-    # Invites/Events
-    if allof (header :contains "subject" ["Event Invite", "Group Invitation", "Join Event",
-            "Community Event", "Live Event Alert", "Invitation Accepted", "RSVP Reminder",
-            "Event Notification", "Party Invite", "Meetup Alert"],
-              size :under 500K) {
+    # Invites/Events (expire 7 days)
+    if allof (
+        header :contains "subject" ["Event Invite", "Group Invitation", "Join Event",
+        "Community Event", "Live Event Alert", "Invitation Accepted", "RSVP Reminder",
+        "Event Notification", "Party Invite", "Meetup Alert", "Calendar Invite",
+        "Meeting Invite", "Webinar Invite", "Conference Invite", "Workshop Invite"],
+        size :under 500K
+    ) {
         expire "day" "7";
     }
 
-    # Platform Updates/News
-    if allof (header :contains "subject" ["Platform Update", "New Feature Alert", "App Update Available",
-            "Version Release", "Feature Launch", "System Maintenance", "Update Notes",
-            "News Digest", "Weekly Recap", "Platform Changes"],
-              size :under 500K) {
+    # Platform Updates/News (expire 5 days)
+    if allof (
+        header :contains "subject" ["Platform Update", "New Feature Alert", "App Update Available",
+        "Version Release", "Feature Launch", "System Maintenance", "Update Notes",
+        "News Digest", "Weekly Recap", "Platform Changes", "Service Update",
+        "Bug Fix", "Performance Improvement", "New Version", "Release Notes"],
+        size :under 500K
+    ) {
         expire "day" "5";
     }
 
-    # Delete e-mail about Promo/Ads
-    if allof (header :contains "subject" ["Sponsored Content", "Deal Alert", "Promo Code",
-     "Special Offer Inside", "Ad Notification", "Partner Promotion",
-      "Discount Reminder", "Flash Deal", "Limited Promo", "Sponsored Post"],
-              size :under 500K) {
+    # Promotional content (expire 3 days)
+    if allof (
+        header :contains "subject" ["Sponsored Content", "Deal Alert", "Promo Code",
+        "Special Offer Inside", "Ad Notification", "Partner Promotion",
+        "Discount Reminder", "Flash Deal", "Limited Promo", "Sponsored Post",
+        "Advertisement", "Promoted Content", "Marketing Message", "Brand Partnership",
+        "Product Launch", "Sale Alert", "Coupon Code", "Exclusive Offer"],
+        size :under 500K
+    ) {
         expire "day" "3";
     }
+
+    # Weekly/Monthly digests (expire 10 days)
+    if allof (
+        header :contains "subject" ["Weekly Digest", "Monthly Summary", "Activity Summary",
+        "Weekly Roundup", "Monthly Report", "Your Week", "Your Month", "Stats Summary",
+        "Usage Report", "Engagement Report", "Performance Summary"],
+        size :under 500K
+    ) {
+        expire "day" "10";
+    }
+
     stop;
 }
 
-# Reject messages with specific keywords in subject (if not matched above)
-elsif anyof (
-    header :contains "subject" ["100% free", "act now", "apply now", "avoid bankruptcy"],
-    header :contains "subject" ["bargain", "best price", "big money", "beneficiary"],
-    header :contains "subject" ["cash", "claims", "debt", "earn cash"],
-    header :contains "subject" ["earn extra cash", "earn money", "free", "get rich quick"],
-    header :contains "subject" ["make money", "make money fast", "money back", "quote"],
-    header :contains "subject" ["refinance", "save big money", "winner", "bonus"],
-    header :contains "subject" ["big bucks", "cash bonus", "cheap", "credit"],
-    header :contains "subject" ["discount", "double your income", "earn $", "extra income"],
-    header :contains "subject" ["fast cash", "financial freedom", "for just $", "hidden assets"],
-    header :contains "subject" ["income from home", "increase sales", "increase traffic", "insurance"],
-    header :contains "subject" ["investment", "lowest price", "luxury", "millionaire"],
-    header :contains "subject" ["money making", "no cost", "no fees", "offer"],
-    header :contains "subject" ["one time", "pennies a day", "potential earnings", "profit"],
-    header :contains "subject" ["pure profit", "risk free", "save $", "serious cash"],
-    header :contains "subject" ["unlimited", "buy now", "call now", "click here"],
-    header :contains "subject" ["don't miss out", "exclusive deal", "expires", "for a limited time"],
-    header :contains "subject" ["hurry", "immediate action", "last chance", "limited time"],
-    header :contains "subject" ["limited time offer", "now only", "offer expires", "once in a lifetime"],
-    header :contains "subject" ["only", "order now", "special promotion", "time limited"],
-    header :contains "subject" ["today only", "urgent", "while supplies last", "24 hours"],
-    header :contains "subject" ["don't delay", "get it now", "instant", "new"],
-    header :contains "subject" ["required", "action", "request", "blank subject"],
-    header :contains "subject" ["file", "message", "update", "100% satisfied"],
-    header :contains "subject" ["all new", "as seen on", "best deal", "best offer"],
-    header :contains "subject" ["buy direct", "cancel at any time", "check or money order", "congratulations"],
-    header :contains "subject" ["deal", "direct email", "direct marketing", "ecommerce"],
-    header :contains "subject" ["email marketing", "get started now", "gift certificate", "great offer"],
-    header :contains "subject" ["guarantee", "information you requested", "internet marketing", "join millions"],
-    header :contains "subject" ["marketing solutions", "mass email", "member", "no gimmick"],
-    header :contains "subject" ["no obligation", "no questions asked", "no strings attached", "not spam"],
-    header :contains "subject" ["online marketing", "opt in", "performance", "pre-approved"],
-    header :contains "subject" ["promotion", "sale", "sales", "search engine"],
-    header :contains "subject" ["shopping spree", "sign up free", "special offer", "supplies limited"],
-    header :contains "subject" ["take action", "this won't last", "trial", "unsubscribe"],
-    header :contains "subject" ["visit our website", "web traffic", "weekend getaway", "what are you waiting for"],
-    header :contains "subject" ["while you sleep", "will not believe your eyes", "work from home", "all natural"],
-    header :contains "subject" ["anti-aging", "cures", "lose weight", "medicine"],
-    header :contains "subject" ["miracle cure", "no prescription needed", "online pharmacy", "pure and natural"],
-    header :contains "subject" ["remove wrinkles", "reverses aging", "stop snoring", "viagra"],
-    header :contains "subject" ["weight loss", "wonder drug", "youthful", "affordable healthcare"],
-    header :contains "subject" ["diet", "enlarge", "hair loss", "human growth hormone"],
-    header :contains "subject" ["life insurance", "lose weight fast", "medical", "meds"],
-    header :contains "subject" ["pharmaceuticals", "prescription", "sample", "score with babes"],
-    header :contains "subject" ["valium", "vicodin", "xanax", "acceptance"],
-    header :contains "subject" ["accordingly", "avoid", "be your own boss", "believe me"],
-    header :contains "subject" ["being a member", "bulk email", "chance", "confidentiality"],
-    header :contains "subject" ["dormant", "freedom", "get out of debt", "here"],
-    header :contains "subject" ["hidden", "if only", "important information", "info you requested"],
-    header :contains "subject" ["information", "legal", "maintained", "meet singles"],
-    header :contains "subject" ["message contains", "multi level marketing", "multi-level marketing", "no catch"],
-    header :contains "subject" ["no credit check", "no hidden costs", "no investment", "no middleman"],
-    header :contains "subject" ["no purchase necessary", "no refund", "no risk", "not intended"],
-    header :contains "subject" ["obligation", "offshore", "one hundred percent guaranteed", "opportunity"],
-    header :contains "subject" ["password", "passwords", "problem", "promise"],
-    header :contains "subject" ["promises", "removal", "requires initial investment", "reserves the right"],
-    header :contains "subject" ["risk-free", "satisfaction", "save big", "score"],
-    header :contains "subject" ["search engines", "see for yourself", "sent in compliance", "serious only"],
-    header :contains "subject" ["social security number", "stainless steel", "stock alert", "stock disclaimer statement"],
-    header :contains "subject" ["stock pick", "stop", "strong buy", "stuff"],
-    header :contains "subject" ["subject to", "terms", "they keep your", "this isn't junk"],
-    header :contains "subject" ["this isn't spam", "undisclosed", "university diplomas", "us dollars"],
-    header :contains "subject" ["warranty", "we hate spam", "why pay more", "will not"],
-    header :contains "subject" ["winner", "winning", "winnings", "you are a winner"],
-    header :contains "subject" ["you have been selected", "your chance", "zero chance", "adult"],
-    header :contains "subject" ["casino", "cialis", "copy dvds", "form"],
-    header :contains "subject" ["free hosting", "free website", "friend", "friendship"],
-    header :contains "subject" ["get paid", "inc", "increase your chances", "internet"],
-    header :contains "subject" ["investment decision", "junk", "levitra", "lotto"],
-    header :contains "subject" ["mail in order form", "mlm", "nigerian", "no age restrictions"],
-    header :contains "subject" ["no claim forms", "no disappointment", "no inventory", "no medical exams"],
-    header :contains "subject" ["no selling", "not junk", "now", "number one"],
-    header :contains "subject" ["oasis", "online biz opportunity", "online degree", "online income"],
-    header :contains "subject" ["open", "opt-in", "order", "order shipped by"],
-    header :contains "subject" ["order status", "orders shipped by", "per day", "per week"],
-    header :contains "subject" ["print form signature", "print out and fax", "priority mail", "produced and sent out"],
-    header :contains "subject" ["profits", "promise you", "removal instructions", "remove"],
-    header :contains "subject" ["removes", "reply remove subject", "reverse", "rolex"],
-    header :contains "subject" ["round the world", "s 1618", "safemail", "save up to"],
-    header :contains "subject" ["search engine listings", "section 301", "shopping spree", "sign up free today"],
-    header :contains "subject" ["subject to credit", "supplies", "take action now", "talks about prizes"],
-    header :contains "subject" ["talks about search engine listings", "tells you it's an ad", "terms and conditions", "the best rates"],
-    header :contains "subject" ["the following form", "they keep your money", "they're just giving it away", "this won't last"],
-    header :contains "subject" ["thousands", "traffic", "vacation", "vacation offers"],
-    header :contains "subject" ["we honor all", "weekend getaway", "what are you waiting for?"],
-    header :contains "subject" ["while supplies last", "who really wins?", "why pay more?"],
-    header :contains "subject" ["will not believe your eyes", "win", "work at home"],
-    header :contains "subject" ["www", "you are a winner!", "your income"]
+# Filter social media spam and fake accounts
+if anyof (
+    header :contains "subject" ["Fake Profile Alert", "Scam Warning", "Phishing Attempt",
+    "Suspicious Account", "Report Fake Account", "Identity Theft Warning",
+    "Romance Scam", "Investment Scam", "Cryptocurrency Scam"],
+    header :contains "from" ["noreply", "no-reply", "donotreply", "do-not-reply"]
 ) {
-    fileinto "Spam";
+    # Keep these for security reference
+    fileinto "Social Account";
+    addflag "\\Seen";
     stop;
-
-    # reject "Blocked as spam";  # Uncomment IF YOU USE reject
-    # discard;  # Uncomment IF YOU USE discard
 }
 
-else {
-    # Fallback: if no conditions matched, keep in Inbox
-    addflag "\\Flagged";
-}
-# End of Sieve script
+# End of Social Media Filter
