@@ -144,8 +144,7 @@ if anyof (
         header :contains "subject" ["Transaction Confirmation", "Payment Processed", "Order Shipped", 
                                    "Transaction Details", "Payment Success", "Funds Transferred", 
                                    "Payout Sent", "Deposit Received"],
-        size :under 500K,
-        not header :contains "subject" ["important", "urgent", "critical"]
+        size :under 500K
     ) {
         expire "day" "7";
     }
@@ -155,7 +154,6 @@ if anyof (
         header :contains "subject" ["Refund Processed", "Chargeback Notification", "Refund Confirmation", 
                                    "Reversal Alert", "Money Back", "Refund Issued", "Dispute Resolved"],
         size :under 500K,
-        not header :contains "subject" ["important", "urgent", "critical"]
     ) {
         expire "day" "28";
     }
@@ -166,7 +164,6 @@ if anyof (
                                    "Unauthorized Transaction", "Account Compromised", "Fraud Detection", 
                                    "Potential Scam"],
         size :under 500K,
-        not header :contains "subject" ["important", "urgent", "critical"]
     ) {
         expire "day" "28";
     }
@@ -177,7 +174,6 @@ if anyof (
                                    "Discount on Fees", "Special Payment Offer", "Limited Time Deal", 
                                    "Rewards Alert"],
         size :under 500K,
-        not header :contains "subject" ["important", "urgent", "critical"]
     ) {
         expire "day" "3";
     }
