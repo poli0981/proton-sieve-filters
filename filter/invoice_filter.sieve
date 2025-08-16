@@ -82,7 +82,7 @@ if anyof (
             "Your Software Key", "License Information", "Key for Your Software"]
         )
     ) {
-        unexpire;
+        expire "day" "365";
     }
 
     # Transaction confirmations (expire 7 days)

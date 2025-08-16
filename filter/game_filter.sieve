@@ -1,7 +1,7 @@
 # Sieve filter
 # Filter_Game.sieve
 # Only for user use Proton Mail.
-# Version: 0.1.0 -> 0.2.0
+# Version: 0.1.0 -> 0.2.0 (Optimized, added new filters, and fixed bugs)
 # This Sieve script filters messages related to gaming service, newspaper, game publisher, etc. and moves them to "Gaming" folder.
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
@@ -109,10 +109,9 @@ if anyof (
 
     # Delete notification sales
     if anyof (
-        header :contains "subject" ["Steam wishlist is now on sale","steam sale", "Steam Sale Alert", "Epic Deals Now", "Discount on Games", "Flash Sale Steam", "Weekly Deals Epic", 
+        header :contains "subject" ["your Steam wishlist is now on sale","steam sale", "Steam Sale Alert", "Epic Deals Now", "Discount on Games", "Flash Sale Steam", "Weekly Deals Epic", 
         "Game Discounts Live", "Steam Midweek Madness", "Epic Mega Sale","Holiday Sale Steam"
-        , "Bundle Deals Now", "Summer Sale", "Winter Sale", "Spring Sale", "Autumn Sale", "Epic Games Sale", "Steam Sale Event"],
-        size :under 500K
+        , "Bundle Deals Now", "Summer Sale", "Winter Sale", "Spring Sale", "Autumn Sale", "Epic Games Sale", "Steam Sale Event"]
     ) {
         expire "day" "5";
     }

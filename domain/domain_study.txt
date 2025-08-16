@@ -1,0 +1,253 @@
+# Study Domains List
+# For use in Proton Sieve Filters - Study Filter
+# Version: 0.1.0
+# Last Updated: December 2024
+
+# ============================================================================
+# EDUCATIONAL DOMAINS REFERENCE
+# ============================================================================
+# 
+# ⚠️  QUAN TRỌNG - IMPORTANT NOTE:
+# Danh sách domain và keyword này chỉ mang tính tương đối và có thể không 
+# phù hợp với tất cả người dùng. Bạn có thể thay thế, thêm hoặc xóa các 
+# domain/keyword cho phù hợp với sở thích, ngôn ngữ và nhu cầu học tập 
+# của bạn.
+#
+# This domain and keyword list is relative and may not suit all users. 
+# You can replace, add, or remove domains/keywords to match your preferences, 
+# language, and learning needs.
+# ============================================================================
+
+# ============================================================================
+# 1. EDUCATIONAL INSTITUTIONS
+# ============================================================================
+
+## University & College Domains (General)
+university.edu
+college.edu
+school.edu
+institute.edu
+academy.edu
+
+## International Educational Domains
+*.ac.uk                    # United Kingdom
+*.ac.jp                    # Japan
+*.edu.au                   # Australia
+*.edu.sg                   # Singapore
+*.edu.my                   # Malaysia
+*.edu.vn                   # Vietnam
+*.edu.cn                   # China
+*.edu.tw                   # Taiwan
+
+## Famous Universities (Examples)
+mit.edu
+stanford.edu
+harvard.edu
+oxford.ac.uk
+cambridge.ac.uk
+
+# ============================================================================
+# 2. RESEARCH ORGANIZATIONS
+# ============================================================================
+
+research.org
+scholarship.org
+education.gov
+nsf.gov                    # National Science Foundation
+nih.gov                    # National Institutes of Health
+nasa.gov                   # NASA
+cern.ch                    # CERN
+epicresearch.org
+epic.com
+
+# ============================================================================
+# 3. ONLINE LEARNING PLATFORMS
+# ============================================================================
+
+## Major MOOCs (Massive Open Online Courses)
+coursera.org
+edx.org
+khanacademy.org
+udemy.com
+skillshare.com
+masterclass.com
+udacity.com
+pluralsight.com
+lynda.com
+linkedin.com               # LinkedIn Learning
+
+# ============================================================================
+# 4. LANGUAGE LEARNING PLATFORMS
+# ============================================================================
+
+duolingo.com
+babbel.com
+rosettastone.com
+busuu.com
+memrise.com
+lingoda.com
+italki.com
+preply.com
+cambly.com
+hellotalk.com
+tandem.net
+speaky.com
+
+# ============================================================================
+# 5. ACADEMIC TOOLS & PLATFORMS
+# ============================================================================
+
+## Learning Management Systems (LMS)
+quizlet.com
+classroom.google.com
+canvas.com
+blackboard.com
+moodle.org
+schoology.com
+edmodo.com
+seesaw.me
+classdojo.com
+kahoot.com
+padlet.com
+flipgrid.com
+
+# ============================================================================
+# 6. PROGRAMMING & TECH EDUCATION
+# ============================================================================
+
+codecademy.com
+freecodecamp.org
+codepen.io
+github.com
+stackoverflow.com
+hackerrank.com
+leetcode.com
+codewars.com
+sololearn.com
+repl.it
+glitch.com
+
+# ============================================================================
+# 7. ACADEMIC PUBLISHERS & JOURNALS
+# ============================================================================
+
+springer.com
+elsevier.com
+wiley.com
+nature.com
+science.org
+ieee.org
+acm.org
+jstor.org
+academia.edu
+researchgate.net
+mendeley.com
+zotero.org
+
+# ============================================================================
+# 8. EDUCATIONAL APPS & TOOLS
+# ============================================================================
+
+## Math & Science Tools
+photomath.com
+wolfram.com
+symbolab.com
+geogebra.org
+desmos.com
+labxchange.org
+phet.colorado.edu
+ted.com
+coursehero.com
+
+# ============================================================================
+# 9. PROFESSIONAL CERTIFICATION PLATFORMS
+# ============================================================================
+
+comptia.org
+cisco.com
+microsoft.com
+amazon.com                 # AWS Certification
+google.com                 # Google Certification
+ibm.com
+oracle.com
+salesforce.com
+vmware.com
+adobe.com
+autodesk.com
+
+# ============================================================================
+# 10. TEST PREPARATION PLATFORMS
+# ============================================================================
+
+ets.org                    # ETS (TOEFL, GRE)
+collegeboard.org           # SAT, AP
+kaptest.com               # Kaplan
+princetonreview.com       # Princeton Review
+manhattanprep.com         # Manhattan Prep
+magoosh.com               # Magoosh
+exampal.com               # ExamPAL
+
+# ============================================================================
+# 11. ART & CREATIVE EDUCATION
+# ============================================================================
+
+domestika.org
+creativelive.com
+schoolism.com
+gnomon.edu
+artstation.com
+behance.net
+dribbble.com
+proko.com
+drawabox.com
+
+# ============================================================================
+# 12. MUSIC EDUCATION
+# ============================================================================
+
+fender.com                # Fender Play
+yousician.com
+flowkey.com
+simply-piano.com
+rocksmith.com
+musictheory.net
+tenuto.com
+
+# ============================================================================
+# 13. SCIENCE & MATH PLATFORMS
+# ============================================================================
+
+brilliant.org
+mathway.com
+chegg.com
+studyblue.com
+cramfighter.com
+anki.com
+sporcle.com
+
+# ============================================================================
+# 14. TEXTBOOK PUBLISHERS
+# ============================================================================
+
+pearson.com
+mcgraw-hill.com
+cengage.com
+
+# ============================================================================
+# TOTAL DOMAINS: 100+
+# Categories: 14 major categories
+# Coverage: Global educational platforms and institutions
+# ============================================================================
+
+# Usage Notes:
+# - All domains should be prefixed with "*" when used in Sieve filters
+# - Example: "*coursera.org" not "coursera.org"
+# - This list covers major educational domains as of December 2024
+# - Add your local educational institutions and preferred platforms
+
+# Customization Tips:
+# - Add your university/school domain
+# - Include local educational websites
+# - Add language-specific learning platforms
+# - Include professional development platforms for your field
+# - Remove domains you don't use to reduce false positives

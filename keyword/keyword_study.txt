@@ -1,0 +1,428 @@
+# Study Keywords List
+# For use in Proton Sieve Filters - Study Filter
+# Version: 0.1.0
+# Last Updated: December 2024
+
+# ============================================================================
+# EDUCATIONAL KEYWORDS REFERENCE
+# ============================================================================
+# 
+# ⚠️  QUAN TRỌNG - IMPORTANT NOTE:
+# Danh sách domain và keyword này chỉ mang tính tương đối và có thể không 
+# phù hợp với tất cả người dùng. Bạn có thể thay thế, thêm hoặc xóa các 
+# domain/keyword cho phù hợp với sở thích, ngôn ngữ và nhu cầu học tập 
+# của bạn.
+#
+# This domain and keyword list is relative and may not suit all users. 
+# You can replace, add, or remove domains/keywords to match your preferences, 
+# language, and learning needs.
+# ============================================================================
+
+# ============================================================================
+# 1. PROGRAMMING & COMPUTER SCIENCE KEYWORDS
+# ============================================================================
+
+## Programming General
+Coding Tutorial
+Programming Assignment
+Learn Python
+Code Review
+Programming Challenge
+Debugging Tips
+Software Development
+Coding Bootcamp
+Java Lesson
+C++ Project
+JavaScript
+HTML CSS
+Web Development
+Mobile App
+Database
+API
+Framework
+Library
+study code
+research programming
+assignment code
+leetcode
+hackerrank
+
+# ============================================================================
+# 2. DATA STRUCTURES & ALGORITHMS KEYWORDS
+# ============================================================================
+
+Algorithm Problem
+Data Structures
+Sorting Algorithm
+Graph Theory
+Algorithm Assignment
+Complexity Analysis
+Dynamic Programming
+Algorithm Quiz
+Search Algorithm
+Recursion
+Tree Structure
+Hash Table
+study algorithm
+research data structures
+assignment recursion
+Big O
+
+# ============================================================================
+# 3. MATHEMATICS KEYWORDS
+# ============================================================================
+
+Math Problem
+Calculus
+Algebra
+Geometry
+Statistics
+Differential Equations
+Linear Algebra
+Math Homework
+Probability Theory
+Math Challenge
+Trigonometry
+Number Theory
+study math
+research calculus
+assignment algebra
+mathematical
+
+# ============================================================================
+# 4. PHYSICS KEYWORDS
+# ============================================================================
+
+Physics Experiment
+Quantum Mechanics
+Classical Mechanics
+Thermodynamics
+Electromagnetism
+Physics Lab
+Relativity Theory
+Wave Physics
+Particle Physics
+Astrophysics
+Optics
+Nuclear Physics
+study physics
+research quantum
+assignment mechanics
+physical science
+
+# ============================================================================
+# 5. BIOLOGY & LIFE SCIENCES KEYWORDS
+# ============================================================================
+
+Biology Lab
+Genetics
+Cell Biology
+Evolution
+Ecology
+Microbiology
+Human Anatomy
+Plant Biology
+Biotechnology
+DNA Analysis
+Molecular Biology
+Biochemistry
+Physiology
+study biology
+research genetics
+assignment ecology
+life science
+
+# ============================================================================
+# 6. CHEMISTRY KEYWORDS
+# ============================================================================
+
+Chemistry Reaction
+Organic Chemistry
+Inorganic Chemistry
+Chemical Bonding
+Periodic Table
+Lab Safety
+Biochemistry
+Analytical Chemistry
+Physical Chemistry
+Experiment Results
+Stoichiometry
+study chemistry
+research organic
+assignment bonding
+chemical
+
+# ============================================================================
+# 7. HISTORY & SOCIAL STUDIES KEYWORDS
+# ============================================================================
+
+History Timeline
+Ancient Civilizations
+World War
+Historical Figures
+Revolution
+Medieval History
+Modern History
+Cultural Heritage
+Archaeology
+Historical Analysis
+Political Science
+study history
+research civilizations
+assignment revolution
+historical
+
+# ============================================================================
+# 8. LANGUAGES & LINGUISTICS KEYWORDS
+# ============================================================================
+
+Language Lesson
+Vocabulary
+Grammar
+Conversation Practice
+Language Immersion
+Translation
+Pronunciation
+Foreign Language
+Idioms
+Language Certification
+TOEFL
+IELTS
+Linguistic
+study language
+research vocabulary
+assignment grammar
+
+# ============================================================================
+# 9. ART & DESIGN KEYWORDS
+# ============================================================================
+
+Art Tutorial
+Design Principles
+Drawing Lesson
+Painting Technique
+Digital Art
+Graphic Design
+UI UX Design
+Photography
+3D Modeling
+Animation
+Illustration
+Creative Process
+study art
+research design
+assignment drawing
+
+# ============================================================================
+# 10. MUSIC & AUDIO KEYWORDS
+# ============================================================================
+
+Music Theory
+Piano Lesson
+Guitar Tutorial
+Music Composition
+Audio Production
+Music History
+Instrument Practice
+Music Technology
+Sound Design
+Music Performance
+study music
+research composition
+assignment theory
+
+# ============================================================================
+# 11. BUSINESS & ECONOMICS KEYWORDS
+# ============================================================================
+
+Business Administration
+Economics
+Finance
+Marketing
+Management
+Entrepreneurship
+Business Strategy
+Accounting
+Investment
+MBA
+Business Case Study
+study business
+research economics
+assignment marketing
+
+# ============================================================================
+# 12. ENGINEERING KEYWORDS
+# ============================================================================
+
+Engineering Design
+Mechanical Engineering
+Electrical Engineering
+Civil Engineering
+Chemical Engineering
+Software Engineering
+Engineering Mathematics
+CAD
+Circuit Design
+Structural Analysis
+study engineering
+research design
+assignment circuit
+
+# ============================================================================
+# 13. MEDICINE & HEALTH KEYWORDS
+# ============================================================================
+
+Medical Studies
+Anatomy
+Physiology
+Pharmacology
+Clinical Medicine
+Medical Research
+Health Science
+Nursing
+Public Health
+Medical Ethics
+Patient Care
+study medicine
+research clinical
+assignment anatomy
+
+# ============================================================================
+# 14. TEST PREPARATION KEYWORDS
+# ============================================================================
+
+SAT Prep
+GRE Preparation
+GMAT Study
+TOEFL Test
+IELTS Preparation
+ACT Practice
+Test Strategy
+Exam Preparation
+Practice Test
+Test Score
+Standardized Test
+study test
+research exam
+assignment practice
+
+# ============================================================================
+# 15. PROFESSIONAL CERTIFICATION KEYWORDS
+# ============================================================================
+
+Certification Exam
+Professional Certificate
+IT Certification
+AWS Certification
+Microsoft Certification
+Google Certification
+CompTIA
+Cisco Certification
+Project Management
+PMP
+study certification
+research certificate
+assignment exam
+
+# ============================================================================
+# 16. RESEARCH & ACADEMIC WRITING KEYWORDS
+# ============================================================================
+
+Research Paper
+Academic Writing
+Thesis
+Dissertation
+Literature Review
+Research Methodology
+Citation
+Bibliography
+Peer Review
+Academic Publication
+Journal Article
+study research
+research writing
+assignment thesis
+
+# ============================================================================
+# 17. TEXTBOOKS & REFERENCES KEYWORDS
+# ============================================================================
+
+Textbook
+Reference Book
+Course Book
+Study Guide
+Academic Book
+Digital Book
+Ebook
+Required Reading
+Course Material
+Study Resources
+study textbook
+research book
+assignment reading
+
+# ============================================================================
+# 18. GENERAL ACADEMIC KEYWORDS
+# ============================================================================
+
+Study
+Learning
+Education
+Academic
+Course
+Lesson
+Tutorial
+Lecture
+Assignment
+Homework
+Quiz
+Exam
+Grade
+Semester
+Module
+Workshop
+Webinar
+study general
+research overview
+assignment general
+educational
+
+# ============================================================================
+# 19. ADMINISTRATIVE & POLICY KEYWORDS
+# ============================================================================
+
+## Terms of Service / Legal Updates
+EULA Update
+Terms Change
+Policy Revision
+Updated Terms of Service
+License Agreement Change
+Service Terms Update
+Agreement Modification
+Legal Update Alert
+Policy Amendment
+Privacy Policy Update
+ToS Changes
+Data Policy Revision
+
+# ============================================================================
+# TOTAL KEYWORDS: 200+
+# Categories: 19 major categories
+# Language: Primarily English (can be customized)
+# ============================================================================
+
+# Customization Tips:
+# - Add keywords in your native language
+# - Include specific terms for your field of study
+# - Add course names from your curriculum
+# - Include professor/instructor names
+# - Add institution-specific terms
+# - Remove irrelevant categories to reduce false positives
+
+# Language Examples (Add your own):
+# Vietnamese: "bài tập", "học tập", "nghiên cứu", "khóa học"
+# Spanish: "tarea", "estudio", "investigación", "curso"
+# French: "devoir", "étude", "recherche", "cours"
+# German: "hausaufgabe", "studium", "forschung", "kurs"
+# Japanese: "宿題", "勉強", "研究", "授業"
+# Chinese: "作业", "学习", "研究", "课程"
