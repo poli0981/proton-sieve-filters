@@ -1,7 +1,7 @@
 # Study Keywords List
 # For use in Proton Sieve Filters - Study Filter
-# Version: 0.1.0
-# Last Updated: December 2024
+# Version: 0.2.0
+# Last Updated: Sunday, 17 August, 2025 (GMT + 7)
 
 # ============================================================================
 # EDUCATIONAL KEYWORDS REFERENCE
