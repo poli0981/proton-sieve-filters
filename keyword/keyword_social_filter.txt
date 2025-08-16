@@ -1,0 +1,27 @@
+["Friend Request", "New Friend", "Connection Request",
+    "Like Notification", "New Like", "Post Liked", "Share Alert", "Post Shared", "Live Stream Started",
+    "Live Now", "Message Read", "Seen Your Message", "Comment Added", "New Comment", "Tag Notification",
+    "You Were Tagged", "Follow Request", "New Follower", "Notfication"]
+
+    # EULA/Terms/Policy Updates
+    ["EULA Update", "Terms Change", "Policy Revision",
+     "Updated Terms of Service", "License Agreement Change", "New EULA Version", 
+     "Service Terms Update", "Agreement Modification", "Legal Update Alert", "Policy Amendment", 
+     "Privacy Policy Update", "ToS Changes", "Data Policy Revision"]
+
+   ["Account Locked", "Ban Notification", "Restriction Alert", "Weak Password Warning", "Password Change Required", "Hack Detected", "Unauthorized Access", "Security Breach", "Account Compromised", "Login Attempt Alert", "Two-Factor Setup", "Verification Code", "Suspicious Activity", "Account Suspended", "Password Reset"]
+
+    # Invites/Events
+ ["Event Invite", "Group Invitation", "Join Event",
+            "Community Event", "Live Event Alert", "Invitation Accepted", "RSVP Reminder",
+            "Event Notification", "Party Invite", "Meetup Alert"]
+
+    # Platform Updates/News
+["Platform Update", "New Feature Alert", "App Update Available",
+            "Version Release", "Feature Launch", "System Maintenance", "Update Notes",
+            "News Digest", "Weekly Recap", "Platform Changes"]
+
+    # Delete e-mail about Promo/Ads
+    ["Sponsored Content", "Deal Alert", "Promo Code",
+     "Special Offer Inside", "Ad Notification", "Partner Promotion",
+      "Discount Reminder", "Flash Deal", "Limited Promo", "Sponsored Post"]

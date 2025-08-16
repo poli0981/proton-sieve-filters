@@ -1,0 +1,40 @@
+["Available on Steam","Pre-Order Reminder", "Your Pre-Order Update", "Pre-Order Now Live",
+             "Secure Your Pre-Order", "Pre-Order Bonus Alert", "Reminder: Pre-Order Ends", 
+             "Game Pre-Order Details", "Early Pre-Order Access", "Pre-Order Confirmation", "Don't Miss Pre-Order"]
+
+
+["live event", "Upcoming Game Event", "Event Registration Open", 
+        "Join Our Event", "Live Event Alert", "Gaming Expo Invite", "In-Game Event", 
+        "Community Event", "Tournament Announcement", "Webinar on Games",
+        "Special Event Details", "holiday event", "limited event"]
+
+["New DLC Available", "Expansion Release",
+        "DLC Launch Alert", "Add-On Now Live", "Download New DLC", "DLC Content Update", 
+        "Season Pass DLC", "Free DLC Drop", "Premium DLC Out", "Story DLC Released"]
+
+["Purchase Confirmation", "Your Game Receipt", "Order Invoice", 
+        "Digital Purchase Details", "Game Buy Receipt", "Transaction Summary", 
+        "Your Order Shipped", "Payment Confirmation", "Receipt for Game", "Invoice Attached", "Epic Games Receipt", "Steam purchase"]
+
+["IGN Daily News", "Gamespot Update", "Breaking Gaming News", "IGN Review Roundup", "Gamespot Newsletter",
+        "Daily Gaming Digest", "IGN Top Stories", "Gamespot Game Releases", "Weekly Gaming Recap", "IGN Insider News",
+        "gaming news", "weekly roundup", "latest updates", "breaking gaming", "game newsletter", "daily digest", "news alert",
+        "industry news", "esports update", "review roundup", "top stories gaming"]
+
+["eula", "EULA Update", "Terms Change Notice", "Policy Revision",
+         "Updated Terms of Service", "License Agreement Change", "New EULA Version",
+         "Service Terms Update", "Agreement Modification", "Legal Update Alert", "Policy Amendment", "ToS"
+         , "Privacy Policy Update", "Terms of Use Change", "User Agreement Revision", "Updated Privacy Policy"]
+
+["Steam wishlist is now on sale","steam sale", "Steam Sale Alert", "Epic Deals Now", "Discount on Games", "Flash Sale Steam", "Weekly Deals Epic", 
+        "Game Discounts Live", "Steam Midweek Madness", "Epic Mega Sale","Holiday Sale Steam"
+        , "Bundle Deals Now", "Summer Sale", "Winter Sale", "Spring Sale", "Autumn Sale", "Epic Games Sale", "Steam Sale Event"]
+
+["Playtest" "Early Access", "Beta Invite", "Playtest Invitation", "Early Access Beta", 
+        "Test Our Game", "You're Invited to Beta", "Beta Program Access", "Join Beta Testing", "Exclusive Beta",
+        "Beta Registration", "Try Beta Now"]
+
+["Patch Notes", "Hotfix", "Patch Notes Released", "Game Update Available", 
+        "Version X Patch", "Update Notes Inside", "New Patch Details", "Balance Update", "Bug Fix Patch", 
+        "Maintenance Update", "Hotfix Notes", "Game Version Update", "Version Update", "Patch Release Notes",
+        "Server Update"]
