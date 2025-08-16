@@ -256,7 +256,7 @@ if anyof (
 
     # Delete Playtest/ Beta Test Messages
     if anyof (
-        header :contains "subject" ["Playtest" "Early Access", "Beta Invite", "Playtest Invitation", "Early Access Beta", 
+        header :contains "subject" ["Playtest", "Early Access", "Beta Invite", "Playtest Invitation", "Early Access Beta", 
         "Test Our Game", "You're Invited to Beta", "Beta Program Access", "Join Beta Testing", "Exclusive Beta",
         "Beta Registration", "Try Beta Now"],
         size :under 500K
@@ -352,7 +352,7 @@ if anyof (
         "Player Community News", "Dev Community Post", "Weekly Community Recap", 
         "Community Feedback Update", "Server Community News", "Guild Update", 
         "Fan Community Digest", "Dev Community Insights", "Community Engagement News",
-        "Dev Diary", "Community Spotlight", "Player Community Highlights",],
+        "Dev Diary", "Community Spotlight", "Player Community Highlights"],
         size :under 500K
     ) {
         expire "day" "7";

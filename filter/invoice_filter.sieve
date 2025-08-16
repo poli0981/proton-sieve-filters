@@ -4,7 +4,7 @@
 # Version: 0.1.0
 # This Sieve script filters messages related to payment platforms, services, and invoices, moves them to "Payments" folder.
 
-require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists", "body"];
+require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
 
 # Whitelist
 if header :list "from" ":addrbook:personal" {
@@ -128,12 +128,14 @@ if anyof (
             header :contains "subject" ["Subscription Confirmation", "Monthly Billing", "Renewal Notice", 
                                        "Subscription Renewed", "Auto-Renewal", "Subscription Invoice", 
                                        "Recurring Payment", "Membership Renewal", "Annual Subscription"],
-            body :contains ["subscription", "recurring", "monthly plan", "auto-renew", "membership key"],
             # Check key activation (keep forever)
             header :contains "subject" ["Activation Key", "Product Key Inside", "License Key", 
-                                       "Download Key", "Serial Key Included", "Activation Code"],
-            body :contains ["activation key", "product key", "license key", "serial number", 
-                           "activation code", "download key"]
+                                       "Download Key", "Serial Key Included", "Activation Code",
+                                       "License Activation", "Key for Your Purchase", "Your License Key",
+                                       "Product Activation", "Key for Software", "Your Activation Code",
+                                       "Software License Key", "Your Product Key", "Key for Digital Product",
+                                       "Your Activation Key", "License Code", "Activation Information",
+                                       "Your Software Key", "License Information", "Key for Your Software"]
         )
     ) {
         expire "day" "28";
@@ -163,7 +165,7 @@ if anyof (
         header :contains "subject" ["Fraud Alert", "Suspicious Activity", "Security Warning", 
                                    "Unauthorized Transaction", "Account Compromised", "Fraud Detection", 
                                    "Potential Scam"],
-        size :under 500K,
+        size :under 500K
     ) {
         expire "day" "28";
     }
@@ -173,7 +175,7 @@ if anyof (
         header :contains "subject" ["Payment Deal", "Cashback Offer", "Promo Code", 
                                    "Discount on Fees", "Special Payment Offer", "Limited Time Deal", 
                                    "Rewards Alert"],
-        size :under 500K,
+        size :under 500K
     ) {
         expire "day" "3";
     }
@@ -189,7 +191,7 @@ elsif anyof (
     header :contains "subject" ["Nigerian Prince", "Government Compensation", "UN Fund", 
                                "IMF Payment", "World Bank", "Federal Reserve"],
     header :contains "subject" ["Cryptocurrency Investment", "Bitcoin Mining", "Forex Trading", 
-                               "Binary Options", "Investment Opportunity"]
+                               "Binary Options", "Investment Opportunity"],
     header :contains "subject" ["100% free", "act now", "apply now", "avoid bankruptcy"],
     header :contains "subject" ["bargain", "best price", "big money", "beneficiary"],
     header :contains "subject" ["cash", "claims", "debt", "earn cash"],

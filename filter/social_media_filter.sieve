@@ -122,7 +122,7 @@ if anyof (
 }
 
 # Reject messages with specific keywords in subject (if not matched above)
-if anyof (
+elsif anyof (
     header :contains "subject" ["100% free", "act now", "apply now", "avoid bankruptcy"],
     header :contains "subject" ["bargain", "best price", "big money", "beneficiary"],
     header :contains "subject" ["cash", "claims", "debt", "earn cash"],
