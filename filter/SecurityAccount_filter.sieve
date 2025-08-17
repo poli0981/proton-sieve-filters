@@ -77,7 +77,7 @@ if anyof (
     # Authentication Methods
     header :contains "subject" ["Security Key Added", "Security Key Removed", 
     "Biometric Authentication", "Fingerprint Added", "Face ID Setup", 
-    "Authentication Method Changed", "Login Method Updated", "Backup Authentication"],
+    "Authentication Method Changed", "Login Method Updated", "Backup Authentication", "Disable two-step login"],
 
     # Account Recovery
     header :contains "subject" ["Account Recovery", "Recovery Email Updated", 
