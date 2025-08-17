@@ -116,17 +116,6 @@ if anyof (
         expire "day" "5";
     }
 
-    # Delete message about EULA, ToS, or Privacy Policy
-    if anyof (
-        header :contains "subject" ["eula", "EULA Update", "Terms Change Notice", "Policy Revision",
-         "Updated Terms of Service", "License Agreement Change", "New EULA Version",
-         "Service Terms Update", "Agreement Modification", "Legal Update Alert", "Policy Amendment", "ToS"
-         , "Privacy Policy Update", "Terms of Use Change", "User Agreement Revision", "Updated Privacy Policy"],
-        size :under 500K
-    ) {
-        expire "day" "6";
-    }
-
     # Delete messages about News
     if anyof (
         header :contains "subject" ["IGN Daily News", "Gamespot Update", "Breaking Gaming News", "IGN Review Roundup", "Gamespot Newsletter",

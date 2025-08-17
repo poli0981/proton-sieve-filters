@@ -21,11 +21,6 @@
         "gaming news", "weekly roundup", "latest updates", "breaking gaming", "game newsletter", "daily digest", "news alert",
         "industry news", "esports update", "review roundup", "top stories gaming"]
 
-["eula", "EULA Update", "Terms Change Notice", "Policy Revision",
-         "Updated Terms of Service", "License Agreement Change", "New EULA Version",
-         "Service Terms Update", "Agreement Modification", "Legal Update Alert", "Policy Amendment", "ToS"
-         , "Privacy Policy Update", "Terms of Use Change", "User Agreement Revision", "Updated Privacy Policy"]
-
 ["Steam wishlist is now on sale","steam sale", "Steam Sale Alert", "Epic Deals Now", "Discount on Games", "Flash Sale Steam", "Weekly Deals Epic", 
         "Game Discounts Live", "Steam Midweek Madness", "Epic Mega Sale","Holiday Sale Steam"
         , "Bundle Deals Now", "Summer Sale", "Winter Sale", "Spring Sale", "Autumn Sale", "Epic Games Sale", "Steam Sale Event"]

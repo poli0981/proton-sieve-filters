@@ -106,17 +106,6 @@ if anyof (
         expire "day" "1";
     }
 
-    # EULA/Terms/Policy Updates (expire 2 days)
-    if allof (
-        header :contains "subject" ["EULA Update", "Terms Change", "Policy Revision",
-        "Updated Terms of Service", "License Agreement Change", "New EULA Version", 
-        "Service Terms Update", "Agreement Modification", "Legal Update Alert", 
-        "Policy Amendment", "Privacy Policy Update", "ToS Changes", "Data Policy Revision"],
-        size :under 500K
-    ) {
-        expire "day" "2";
-    }
-
     # Security alerts (expire 28 days - important to keep for reference)
     if allof (
         header :contains "subject" ["Account Locked", "Ban Notification", "Restriction Alert", 

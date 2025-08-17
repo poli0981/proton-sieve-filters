@@ -259,17 +259,6 @@ if anyof (
     fileinto "Entertainment/General";
 
     # General expiration rules for all entertainment content
-    
-    # EULA/ToS/Privacy updates (expire 2 days)
-    if allof (
-        header :contains "subject" ["EULA Update", "Terms Change", "Policy Revision", 
-        "Updated Terms of Service", "License Agreement Change", "New EULA Version", 
-        "Service Terms Update", "Agreement Modification", "Legal Update Alert", 
-        "Policy Amendment", "Privacy Policy Update", "ToS Changes", "Data Policy Revision"],
-        size :under 500K
-    ) {
-        expire "day" "2";
-    }
 
     # Billing/invoices (expire 28 days)
     if allof (

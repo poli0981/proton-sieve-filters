@@ -1,0 +1,368 @@
+# Entertainment Keywords List
+# For use in Proton Sieve Filters - Entertainment Filter
+# Version: 0.2.0
+# Last Updated: August 17, 2025
+
+# ============================================================================
+# ENTERTAINMENT KEYWORDS REFERENCE
+# ============================================================================
+# 
+# ⚠️  QUAN TRỌNG - IMPORTANT NOTE - 重要提示:
+# Danh sách domain và keyword này chỉ mang tính tương đối và có thể không 
+# phù hợp với tất cả người dùng. Bạn có thể thay thế, thêm hoặc xóa các 
+# domain/keyword cho phù hợp với sở thích, ngôn ngữ và nhu cầu cá nhân của bạn.
+#
+# This domain and keyword list is relative and may not suit all users. 
+# You can replace, add, or remove domains/keywords to match your preferences, 
+# language, and personal entertainment needs.
+#
+# このドメインとキーワードのリストは相対的なものであり、すべてのユーザーに適さない場合があります。
+# あなたの好み、言語、個人的なエンターテインメントのニーズに合わせて、ドメインやキーワードを置き換え、追加、削除することができます。
+# ============================================================================
+
+# ============================================================================
+# 1. MOVIE/TV CONTENT KEYWORDS (Expire: 7 days)
+# ============================================================================
+
+## New Content Alerts
+New Movie
+TV Series
+Episode Available
+Season Finale
+Movie Release
+TV Show Update
+Series Premiere
+Movie Trailer
+TV Guide
+Documentary
+
+## Viewing Recommendations
+Movie Recommendation
+Watch Now
+Streaming Alert
+Binge Watch
+Movie Night
+Film Festival
+
+## New Release Alerts (Expire: 7 days)
+New Release Alert
+Watch This Now
+Recommended for You
+New Episode Available
+Top Picks This Week
+Personalized Recommendations
+Just Added
+Coming Soon
+
+# ============================================================================
+# 2. MUSIC CONTENT KEYWORDS (Expire: 7 days)
+# ============================================================================
+
+## Music Discovery & Releases
+New Album
+Playlist Update
+Track Recommendation
+Music Discovery
+Artist Alert
+Music Release
+Album Review
+Concert Alert
+Tour Dates
+Music Festival
+
+## Platform-Specific Music Features
+Spotify Wrapped
+Your Mix
+Release Radar
+Discover Weekly
+
+## Concert & Live Music
+Concert Tickets
+Live Performance
+Festival Tickets
+Venue Alert
+
+## New Music Releases (Expire: 7 days)
+New Track Dropped
+Album Release
+Artist Update
+Release Alert
+New Music Friday
+Music Recommendation
+
+# ============================================================================
+# 3. PODCASTS & AUDIO CONTENT KEYWORDS (Expire: 14 days)
+# ============================================================================
+
+## Podcast Content
+New Podcast
+Episode Released
+Podcast Recommendation
+Audio Update
+Podcast Alert
+Listen Now
+Podcast Series
+Audio Drama
+Talk Show
+Interview
+Audiobook
+
+## New Episodes (Expire: 14 days)
+New Episode
+Episode Available
+Latest Episode
+Podcast Update
+Episode Alert
+New Chapter
+Audio Available
+
+# ============================================================================
+# 4. BOOKS & READING KEYWORDS (Expire: 14 days)
+# ============================================================================
+
+## Book Discovery
+Book Recommendation
+New Release
+Reading List
+Book Review
+Author Alert
+Book Club
+Reading Challenge
+Bestseller
+Pre-order
+
+## Book Deals (Expire: 14 days)
+Book Deal
+Free Book
+Discount Alert
+Limited Time Offer
+Book Sale
+Reading Recommendation
+Kindle Deal
+
+# ============================================================================
+# 5. COMICS & GRAPHIC NOVELS KEYWORDS (Expire: 10 days)
+# ============================================================================
+
+## Comic Content
+New Comic
+Comic Release
+Graphic Novel
+Marvel Comics
+DC Comics
+Comic Book
+Superhero
+Manga Update
+Comic Review
+Comic Convention
+Artist Spotlight
+
+## New Comic Releases (Expire: 10 days)
+New Issue
+Issue Available
+Series Update
+Comic Alert
+New Chapter
+
+# ============================================================================
+# 6. LIVE EVENTS & TICKETS KEYWORDS (Expire: 1 day)
+# ============================================================================
+
+## Event Information
+Show Tickets
+Theater Show
+Comedy Show
+Ticket Sale
+Show Information
+
+## Event Reminders (Expire: 1 day)
+Event Alert
+Event Reminder
+Show Tonight
+Last Chance
+Event Starting
+Live Now
+Doors Open
+Show Alert
+
+# ============================================================================
+# 7. REVIEWS & CRITICS KEYWORDS (Expire: 3 days)
+# ============================================================================
+
+## Review Content
+Movie Review
+Album Review
+Book Review
+Show Review
+Critics Pick
+Review Roundup
+Rating Update
+Score Alert
+Review Digest
+Critical Consensus
+Expert Review
+
+## Review Analysis (Expire: 3 days)
+Review
+Rating
+Score
+Critics
+Analysis
+
+# ============================================================================
+# 8. ENTERTAINMENT NEWS KEYWORDS (Expire: 3 days)
+# ============================================================================
+
+## News Categories
+Entertainment News
+Celebrity News
+Hollywood Update
+Breaking Entertainment
+Industry News
+Show Business
+Celebrity Gossip
+Red Carpet
+Award Show
+Film Festival
+TV News
+
+## News Updates (Expire: 3 days)
+News
+Update
+Breaking
+Alert
+Report
+
+# ============================================================================
+# 9. GENERAL ADMINISTRATIVE KEYWORDS
+# ============================================================================
+
+## Billing & Subscriptions (Expire: 28 days)
+Billing Statement
+Subscription Invoice
+Payment Confirmation
+Renewal Notice
+Account Charged
+Monthly Bill
+Receipt for Subscription
+Payment Due
+Invoice Attached
+Transaction Summary
+
+## Live Stream Alerts (Expire: 1 day)
+Live Stream Starting
+Premiere Live
+Watch Party Invite
+Live Podcast
+Stream Notification
+Upcoming Live
+Real-Time Update
+Broadcast Alert
+
+## Promotional Content (Expire: 5 days)
+Special Offer
+Limited Time
+Discount
+Free Trial
+Promo Code
+Sale Alert
+Deal of the Day
+Flash Sale
+Member Exclusive
+
+# ============================================================================
+# 10. ADDITIONAL ENTERTAINMENT KEYWORDS
+# ============================================================================
+
+## Content Categories
+Drama Series
+Comedy Special
+Action Movie
+Horror Film
+Science Fiction
+Fantasy Genre
+Romance Movie
+Thriller Series
+Mystery Show
+Crime Documentary
+Nature Documentary
+Travel Show
+Cooking Show
+Reality TV
+Game Show
+Sports Documentary
+
+## Award Shows & Events
+Academy Awards
+Emmy Awards
+Golden Globes
+Grammy Awards
+Tony Awards
+Cannes Festival
+Sundance Festival
+Comic-Con
+San Diego Comic-Con
+E3 Expo
+Game Awards
+
+## Streaming Features
+4K Ultra HD
+HDR Content
+Dolby Atmos
+Subtitles Available
+Audio Description
+Offline Download
+Watchlist Added
+Continue Watching
+Recently Added
+Trending Now
+Staff Picks
+
+# ============================================================================
+# TOTAL KEYWORDS: 150+
+# Categories: 10 major categories with expiration rules
+# Language: Primarily English (can be customized)
+# ============================================================================
+
+# Customization Tips:
+# - Add keywords in your native language
+# - Include specific show/movie titles you follow
+# - Add artist names you're interested in
+# - Include genre-specific terms for your preferences
+# - Add local entertainment event keywords
+# - Remove categories you don't consume
+
+# Language Examples (Add your own):
+# Vietnamese:
+# - "phim mới", "tập phim", "nhạc mới", "concert", "sách hay"
+# - "đánh giá phim", "tin giải trí", "sự kiện", "podcast mới"
+
+# Spanish:
+# - "película nueva", "episodio", "música nueva", "concierto", "libro nuevo"
+# - "reseña de película", "noticias de entretenimiento", "evento"
+
+# French:
+# - "nouveau film", "épisode", "nouvelle musique", "concert", "nouveau livre"
+# - "critique de film", "actualités divertissement", "événement"
+
+# Japanese:
+# - "新しい映画", "エピソード", "新しい音楽", "コンサート", "新刊"
+# - "映画レビュー", "エンターテインメントニュース", "イベント"
+
+# Chinese:
+# - "新电影", "新剧集", "新音乐", "演唱会", "新书"
+# - "电影评论", "娱乐新闻", "活动", "播客"
+
+# Platform-Specific Keywords:
+# Netflix: "Netflix Original", "Binge-worthy", "Netflix Exclusive"
+# Spotify: "Daily Mix", "Release Radar", "Discover Weekly"
+# Apple Music: "New Music Mix", "Chill Mix", "My Station"
+# Disney+: "Disney Original", "Marvel Studios", "Star Wars"
+# Amazon Prime: "Prime Original", "IMDb TV", "Prime Video"
+
+# Genre-Specific Keywords:
+# Horror: "Scary Movie", "Horror Series", "Thriller", "Suspense"
+# Comedy: "Stand-up Comedy", "Comedy Series", "Funny Movie"
+# Action: "Action Movie", "Adventure Film", "Superhero Movie"
+# Romance: "Romantic Comedy", "Love Story", "Date Night Movie"
+# Documentary: "True Crime", "Nature Doc", "Historical Documentary"

@@ -77,35 +77,7 @@ Voice Message
 Video Call
 
 # ============================================================================
-# 2. EULA/TERMS/POLICY UPDATES (Expire: 2 days)
-# ============================================================================
-
-## Legal Document Updates
-EULA Update
-Terms Change
-Policy Revision
-Updated Terms of Service
-License Agreement Change
-New EULA Version
-Service Terms Update
-Agreement Modification
-Legal Update Alert
-Policy Amendment
-Privacy Policy Update
-ToS Changes
-Data Policy Revision
-
-## Compliance Notifications
-GDPR Update
-CCPA Notification
-Cookie Policy
-Data Protection
-User Agreement
-Community Guidelines
-Content Policy
-
-# ============================================================================
-# 3. SECURITY ALERTS (Expire: 28 days)
+# 2. SECURITY ALERTS (Expire: 28 days)
 # ============================================================================
 
 ## Account Security
@@ -137,7 +109,7 @@ Account Recovery
 Backup Codes
 
 # ============================================================================
-# 4. INVITES & EVENTS (Expire: 7 days)
+# 3. INVITES & EVENTS (Expire: 7 days)
 # ============================================================================
 
 ## Event Invitations
@@ -167,7 +139,7 @@ Event Reminder
 Going to Event
 
 # ============================================================================
-# 5. PLATFORM UPDATES & NEWS (Expire: 5 days)
+# 4. PLATFORM UPDATES & NEWS (Expire: 5 days)
 # ============================================================================
 
 ## App & Feature Updates
@@ -196,7 +168,7 @@ Product News
 Beta Testing
 
 # ============================================================================
-# 6. PROMOTIONAL CONTENT (Expire: 3 days)
+# 5. PROMOTIONAL CONTENT (Expire: 3 days)
 # ============================================================================
 
 ## Advertisements
@@ -222,7 +194,7 @@ Exclusive Offer
 Product Launch
 
 # ============================================================================
-# 7. WEEKLY/MONTHLY DIGESTS (Expire: 10 days)
+# 6. WEEKLY/MONTHLY DIGESTS (Expire: 10 days)
 # ============================================================================
 
 ## Activity Reports
@@ -244,7 +216,7 @@ Growth Report
 Follower Update
 
 # ============================================================================
-# 8. SPAM & SECURITY WARNINGS
+# 7. SPAM & SECURITY WARNINGS
 # ============================================================================
 
 ## Fake Account Alerts
@@ -264,7 +236,7 @@ Lottery Scam
 Prize Notification
 
 # ============================================================================
-# 9. ADDITIONAL SOCIAL ACTIVITIES
+# 8. ADDITIONAL SOCIAL ACTIVITIES
 # ============================================================================
 
 ## Content Creation

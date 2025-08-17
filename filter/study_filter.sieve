@@ -317,17 +317,6 @@ if anyof (
     # Default: if no specific category matches, file to Study folder
     fileinto "Study";
     addflag "\\Seen";
-    
-    # EULA/Terms/Policy Updates (expire after 2 days)
-    if allof (
-        header :contains "subject" ["EULA Update", "Terms Change", "Policy Revision",
-        "Updated Terms of Service", "License Agreement Change", "Service Terms Update",
-        "Agreement Modification", "Legal Update Alert", "Policy Amendment", 
-        "Privacy Policy Update", "ToS Changes", "Data Policy Revision"],
-        size :under 500K
-    ) {
-        expire "day" "2";
-    }
 
     stop;
 }

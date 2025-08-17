@@ -48,17 +48,6 @@ if anyof (
     
     # Mark as read
     addflag "\\Seen";
-    
-    # Update EULA/ToS/Privacy: delete after 2 days
-    if allof (
-        header :contains "subject" ["EULA Update", "Terms Change", "Policy Revision", 
-        "Updated Terms of Service", "License Agreement Change", "New EULA Version", 
-        "Service Terms Update", "Agreement Modification", "Legal Update Alert", 
-        "Policy Amendment", "Privacy Policy Update", "ToS Changes", "Data Policy Revision"],
-        size :under 500K
-    ) {
-        expire "day" "2";
-    }
 
     # Receipts/Invoices: delete after 28 days (but preserve subscriptions and keys)
     if allof (

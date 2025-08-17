@@ -388,26 +388,8 @@ assignment general
 educational
 
 # ============================================================================
-# 19. ADMINISTRATIVE & POLICY KEYWORDS
-# ============================================================================
-
-## Terms of Service / Legal Updates
-EULA Update
-Terms Change
-Policy Revision
-Updated Terms of Service
-License Agreement Change
-Service Terms Update
-Agreement Modification
-Legal Update Alert
-Policy Amendment
-Privacy Policy Update
-ToS Changes
-Data Policy Revision
-
-# ============================================================================
 # TOTAL KEYWORDS: 200+
-# Categories: 19 major categories
+# Categories: 18 major categories
 # Language: Primarily English (can be customized)
 # ============================================================================
 
