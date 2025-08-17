@@ -285,4 +285,4 @@ law-firm@suspicious.com
 ---
 
 *Last updated: August 17, 2025*
-*Filter version: 1.0.0*
+*Filter version: 0.2.0*
