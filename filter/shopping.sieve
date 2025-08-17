@@ -291,16 +291,6 @@ if anyof (
     # GENERAL EXPIRATION RULES
     # ========================================================================
 
-    # EULA/ToS/Privacy updates (expire 2 days)
-    if allof (
-        header :contains "subject" ["EULA Update", "Terms Change", "Policy Revision", 
-        "Privacy Policy Update", "Terms of Service", "User Agreement Update"],
-        size :under 500K
-    ) {
-        expire "day" "2";
-        stop;
-    }
-
     # Newsletter & company updates (expire 7 days)
     if allof (
         header :contains "subject" ["Newsletter", "Company News", "Brand Update",
