@@ -1,7 +1,7 @@
 # Sieve filter
 # Filter_Work.sieve
 # Only for user use Proton Mail.
-# Version: 1.0.0
+# Version: 0.2.0
 # This Sieve script filters messages related to work/professional platforms, moves them to "Work" folder or subfolders.
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
@@ -330,16 +330,6 @@ if anyof (
     # ========================================================================
     # DEFAULT WORK EXPIRATION RULES
     # ========================================================================
-
-    # EULA/ToS/Privacy updates (expire 2 days)
-    if allof (
-        header :contains "subject" ["EULA Update", "Terms Change", "Policy Revision", 
-        "Privacy Policy Update", "Service Agreement", "License Agreement"],
-        size :under 500K
-    ) {
-        expire "day" "2";
-        stop;
-    }
 
     # Newsletter & marketing (expire 7 days)
     if allof (
