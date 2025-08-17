@@ -80,6 +80,7 @@
 *.iqiyi.com               # iQiyi streaming (China)
 *.youku.com               # Youku streaming (China)
 *.bilibili.com            # Bilibili streaming (China)
+*.bilibili.tv
 *.viki.com                # Viki Asian content
 *.dramafever.com          # DramaFever (defunct)
 *.crunchyroll.com         # Crunchyroll anime

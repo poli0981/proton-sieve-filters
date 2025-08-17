@@ -25,7 +25,7 @@ if anyof (
     address :domain :matches "from" ["*bbc.com", "*itv.com", "*channel4.com",
     "*sky.com", "*now.com", "*crave.ca", "*hotstar.com", "*viu.com",
     "*iqiyi.com", "*youku.com", "*bilibili.com", "*viki.com", "*dramafever.com",
-    "*crunchyroll.com", "*funimation.com", "*animelab.com", "*wakanim.com"],
+    "*crunchyroll.com", "*funimation.com", "*animelab.com", "*wakanim.com", "*bilibili.tv"],
 
     # Music streaming platforms
     address :domain :matches "from" ["*spotify.com", "*apple.com", "*music.youtube.com",
