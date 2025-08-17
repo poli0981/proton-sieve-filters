@@ -72,7 +72,7 @@ if anyof (
     header :contains "subject" ["Two-Factor Authentication", "2FA Setup", "2FA Enabled",
     "2FA Disabled", "Authentication Code", "Verification Code", "Security Code",
     "Login Code", "Access Code", "One-Time Password", "OTP Code", "Multi-Factor Authentication",
-    "MFA Setup", "Authenticator App", "Backup Codes", "Recovery Codes"],
+    "MFA Setup", "Authenticator App", "Backup Codes", "Recovery Codes", "Your one-time code"],
 
     # Authentication Methods
     header :contains "subject" ["Security Key Added", "Security Key Removed", 
