@@ -80,10 +80,11 @@ if anyof (
     "New Account Confirmation","Authentication Method Changed", 
     "Login Method Updated", "Backup Authentication", "Disable two-step login"],
 
-    # Account Recovery
+    # Account Recovery and Verification
     header :contains "subject" ["Account Recovery", "Recovery Email Updated", 
     "Recovery Phone Updated", "Security Questions", "Account Restoration",
-    "Identity Verification Required", "Account Verification", "Verify Your Identity", "verify your email address"]
+    "Identity Verification Required", "Account Verification", "Verify Your Identity", 
+    "verify your email address", "Please Confirm Your Account"]
 ) {
     # Mark as read but important
     addflag "\\Seen";
