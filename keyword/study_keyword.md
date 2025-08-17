@@ -1,28 +1,45 @@
-# Study Keywords List
-# For use in Proton Sieve Filters - Study Filter
-# Version: 0.2.0
-# Last Updated: Sunday, 17 August, 2025 (GMT + 7)
+# Study Keywords for Email Filtering
 
-# ============================================================================
-# EDUCATIONAL KEYWORDS REFERENCE
-# ============================================================================
-# 
-# ⚠️  QUAN TRỌNG - IMPORTANT NOTE:
-# Danh sách domain và keyword này chỉ mang tính tương đối và có thể không 
-# phù hợp với tất cả người dùng. Bạn có thể thay thế, thêm hoặc xóa các 
-# domain/keyword cho phù hợp với sở thích, ngôn ngữ và nhu cầu học tập 
-# của bạn.
-#
-# This domain and keyword list is relative and may not suit all users. 
-# You can replace, add, or remove domains/keywords to match your preferences, 
-# language, and learning needs.
-# ============================================================================
+> **📝 Important Notes / Lưu ý quan trọng / 重要提醒 / 重要な注意事項:**
+> 
+> **English:** These keywords are relative and can be customized to fit your preferences, the school you're attending, learning platforms you use (which may not be in this list), filtering needs, or language requirements.
+> 
+> **Tiếng Việt:** Các từ khóa này chỉ mang tính tương đối, bạn có thể thay thế lại cho phù hợp với sở thích, trường bạn đang theo học, nền tảng bạn học (có thể không có trong list này), bộ lọc hay ngôn ngữ của bạn.
+> 
+> **中文:** 这些关键词仅供参考，您可以根据自己的喜好、就读学校、学习平台（可能不在此列表中）、过滤需求或语言要求进行自定义。
+> 
+> **日本語:** これらのキーワードは相対的なものであり、あなたの好み、通学している学校、使用する学習プラットフォーム（このリストにない場合もあります）、フィルタのニーズ、または言語要件に合わせてカスタマイズできます。
 
-# ============================================================================
-# 1. PROGRAMMING & COMPUTER SCIENCE KEYWORDS
-# ============================================================================
+## 📋 Categories Overview
 
-## Programming General
+| Category | Keywords Count | Retention | Description |
+|----------|----------------|-----------|-------------|
+| **Programming** | 25+ | 30 days | Coding tutorials, programming assignments |
+| **Algorithms** | 18+ | 30 days | Data structures, algorithm problems |
+| **Mathematics** | 20+ | 21 days | Calculus, algebra, statistics |
+| **Physics** | 18+ | 21 days | Quantum mechanics, experiments |
+| **Biology** | 16+ | 21 days | Genetics, cell biology, ecology |
+| **Chemistry** | 15+ | 21 days | Organic chemistry, lab experiments |
+| **History** | 15+ | 14 days | Ancient civilizations, historical analysis |
+| **Languages** | 18+ | 30 days | Vocabulary, grammar, language certification |
+| **Art & Design** | 16+ | 14 days | Digital art, graphic design, tutorials |
+| **Music** | 12+ | 14 days | Music theory, instrument practice |
+| **Business** | 14+ | 21 days | Economics, marketing, MBA |
+| **Engineering** | 15+ | 21 days | Mechanical, electrical, software engineering |
+| **Medicine** | 14+ | 30 days | Anatomy, clinical medicine, health science |
+| **Test Prep** | 16+ | 45 days | SAT, GRE, TOEFL preparation |
+| **Certification** | 12+ | 60 days | Professional certificates, IT certifications |
+| **Research** | 14+ | 90 days | Academic papers, thesis, publications |
+| **General** | 20+ | 14 days | General study terms |
+
+*Filter version: 0.2.0*
+
+---
+
+## 🔑 Study Keywords by Category
+
+### 1. Programming & Computer Science (30 days retention)
+```
 Coding Tutorial
 Programming Assignment
 Learn Python
@@ -46,11 +63,10 @@ research programming
 assignment code
 leetcode
 hackerrank
+```
 
-# ============================================================================
-# 2. DATA STRUCTURES & ALGORITHMS KEYWORDS
-# ============================================================================
-
+### 2. Data Structures & Algorithms (30 days retention)
+```
 Algorithm Problem
 Data Structures
 Sorting Algorithm
@@ -67,11 +83,10 @@ study algorithm
 research data structures
 assignment recursion
 Big O
+```
 
-# ============================================================================
-# 3. MATHEMATICS KEYWORDS
-# ============================================================================
-
+### 3. Mathematics (21 days retention)
+```
 Math Problem
 Calculus
 Algebra
@@ -88,11 +103,10 @@ study math
 research calculus
 assignment algebra
 mathematical
+```
 
-# ============================================================================
-# 4. PHYSICS KEYWORDS
-# ============================================================================
-
+### 4. Physics (21 days retention)
+```
 Physics Experiment
 Quantum Mechanics
 Classical Mechanics
@@ -109,11 +123,10 @@ study physics
 research quantum
 assignment mechanics
 physical science
+```
 
-# ============================================================================
-# 5. BIOLOGY & LIFE SCIENCES KEYWORDS
-# ============================================================================
-
+### 5. Biology & Life Sciences (21 days retention)
+```
 Biology Lab
 Genetics
 Cell Biology
@@ -131,11 +144,10 @@ study biology
 research genetics
 assignment ecology
 life science
+```
 
-# ============================================================================
-# 6. CHEMISTRY KEYWORDS
-# ============================================================================
-
+### 6. Chemistry (21 days retention)
+```
 Chemistry Reaction
 Organic Chemistry
 Inorganic Chemistry
@@ -151,11 +163,10 @@ study chemistry
 research organic
 assignment bonding
 chemical
+```
 
-# ============================================================================
-# 7. HISTORY & SOCIAL STUDIES KEYWORDS
-# ============================================================================
-
+### 7. History & Social Studies (14 days retention)
+```
 History Timeline
 Ancient Civilizations
 World War
@@ -171,11 +182,10 @@ study history
 research civilizations
 assignment revolution
 historical
+```
 
-# ============================================================================
-# 8. LANGUAGES & LINGUISTICS KEYWORDS
-# ============================================================================
-
+### 8. Languages & Linguistics (30 days retention)
+```
 Language Lesson
 Vocabulary
 Grammar
@@ -192,11 +202,10 @@ Linguistic
 study language
 research vocabulary
 assignment grammar
+```
 
-# ============================================================================
-# 9. ART & DESIGN KEYWORDS
-# ============================================================================
-
+### 9. Art & Design (14 days retention)
+```
 Art Tutorial
 Design Principles
 Drawing Lesson
@@ -212,11 +221,10 @@ Creative Process
 study art
 research design
 assignment drawing
+```
 
-# ============================================================================
-# 10. MUSIC & AUDIO KEYWORDS
-# ============================================================================
-
+### 10. Music & Audio (14 days retention)
+```
 Music Theory
 Piano Lesson
 Guitar Tutorial
@@ -230,11 +238,10 @@ Music Performance
 study music
 research composition
 assignment theory
+```
 
-# ============================================================================
-# 11. BUSINESS & ECONOMICS KEYWORDS
-# ============================================================================
-
+### 11. Business & Economics (21 days retention)
+```
 Business Administration
 Economics
 Finance
@@ -249,11 +256,10 @@ Business Case Study
 study business
 research economics
 assignment marketing
+```
 
-# ============================================================================
-# 12. ENGINEERING KEYWORDS
-# ============================================================================
-
+### 12. Engineering (21 days retention)
+```
 Engineering Design
 Mechanical Engineering
 Electrical Engineering
@@ -267,11 +273,10 @@ Structural Analysis
 study engineering
 research design
 assignment circuit
+```
 
-# ============================================================================
-# 13. MEDICINE & HEALTH KEYWORDS
-# ============================================================================
-
+### 13. Medicine & Health (30 days retention)
+```
 Medical Studies
 Anatomy
 Physiology
@@ -286,11 +291,10 @@ Patient Care
 study medicine
 research clinical
 assignment anatomy
+```
 
-# ============================================================================
-# 14. TEST PREPARATION KEYWORDS
-# ============================================================================
-
+### 14. Test Preparation (45 days retention)
+```
 SAT Prep
 GRE Preparation
 GMAT Study
@@ -305,11 +309,10 @@ Standardized Test
 study test
 research exam
 assignment practice
+```
 
-# ============================================================================
-# 15. PROFESSIONAL CERTIFICATION KEYWORDS
-# ============================================================================
-
+### 15. Professional Certification (60 days retention)
+```
 Certification Exam
 Professional Certificate
 IT Certification
@@ -323,11 +326,10 @@ PMP
 study certification
 research certificate
 assignment exam
+```
 
-# ============================================================================
-# 16. RESEARCH & ACADEMIC WRITING KEYWORDS
-# ============================================================================
-
+### 16. Research & Academic Writing (90 days retention)
+```
 Research Paper
 Academic Writing
 Thesis
@@ -342,11 +344,10 @@ Journal Article
 study research
 research writing
 assignment thesis
+```
 
-# ============================================================================
-# 17. TEXTBOOKS & REFERENCES KEYWORDS
-# ============================================================================
-
+### 17. Textbooks & References (14 days retention)
+```
 Textbook
 Reference Book
 Course Book
@@ -360,11 +361,10 @@ Study Resources
 study textbook
 research book
 assignment reading
+```
 
-# ============================================================================
-# 18. GENERAL ACADEMIC KEYWORDS
-# ============================================================================
-
+### 18. General Academic Terms (14 days retention)
+```
 Study
 Learning
 Education
@@ -386,25 +386,166 @@ study general
 research overview
 assignment general
 educational
+```
 
-# ============================================================================
-# TOTAL KEYWORDS: 200+
-# Categories: 18 major categories
-# Language: Primarily English (can be customized)
-# ============================================================================
+---
 
-# Customization Tips:
-# - Add keywords in your native language
-# - Include specific terms for your field of study
-# - Add course names from your curriculum
-# - Include professor/instructor names
-# - Add institution-specific terms
-# - Remove irrelevant categories to reduce false positives
+## 🌍 Multi-Language Study Keywords
 
-# Language Examples (Add your own):
-# Vietnamese: "bài tập", "học tập", "nghiên cứu", "khóa học"
-# Spanish: "tarea", "estudio", "investigación", "curso"
-# French: "devoir", "étude", "recherche", "cours"
-# German: "hausaufgabe", "studium", "forschung", "kurs"
-# Japanese: "宿題", "勉強", "研究", "授業"
-# Chinese: "作业", "学习", "研究", "课程"
+### Vietnamese Study Terms
+```
+Học tập
+Bài tập về nhà
+Bài kiểm tra
+Khóa học
+Giáo trình
+Nghiên cứu
+Luận văn
+Đề tài
+Thí nghiệm
+Phòng thí nghiệm
+Môn học
+Chương trình học
+Kỳ thi
+Điểm số
+Học kỳ
+Giảng dạy
+Hướng dẫn
+Workshop
+Seminar
+Thực hành
+```
+
+### Chinese Study Terms
+```
+学习
+作业
+考试
+课程
+教材
+研究
+论文
+课题
+实验
+实验室
+学科
+课程表
+期末考试
+成绩
+学期
+教学
+指导
+研习班
+讲座
+实践
+```
+
+### Japanese Study Terms
+```
+勉強
+宿題
+試験
+コース
+教科書
+研究
+論文
+課題
+実験
+実験室
+科目
+カリキュラム
+期末試験
+成績
+学期
+教育
+指導
+ワークショップ
+セミナー
+実習
+```
+
+---
+
+## 🎓 Subject-Specific Keyword Patterns
+
+### STEM Fields
+```
+Algorithm
+Data Structure
+Calculus
+Physics Lab
+Chemistry Experiment
+Biology Research
+Engineering Design
+Mathematical Proof
+Scientific Method
+Laboratory Report
+Technical Drawing
+Code Implementation
+```
+
+### Liberal Arts
+```
+Literature Analysis
+Historical Research
+Language Learning
+Creative Writing
+Art History
+Music Theory
+Philosophy Discussion
+Cultural Studies
+Critical Thinking
+Essay Writing
+Research Paper
+Academic Debate
+```
+
+### Professional Skills
+```
+Project Management
+Business Analysis
+Marketing Strategy
+Financial Planning
+Data Analytics
+Technical Writing
+Presentation Skills
+Leadership Training
+Team Building
+Problem Solving
+Critical Analysis
+Strategic Planning
+```
+
+---
+
+## ⚙️ Customization Guide
+
+### Academic Level Adaptation
+- **High School**: Focus on basic subject terms
+- **Undergraduate**: Include course-specific keywords
+- **Graduate**: Emphasize research and thesis terms
+- **Professional**: Add certification and skill keywords
+
+### Institution-Specific Terms
+- Add your university's course codes
+- Include department-specific terminology
+- Customize for your major/field of study
+- Add professor names if needed
+
+### Platform-Specific Keywords
+- **Coursera**: "Course Certificate", "Specialization"
+- **edX**: "MicroMasters", "Professional Education"
+- **Khan Academy**: "Mastery Goals", "Practice Exercises"
+- **Duolingo**: "Language Streak", "XP Points"
+
+### Retention Strategy
+- **Critical (90 days)**: Research papers, thesis materials
+- **Important (30-60 days)**: Assignments, certifications
+- **Moderate (14-21 days)**: Regular coursework
+- **Low (7 days)**: Daily study reminders
+
+---
+
+*Last updated: August 17, 2025*
+*Filter version: 0.2.0*
+*Total keywords: 350+*
