@@ -82,7 +82,7 @@ if anyof (
     # Account Recovery
     header :contains "subject" ["Account Recovery", "Recovery Email Updated", 
     "Recovery Phone Updated", "Security Questions", "Account Restoration",
-    "Identity Verification Required", "Account Verification", "Verify Your Identity"]
+    "Identity Verification Required", "Account Verification", "Verify Your Identity", "verify your email address"]
 ) {
     # Mark as read but important
     addflag "\\Seen";
