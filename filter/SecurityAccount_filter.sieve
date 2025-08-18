@@ -84,7 +84,7 @@ if anyof (
     header :contains "subject" ["Account Recovery", "Recovery Email Updated", 
     "Recovery Phone Updated", "Security Questions", "Account Restoration",
     "Identity Verification Required", "Account Verification", "Verify Your Identity", 
-    "verify your email address", "Please Confirm Your Account"]
+    "verify your email address"]
 ) {
     # Mark as read but important
     addflag "\\Seen";
@@ -283,7 +283,8 @@ if anyof (
     # Account Verification & Confirmation
     header :contains "subject" ["Account Verified", "Email Verified", "Phone Verified",
     "Identity Confirmed", "Verification Complete", "Account Activated",
-    "Registration Confirmed", "Account Setup Complete", "Welcome Security"],
+    "Registration Confirmed", "Account Setup Complete", "Welcome Security", 
+    "Please Confirm Your Account", "Please confirm your email address"],
 
     # Maintenance & System Changes
     header :contains "subject" ["System Maintenance", "Security Maintenance", 
