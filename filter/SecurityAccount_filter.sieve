@@ -284,7 +284,7 @@ if anyof (
     header :contains "subject" ["Account Verified", "Email Verified", "Phone Verified",
     "Identity Confirmed", "Verification Complete", "Account Activated",
     "Registration Confirmed", "Account Setup Complete", "Welcome Security", 
-    "Please Confirm Your Account", "Please confirm your email address"],
+    "Please Confirm Your Account", "Please confirm your email address", "verify your email"],
 
     # Maintenance & System Changes
     header :contains "subject" ["System Maintenance", "Security Maintenance", 
