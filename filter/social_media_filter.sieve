@@ -87,11 +87,12 @@ if anyof (
     "*spreaker.com", "*audioboom.com", "*stitcher.com"]
 
     ) {
+    
+    addflag "\\Seen";
     # Move to "Social Account" folder first
     fileinto "Social Account";
     
     # Mark email as read
-    addflag "\\Seen";
 
     # Social media notifications (expire 1 day)
     if allof (
