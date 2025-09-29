@@ -25,7 +25,7 @@ if anyof (
     address :domain :matches "from" ["*bbc.com", "*bbc.co.uk", "*theguardian.com",
     "*reuters.com", "*apnews.com", "*aljazeera.com", "*france24.com",
     "*dw.com", "*rt.com", "*sputniknews.com", "*xinhuanet.com",
-    "*tass.com", "*ansa.it", "*kyodonews.net", "*yonhapnews.co.kr"],
+    "*tass.com", "*ansa.it", "*kyodonews.net", "*yonhapnews.co.kr", "*theathletic.com"],
 
     # Business & Financial News
     address :domain :matches "from" ["*wsj.com", "*bloomberg.com", "*cnbc.com",
@@ -43,7 +43,7 @@ if anyof (
     address :domain :matches "from" ["*sciencedaily.com", "*sciencemag.org", "*nature.com",
     "*scientificamerican.com", "*newscientist.com", "*livescience.com",
     "*space.com", "*nasa.gov", "*nih.gov", "*cdc.gov",
-    "*who.int", "*healthline.com", "*webmd.com", "*mayoclinic.org"],
+    "*who.int", "*healthline.com", "*webmd.com", "*mayoclinic.org","*getpocket.com"],
 
     # Sports News
     address :domain :matches "from" ["*espn.com", "*si.com", "*bleacherreport.com",
