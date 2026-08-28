@@ -1,10 +1,10 @@
 # Sieve filter
 # Filter_Game.sieve
 # Only for user use Proton Mail.
-# Version: 0.1.0 -> 0.2.0 (Optimized, added new filters, and fixed bugs)
+# Version: 0.2.1
 # This Sieve script filters messages related to gaming service, newspaper, game publisher, etc. and moves them to "Gaming" folder.
 
-require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
+require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
 # Delete messages if they are in the spam list
 if header :list "from" ":incomingdefaults:spam" {
@@ -98,13 +98,14 @@ if anyof (
     fileinto "Gaming";
 
     # Delete Playtest/ Beta Test Messages
-    if anyof (
+    if allof (
         header :contains "subject" ["Playtest", "Early Access", "Beta Invite", "Playtest Invitation", "Early Access Beta", 
         "Test Our Game", "You're Invited to Beta", "Beta Program Access", "Join Beta Testing", "Exclusive Beta",
         "Beta Registration", "Try Beta Now"],
         size :under 500K
     ) {
         expire "day" "21";
+        stop;
     }
 
     # Delete notification sales
@@ -114,10 +115,11 @@ if anyof (
         , "Bundle Deals Now", "Summer Sale", "Winter Sale", "Spring Sale", "Autumn Sale", "Epic Games Sale", "Steam Sale Event"]
     ) {
         expire "day" "5";
+        stop;
     }
 
     # Delete messages about News
-    if anyof (
+    if allof (
         header :contains "subject" ["IGN Daily News", "Gamespot Update", "Breaking Gaming News", "IGN Review Roundup", "Gamespot Newsletter",
         "Daily Gaming Digest", "IGN Top Stories", "Gamespot Game Releases", "Weekly Gaming Recap", "IGN Insider News",
         "gaming news", "weekly roundup", "latest updates", "breaking gaming", "game newsletter", "daily digest", "news alert",
@@ -125,20 +127,22 @@ if anyof (
         size :under 500K
     ) {
         expire "day" "2";
+        stop;
     }
     
     # Delete messages about Recipts, purchases, Orders or Invoice
-    if anyof (
+    if allof (
         header :contains "subject" ["Purchase Confirmation", "Your Game Receipt", "Order Invoice", 
         "Digital Purchase Details", "Game Buy Receipt", "Transaction Summary", 
         "Your Order Shipped", "Payment Confirmation", "Receipt for Game", "Invoice Attached", "Epic Games Receipt", "Steam purchase"],
         size :under 500K
     ) {
         expire "day" "14";
+        stop;
     }
 
     # Delete messages about Game Updates, Patches
-    if anyof (
+    if allof (
         header :contains "subject" ["Patch Notes", "Hotfix", "Patch Notes Released", "Game Update Available", 
         "Version X Patch", "Update Notes Inside", "New Patch Details", "Balance Update", "Bug Fix Patch", 
         "Maintenance Update", "Hotfix Notes", "Game Version Update", "Version Update", "Patch Release Notes",
@@ -146,39 +150,43 @@ if anyof (
         size :under 500K
     ) {
         expire "day" "7";
+        stop;
     }
 
     # Delete mess about DLC
-        if anyof (
+        if allof (
         header :contains "subject" ["New DLC Available", "Expansion Release",
         "DLC Launch Alert", "Add-On Now Live", "Download New DLC", "DLC Content Update", 
         "Season Pass DLC", "Free DLC Drop", "Premium DLC Out", "Story DLC Released"],
         size :under 500K
     ) {
         expire "day" "7";
+        stop;
     }
 
     # Delete Event
-        if anyof ( header :contains "subject" ["live event", "Upcoming Game Event", "Event Registration Open", 
+        if allof ( header :contains "subject" ["live event", "Upcoming Game Event", "Event Registration Open", 
         "Join Our Event", "Live Event Alert", "Gaming Expo Invite", "In-Game Event", 
         "Community Event", "Tournament Announcement", "Webinar on Games",
         "Special Event Details", "holiday event", "limited event"],
         size :under 500K
     ) {
         expire "day" "10";
+        stop;
     }
 
     # Delete messages about Pre-Order and Release Date
-            if anyof ( header :contains "subject" ["Available on Steam","Pre-Order Reminder", "Your Pre-Order Update", "Pre-Order Now Live",
+            if allof ( header :contains "subject" ["Available on Steam","Pre-Order Reminder", "Your Pre-Order Update", "Pre-Order Now Live",
              "Secure Your Pre-Order", "Pre-Order Bonus Alert", "Reminder: Pre-Order Ends", 
              "Game Pre-Order Details", "Early Pre-Order Access", "Pre-Order Confirmation", "Don't Miss Pre-Order"],
         size :under 500K
     ) {
         expire "day" "3";
+        stop;
     }
 
     # Messages Community Update
-    if anyof (
+    if allof (
         header :contains "subject" ["Community Newsletter", "Insider Community Update", "Forum Update Alert", 
         "Player Community News", "Dev Community Post", "Weekly Community Recap", 
         "Community Feedback Update", "Server Community News", "Guild Update", 
@@ -187,6 +195,7 @@ if anyof (
         size :under 500K
     ) {
         expire "day" "7";
+        stop;
     }
 
     stop;

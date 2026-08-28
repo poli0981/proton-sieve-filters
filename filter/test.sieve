@@ -1,10 +1,10 @@
 # Sieve filter
 # Test.sieve
 # Only for user use Proton Mail
-# Version: 0.2.0
+# Version: 0.2.1
 # This Sieve script is a placeholder for testing purposes.
 
-require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
+require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
 # Delete messages if they are in the spam list
 if header :list "from" ":incomingdefaults:spam" {

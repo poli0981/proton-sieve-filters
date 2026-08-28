@@ -1,10 +1,10 @@
 # Sieve filter
 # SecurityAccount_filter.sieve
 # Only for user use Proton Mail.
-# Version: 0.2.0
+# Version: 0.2.1
 # This Sieve script filters security and account-related notifications, categorizes them by security level and type.
 
-require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
+require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
 # Whitelist - Always allow personal contacts
 if anyof (
@@ -304,17 +304,26 @@ if anyof (
 }
 
 # Default Security folder for uncategorized security emails
+# Catch-all for security mail that fits none of the categories above.
+#
+# NOTE (v0.2.1): this gate used to be a flat anyof() in which a bare
+# `header :contains "from" ["noreply@", ...]` stood alone, so virtually every
+# automated message on earth was filed to Security, expired after 14 days, and
+# stopped -- neutralising every filter installed after this one. Generic words
+# now require a security-related sender to go with them.
 if anyof (
-    # Generic security terms that might not fit other categories
-    header :contains "subject" ["Security", "Account", "Password", "Login", "Access",
-    "Authentication", "Verification", "Alert", "Warning", "Notice", "Update"],
-    
-    # Security-related senders
-    header :contains "from" ["security@", "noreply@", "account@", "admin@", 
-    "support@", "notification@", "alerts@", "no-reply@"],
-    
-    # Common security keywords in body (if subject filtering isn't enough)
-    header :contains "subject" ["Protect", "Safe", "Secure", "Privacy", "Confidential"]
+    # Specific enough to stand on their own
+    header :contains "subject" ["Security Alert", "Password", "Login", "Sign-in",
+    "Authentication", "Verification Code", "Two-Factor", "Unauthorized",
+    "Suspicious Activity", "Account Recovery", "Data Breach"],
+
+    # Generic words, but only from a security-related sender
+    allof (
+        header :contains "from" ["security@", "account@", "admin@", "alerts@",
+        "notification@"],
+        header :contains "subject" ["Security", "Account", "Access", "Protect",
+        "Privacy", "Confidential"]
+    )
 ) {
     # Mark as read
     addflag "\\Seen";

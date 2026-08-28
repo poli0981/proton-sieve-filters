@@ -1,7 +1,7 @@
 # Sieve filter
 # Filter_Shopping.sieve
 # Only for user use Proton Mail.
-# Version: 0.2.0
+# Version: 0.2.1
 # This Sieve script filters messages related to shopping/e-commerce platforms, moves them to "Shopping" folder.
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
@@ -95,11 +95,15 @@ if anyof (
     "*affirm.com", "*sezzle.com", "*quadpay.com", "*splitit.com", "*zip.co"
     ],
     
-    # Shopping-related keywords
-    header :contains "subject" ["Order", "Purchase", "Cart", "Checkout", "Payment",
-    "Receipt", "Invoice", "Shipping", "Delivery", "Tracking", "Sale", "Deal",
-    "Discount", "Coupon", "Promo", "Offer", "Clearance", "Black Friday",
-    "Cyber Monday", "Holiday Sale", "Flash Sale", "Limited Time"]
+    # Shopping-related keywords.
+    # NOTE (v0.2.1): bare single words ("Order", "Payment", "Receipt", "Invoice",
+    # "Shipping", "Sale", "Deal", "Offer") were removed here. With no sender
+    # constraint they pulled in mail from any sender and hijacked
+    # invoice_filter.sieve. Only unambiguous shopping phrases remain.
+    header :contains "subject" ["Order Confirmation", "Purchase Confirmation",
+    "Your Cart", "Abandoned Cart", "Checkout", "Order Shipped", "Out for Delivery",
+    "Tracking Number", "Flash Sale", "Black Friday", "Cyber Monday",
+    "Holiday Sale", "Limited Time Offer", "Clearance Sale", "Promo Code"]
 ) {
     # Mark email as read (apply before fileinto)
     addflag "\\Seen";
@@ -111,7 +115,7 @@ if anyof (
     # ORDER CONFIRMATIONS & RECEIPTS - Keep longer for records
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Order Confirmation", "Purchase Confirmation", 
         "Order Receipt", "Purchase Receipt", "Transaction Complete", "Payment Received",
         "Order Placed Successfully", "Thank You for Your Order", "Order Summary",
@@ -127,7 +131,7 @@ if anyof (
     # SHIPPING & DELIVERY - Important tracking info
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Shipped", "Tracking Number", "On the Way",
         "Out for Delivery", "Delivered", "Package Arrived", "Delivery Update",
         "Shipment Notification", "In Transit", "Delivery Attempt", "Ready for Pickup",
@@ -143,7 +147,7 @@ if anyof (
     # DEALS & PROMOTIONS - Short retention for time-sensitive offers
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Flash Sale", "Daily Deal", "Limited Time Offer",
         "Sale Alert", "Price Drop", "Clearance Sale", "Black Friday", "Cyber Monday",
         "Holiday Sale", "Weekend Sale", "Exclusive Deal", "Member Sale",
@@ -170,7 +174,7 @@ if anyof (
     # CART ABANDONMENT & REMINDERS - Very short retention
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Abandoned Cart", "Items in Your Cart", 
         "Complete Your Purchase", "Forgot Something", "Cart Reminder",
         "Don't Miss Out", "Still Interested", "Your Cart Expires",
@@ -186,7 +190,7 @@ if anyof (
     # RECOMMENDATIONS & PERSONALIZED SUGGESTIONS
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Recommended for You", "You Might Like", 
         "Personalized Picks", "Based on Your Browsing", "Similar Items",
         "Customers Also Bought", "New Arrivals", "Trending Now", "Popular Items",
@@ -202,7 +206,7 @@ if anyof (
     # RETURNS & REFUNDS - Important for customer service
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Return", "Refund", "Exchange", "Credit Issued",
         "Returned Item", "Refund Processed", "Return Label", "RMA Number",
         "Return Authorized", "Exchange Approved", "Store Credit", "Refund Status"],
@@ -217,7 +221,7 @@ if anyof (
     # LOYALTY & REWARDS PROGRAMS
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Rewards Points", "Loyalty Program", "Member Benefits",
         "Points Earned", "Cashback", "Reward Balance", "VIP Status", "Tier Update",
         "Member Exclusive", "Points Expiring", "Redeem Points", "Reward Available"],
@@ -232,7 +236,7 @@ if anyof (
     # PRODUCT REVIEWS & FEEDBACK
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Review Your Purchase", "Rate Your Order", 
         "How Was Your Experience", "Product Review", "Share Your Thoughts",
         "Tell Us About", "Feedback Request", "Review Reminder", "Rate This Item"],
@@ -247,7 +251,7 @@ if anyof (
     # SUBSCRIPTION & RECURRING ORDERS
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Subscription", "Auto-delivery", "Recurring Order",
         "Subscription Renewal", "Auto-renewal", "Subscribe & Save", "Monthly Delivery",
         "Subscription Update", "Pause Subscription", "Cancel Subscription"],
@@ -262,7 +266,7 @@ if anyof (
     # WISHLISTS & SAVED ITEMS
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Wishlist", "Saved Items", "Price Drop on Saved",
         "Item Back in Stock", "Saved for Later", "Favorites Update", "Watch List"],
         size :under 300K
@@ -276,7 +280,7 @@ if anyof (
     # ACCOUNT & SECURITY (Shopping-related)
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Account Update", "Password Changed", "Payment Method",
         "Billing Address", "Security Alert", "Login Alert", "Account Verification",
         "Profile Update", "Settings Changed", "Two-Factor Authentication"],
@@ -302,9 +306,15 @@ if anyof (
         stop;
     }
 
-    # General promotional emails (expire 10 days)
+    # General promotional emails (expire 10 days).
+    # NOTE (v0.2.1): this rule had no positive subject gate, so it matched every
+    # message under 500K and stopped -- making the 14-day default below dead
+    # code. It now requires an actually promotional subject.
     if allof (
         size :under 500K,
+        header :contains "subject" ["Sale", "Deal", "Discount", "Coupon", "Promo",
+        "Offer", "Clearance", "Save ", "% Off", "Newsletter", "New Arrivals",
+        "Recommended", "Just for You", "Back in Stock"],
         not header :contains "subject" ["Order", "Shipping", "Delivery", "Return", "Refund"]
     ) {
         expire "day" "10";

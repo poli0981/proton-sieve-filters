@@ -1,7 +1,7 @@
 # Sieve filter
 # Filter_Proton.sieve
 # Only for user use Proton Mail.
-# Version: 0.2.0
+# Version: 0.2.1
 # This Sieve script filters messages related to Proton Mail notifications, moves them to "Proton" folder.
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
@@ -55,7 +55,7 @@ if anyof (
     # BILLING & SUBSCRIPTION - Important financial records
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Subscription Confirmation", "Billing Update", 
         "Payment Received", "Renewal Notice", "Invoice Attached", "Account Charged", 
         "Plan Upgrade", "Plan Downgrade", "Subscription Details", "Billing Statement", 
@@ -71,7 +71,7 @@ if anyof (
     # ACCOUNT MANAGEMENT - Moderate importance
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Account Verification", "Email Verified", 
         "Profile Update", "Settings Changed", "Account Activity", "Login Confirmation", 
         "Device Added", "Device Removed", "Account Recovery", "Email Preferences Update", 
@@ -87,7 +87,7 @@ if anyof (
     # DAILY NOTIFICATIONS - Short retention
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["New Message in Inbox", "Unread Email Notification", 
         "Inbox Update", "Message Received", "Email Alert", "Proton Mail Notification", 
         "New Email Arrived", "Inbox Activity", "Message Waiting", "Check Your Inbox",
@@ -104,7 +104,7 @@ if anyof (
     # PRODUCT UPDATES & NEWSLETTERS - Medium retention
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Proton Newsletter", "Product Update", 
         "Feature Announcement", "Community News", "Proton Blog Post", 
         "Service Improvements", "App Release Notes", "New Features", 
@@ -120,7 +120,7 @@ if anyof (
     # SURVEYS & FEEDBACK - Short retention
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["User Survey", "Feedback Request", "Rate Your Experience", 
         "Customer Survey", "Product Feedback", "Service Rating", "User Research",
         "Beta Feedback", "Feature Request", "Community Poll", "User Study"],
@@ -134,7 +134,7 @@ if anyof (
     # SERVICE STATUS & MAINTENANCE - Short retention
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Service Status", "Maintenance Notice", 
         "System Update", "Scheduled Maintenance", "Service Interruption", 
         "Downtime Notice", "System Maintenance", "Server Update", 
@@ -149,7 +149,7 @@ if anyof (
     # LEGAL & POLICY UPDATES - Important for compliance
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Privacy Policy Update", "Terms of Service", 
         "EULA Update", "Policy Change", "Terms Change", "Legal Notice", 
         "Transparency Report", "Privacy Update", "Data Policy", "User Agreement",
@@ -164,7 +164,7 @@ if anyof (
     # PROTON DRIVE NOTIFICATIONS
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Proton Drive", "File Shared", "Folder Shared", 
         "Drive Storage", "Upload Complete", "Sync Complete", "File Updated", 
         "Drive Notification", "Sharing Invitation", "Drive Alert"],
@@ -178,7 +178,7 @@ if anyof (
     # PROTON CALENDAR NOTIFICATIONS
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Proton Calendar", "Event Reminder", 
         "Calendar Invitation", "Event Update", "Meeting Reminder", 
         "Calendar Notification", "Event Cancelled", "Calendar Sync"],
@@ -192,7 +192,7 @@ if anyof (
     # PROTON VPN NOTIFICATIONS
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Proton VPN", "VPN Connection", "Server Update", 
         "VPN Alert", "Connection Status", "VPN Notification", "Server Maintenance"],
         size :under 300K
@@ -205,7 +205,7 @@ if anyof (
     # PROTON PASS NOTIFICATIONS
     # ========================================================================
     
-    if anyof (
+    if allof (
         header :contains "subject" ["Proton Pass", "Password Alert", "Breach Alert", 
         "Vault Notification", "Pass Notification", "Security Report", 
         "Password Health", "Data Breach"],

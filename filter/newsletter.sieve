@@ -1,10 +1,10 @@
 # Sieve filter
 # Filter_News.sieve
 # Only for user use Proton Mail.
-# Version: 0.2.0
+# Version: 0.2.1
 # This Sieve script filters messages related to news platforms, moves them to "News" folder or subfolders by category.
 
-require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
+require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
 # Whitelist
 if header :list "from" ":addrbook:personal" {
@@ -48,7 +48,7 @@ if anyof (
     # Sports News
     address :domain :matches "from" ["*espn.com", "*si.com", "*bleacherreport.com",
     "*sbnation.com", "*theringer.com", "*athleticnews.com", "*cbssports.com",
-    "*nbcsports.com", "*foxsports.com", "*skysports.com", "*bbc.co.uk/sport"],
+    "*nbcsports.com", "*foxsports.com", "*skysports.com"],
 
     # Entertainment & Culture
     address :domain :matches "from" ["*ew.com", "*people.com", "*tmz.com",
@@ -57,6 +57,7 @@ if anyof (
 
     # Political News
     address :domain :matches "from" ["*politico.com", "*thehill.com", "*nationalreview.com",
+    "*rollcall.com", "*nationaljournal.com", "*cookpolitical.com", "*ballotpedia.org",
     "*motherjones.com", "*jacobinmag.com", "*reason.com", "*townhall.com",
     "*dailykos.com", "*redstate.com", "*breitbart.com", "*dailywire.com"],
 
@@ -83,7 +84,13 @@ if anyof (
     # Specialized News
     address :domain :matches "from" ["*militarytimes.com", "*policyone.com",
     "*firetimes.com", "*govtech.com", "*federalnewsnetwork.com",
-    "*defensenews.com", "*c4isrnet.com", "*cyberscoop.com"]
+    "*defensenews.com", "*c4isrnet.com", "*cyberscoop.com"],
+
+    # Weather. Added in v0.2.1: the News/Weather block below tests these
+    # domains, but none of them was listed in this outer gate, so mail from
+    # weather.com could never reach it.
+    address :domain :matches "from" ["*weather.com", "*accuweather.com",
+    "*noaa.gov", "*nws.noaa.gov", "*weatherchannel.com"]
 ) {
     # Mark email as read first
     addflag "\\Seen";

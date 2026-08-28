@@ -1,10 +1,10 @@
 # Sieve filter
 # Filter_Travel.sieve
 # Only for user use Proton Mail.
-# Version: 0.2.0
+# Version: 0.2.1
 # This Sieve script filters messages related to travel and booking platforms, moves them to "Travel" folder.
 
-require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
+require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
 # Whitelist
 if header :list "from" ":addrbook:personal" {
@@ -219,7 +219,7 @@ if anyof (
     }
 
     # Travel Alerts & Notifications
-    if anyof (
+    if allof (
         header :contains "subject" ["Flight Delay", "Gate Change", "Check-in Reminder",
         "Departure Alert", "Arrival Update", "Travel Advisory", "Weather Alert",
         "Security Alert", "Cancellation Notice", "Schedule Change", "Trip Reminder",

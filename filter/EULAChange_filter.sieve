@@ -1,10 +1,10 @@
 # Sieve filter
 # Legal_Notifications_filter.sieve
 # Only for user use Proton Mail.
-# Version: 0.2.0
+# Version: 0.2.1
 # This Sieve script filters legal notifications (EULA, ToS, Privacy Policy, Data Collection changes) and moves them to "Legal" folder.
 
-require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
+require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
 # Whitelist - Always allow personal contacts
 if anyof (
@@ -87,7 +87,7 @@ if anyof (
     }
 
     # GDPR and major privacy law changes - keep longer (21 days)
-    if anyof (
+    if allof (
         header :contains "subject" ["GDPR", "CCPA", "Data Protection Regulation", 
         "Privacy Law", "Data Law", "Regulatory Change"],
         size :over 100K  # Detailed legal documents are usually larger
@@ -119,22 +119,30 @@ if anyof (
 }
 
 # Filter potential legal spam and phishing
-if anyof (
-    # Fake legal threats
-    header :contains "subject" ["Legal Action", "Lawsuit", "Court Notice", "Summons",
-    "Legal Proceeding", "Cease and Desist", "Copyright Violation", "DMCA",
-    "Intellectual Property", "Patent Infringement"],
-    
-    # Suspicious legal language
-    header :contains "subject" ["Immediate Legal Action", "Legal Department", "Law Firm",
-    "Attorney Notice", "Legal Warning", "Legal Violation"],
-    
+#
+# NOTE: the threat tests are grouped in their own anyof() and the exclusion
+# list is a separate allof() conjunct. Putting `not anyof(...)` directly
+# inside the outer anyof() -- as this block did before v0.2.1 -- made the
+# test true for almost every message, so the entire mailbox was filed to
+# Legal/Suspicious and given a 30-day expiry. See CHANGELOG.md.
+if allof (
+    anyof (
+        # Fake legal threats
+        header :contains "subject" ["Legal Action", "Lawsuit", "Court Notice", "Summons",
+        "Legal Proceeding", "Cease and Desist", "Copyright Violation", "DMCA",
+        "Intellectual Property", "Patent Infringement"],
+
+        # Suspicious legal language
+        header :contains "subject" ["Immediate Legal Action", "Legal Department", "Law Firm",
+        "Attorney Notice", "Legal Warning", "Legal Violation"]
+    ),
+
     # But exclude legitimate sources
     not anyof (
         # Legitimate legal domains (add your known legitimate sources)
         address :domain :matches "from" ["*government.gov", "*gov.uk", "*europa.eu",
         "*eff.org", "*aclu.org", "*legalaid.org"],
-        
+
         # Known service providers
         header :list "from" ":addrbook:personal"
     )

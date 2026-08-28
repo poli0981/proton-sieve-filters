@@ -1,10 +1,10 @@
 # Sieve filter
 # Filter_Entertainment.sieve
 # Only for user use Proton Mail.
-# Version: 0.2.0 (New script release & fix bugs many old filters e.g. game, study, etc.)
+# Version: 0.2.1
 # This Sieve script filters messages related to entertainment platforms (movies, music, forums, etc.), moves them to "Entertainment" folder.
 
-require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
+require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
 # Whitelist
 if header :list "from" ":addrbook:personal" {
@@ -15,7 +15,7 @@ if header :list "from" ":addrbook:personal" {
 if anyof (
     # Movie/TV streaming platforms
     address :domain :matches "from" ["*netflix.com", "*hulu.com", "*disneyplus.com",
-    "*primevideo.com", "*max.com", "*paramountplus.com", "*peacocktv.com",
+    "*primevideo.com", "*max.com", "*paramountplus.com", "*paramount.com", "*peacocktv.com",
     "*appletv.com", "*youtube.com", "*tubitv.com", "*pluto.tv", "*kanopy.com",
     "*criterionchannel.com", "*shudder.com", "*fubotv.com", "*sling.com",
     "*directv.com", "*starz.com", "*crackle.com", "*popcornflix.com", "*vudu.com",
@@ -268,6 +268,7 @@ if anyof (
         size :under 500K
     ) {
         expire "day" "28";
+        stop;
     }
 
     # Live stream alerts (expire 1 day)
@@ -278,6 +279,7 @@ if anyof (
         size :under 500K
     ) {
         expire "day" "1";
+        stop;
     }
 
     # Promotional content (expire 5 days)
@@ -287,6 +289,7 @@ if anyof (
         size :under 500K
     ) {
         expire "day" "5";
+        stop;
     }
 
     stop;

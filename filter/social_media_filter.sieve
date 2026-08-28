@@ -1,10 +1,10 @@
 # Sieve filter
 # Filter_Social.sieve
 # Only for user use Proton Mail
-# Version: 0.1.0 -> 0.2.0
+# Version: 0.2.1
 # This Sieve script filters messages from social networks and moves them to "Social Account" folder.
 
-require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
+require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
 # Whitelist
 if anyof (
@@ -36,7 +36,7 @@ if anyof (
 
     # Professional and business networks
     address :domain :matches "from" ["*xing.com", "*meetup.com", "*eventbrite.com",
-    "*sharechat.com", "*bumble.com", "*hinge.co", "*badoo.com", "*plenty offish.com",
+    "*sharechat.com", "*bumble.com", "*hinge.co", "*badoo.com", "*plentyoffish.com",
     "*zoosk.com", "*match.com", "*eharmony.com", "*okcupid.com"],
 
     # Gaming and streaming social platforms
@@ -105,6 +105,7 @@ if anyof (
         size :under 500K
     ) {
         expire "day" "1";
+        stop;
     }
 
     # Security alerts (expire 28 days - important to keep for reference)
@@ -118,6 +119,7 @@ if anyof (
         size :under 500K
     ) {
         expire "day" "28";
+        stop;
     }
 
     # Invites/Events (expire 7 days)
@@ -129,6 +131,7 @@ if anyof (
         size :under 500K
     ) {
         expire "day" "7";
+        stop;
     }
 
     # Platform Updates/News (expire 5 days)
@@ -140,6 +143,7 @@ if anyof (
         size :under 500K
     ) {
         expire "day" "5";
+        stop;
     }
 
     # Promotional content (expire 3 days)
@@ -152,6 +156,7 @@ if anyof (
         size :under 500K
     ) {
         expire "day" "3";
+        stop;
     }
 
     # Weekly/Monthly digests (expire 10 days)
@@ -162,17 +167,20 @@ if anyof (
         size :under 500K
     ) {
         expire "day" "10";
+        stop;
     }
 
     stop;
 }
 
 # Filter social media spam and fake accounts
+# NOTE (v0.2.1): a bare `header :contains "from" ["noreply", ...]` used to sit
+# in this anyof(), so any no-reply sender was filed to Social Account. The scam
+# subject list below is specific enough without it.
 if anyof (
     header :contains "subject" ["Fake Profile Alert", "Scam Warning", "Phishing Attempt",
     "Suspicious Account", "Report Fake Account", "Identity Theft Warning",
-    "Romance Scam", "Investment Scam", "Cryptocurrency Scam"],
-    header :contains "from" ["noreply", "no-reply", "donotreply", "do-not-reply"]
+    "Romance Scam", "Investment Scam", "Cryptocurrency Scam"]
 ) {
     # Keep these for security reference
     fileinto "Social Account";

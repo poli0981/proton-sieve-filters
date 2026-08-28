@@ -1,10 +1,10 @@
 # Sieve filter
 # spam_filter.sieve
 # Only for user use Proton Mail.
-# Version: 0.2.0
+# Version: 0.2.1
 # This Sieve script filters spam messages based on specific subject lines and content patterns.
 
-require ["fileinto", "imap4flags", "reject", "discard", "extlists"];
+require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
 # Whitelist - Always allow personal contacts
 if anyof (
@@ -232,25 +232,35 @@ if anyof (
 if anyof (
     # Suspicious sender addresses
     header :matches "from" ["*@*.tk", "*@*.ml", "*@*.ga", "*@*.cf", "*@*.gq"],  # Free domains often used by spammers
-    header :contains "from" ["noreply@", "no-reply@", "donotreply@"] {
+
+    # Anonymous senders, minus the large providers that legitimately use them.
+    # Before v0.2.1 the exclusion sat in a `{ ... }` block inside this anyof(),
+    # which is not valid Sieve -- the whole script failed to parse, so none of
+    # this filter ever ran. It is an allof() conjunct now.
+    allof (
+        header :contains "from" ["noreply@", "no-reply@", "donotreply@"],
         # But exclude legitimate services (add more as needed)
         not anyof (
-            header :contains "from" ["@amazon.com", "@google.com", "@facebook.com", 
+            header :contains "from" ["@amazon.com", "@google.com", "@facebook.com",
             "@microsoft.com", "@apple.com", "@paypal.com", "@ebay.com", "@twitter.com",
             "@linkedin.com", "@instagram.com", "@pinterest.com", "@snapchat.com",
             "@steampowered.com", "@valvesoftware.com", "@discord.com", "@proton.me"]
         )
-    },
-    
+    ),
+
     # Suspicious sender names
     header :contains "from" ["Customer Service", "Account Manager", "Business Partner",
     "Investment Advisor", "Financial Consultant", "Legal Department", "Security Team"],
-    
-    # Multiple recipients (often spam)
-    header :contains "to" [";", ","] {
-        # And generic subjects
+
+    # Bulk recipients AND a generic subject. Same invalid `{ ... }` construct as
+    # above; also an allof() now.
+    # NOTE: "," was removed from the recipient test -- it matches any To: header
+    # carrying a quoted display name such as "Doe, John" <j@example.com>, which
+    # would have filed ordinary mail into Spam with a 7-day expiry.
+    allof (
+        header :contains "to" [";"],
         header :contains "subject" ["Important", "Urgent", "Notice", "Alert", "Update"]
-    }
+    )
 ) {
     fileinto "Spam";
     addflag "\\Seen";

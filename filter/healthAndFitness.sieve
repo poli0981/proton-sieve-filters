@@ -1,10 +1,10 @@
 # Sieve filter
 # Filter_Health_And_Fitness.sieve
 # Only for user use Proton Mail.
-# Version: 1.0.0
+# Version: 0.2.1
 # This Sieve script filters messages related to health and fitness platforms/apps, moves them to "Health" folder.
 
-require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
+require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
 # Whitelist
 if header :list "from" ":addrbook:personal" {

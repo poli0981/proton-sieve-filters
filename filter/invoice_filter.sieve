@@ -1,10 +1,10 @@
 # Sieve filter
 # Invoice_filter.sieve
 # Only for user use Proton Mail.
-# Version: 0.1.0 -> 0.2.0
+# Version: 0.2.1
 # This Sieve script filters messages related to payment platforms, services, and invoices, moves them to "Payments" folder.
 
-require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
+require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
 # Whitelist
 if header :list "from" ":addrbook:personal" {
@@ -49,7 +49,9 @@ if anyof (
     # Mark as read
     addflag "\\Seen";
 
-    # Receipts/Invoices: delete after 28 days (but preserve subscriptions and keys)
+    # Receipts/Invoices: keep 365 days (but preserve subscriptions and keys forever).
+    # The comment said 28 days until v0.2.1 while the code said 365; the code was
+    # kept, since receipts are wanted for tax and warranty purposes.
     if allof (
         header :contains "subject" ["Purchase Confirmation", "Your Receipt", "Order Invoice",
         "Digital Purchase Details", "Transaction Summary", "Payment Confirmation", 
@@ -72,6 +74,7 @@ if anyof (
         )
     ) {
         expire "day" "365";
+        stop;
     }
 
     # Transaction confirmations (expire 7 days)
@@ -82,6 +85,7 @@ if anyof (
         size :under 500K
     ) {
         expire "day" "7";
+        stop;
     }
 
     # Refund/chargeback notifications (expire 28 days for tracking)
@@ -91,6 +95,7 @@ if anyof (
         size :under 500K
     ) {
         expire "day" "28";
+        stop;
     }
 
     # Fraud/security warnings (expire 28 days)
@@ -101,6 +106,7 @@ if anyof (
         size :under 500K
     ) {
         expire "day" "28";
+        stop;
     }
 
     # Promotions/deals from payment platforms (expire 3 days)
@@ -111,6 +117,7 @@ if anyof (
         size :under 500K
     ) {
         expire "day" "3";
+        stop;
     }
 
     stop;

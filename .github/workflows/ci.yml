@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sieve:
+    name: Validate Sieve filters
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install tooling
+        run: python -m pip install --disable-pip-version-check -r tools/requirements.txt
+
+      # Parses every filter with a real Sieve parser. v0.2.0 shipped a filter
+      # that did not parse at all, so this is the check that matters most.
+      - name: Syntax
+        run: python tools/validate_sieve.py
+
+      # Proton dialect rules plus the bug classes fixed in v0.2.1.
+      - name: Lint
+        run: python tools/lint_proton.py
+
+      # Behavioural tests: one per defect, so none of them can come back.
+      - name: Regression tests
+        run: python tests/test_regressions.py

@@ -1,10 +1,10 @@
 # Sieve filter
 # Filter_Study.sieve
 # Only for user use Proton Mail.
-# Version: 0.1.0
+# Version: 0.2.1
 # This Sieve script filters messages related to educational and academic platforms, moves them to appropriate Study subfolders.
 
-require ["fileinto", "imap4flags", "vnd.proton.expire", "reject", "extlists"];
+require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
 # Whitelist
 if header :list "from" ":addrbook:personal" {
@@ -21,7 +21,7 @@ if anyof (
     # Research organizations
     address :domain :matches "from" ["*research.org", "*scholarship.org", "*education.gov",
     "*nsf.gov", "*nih.gov", "*nasa.gov", "*cern.ch", "*mit.edu", "*stanford.edu",
-    "*harvard.edu", "*oxford.ac.uk", "*cambridge.ac.uk", "*epicresearch.org", "epic.com"],
+    "*harvard.edu", "*oxford.ac.uk", "*cambridge.ac.uk", "*epicresearch.org", "*epic.com"],
 
     # Online learning platforms
     address :domain :matches "from" ["*coursera.org", "*edx.org", "*khanacademy.org", 
@@ -45,6 +45,7 @@ if anyof (
 
     # Academic publishers and journals
     address :domain :matches "from" ["*springer.com", "*elsevier.com", "*wiley.com",
+    "*pearson.com", "*mcgraw-hill.com", "*cengage.com",
     "*nature.com", "*science.org", "*ieee.org", "*acm.org", "*jstor.org",
     "*academia.edu", "*researchgate.net", "*mendeley.com", "*zotero.org"],
 

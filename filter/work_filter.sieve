@@ -1,7 +1,7 @@
 # Sieve filter
 # Filter_Work.sieve
 # Only for user use Proton Mail.
-# Version: 0.2.0
+# Version: 0.2.1
 # This Sieve script filters messages related to work/professional platforms, moves them to "Work" folder or subfolders.
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
@@ -220,7 +220,10 @@ if anyof (
     # REPORTS & ANALYTICS
     # ========================================================================
     
-    if anyof (
+    # NOTE: allof(), not anyof(). With anyof() the size test alone satisfied
+    # the gate, so EVERY message over 100K stopped here and Work/IT and
+    # Work/Finance below became unreachable. See CHANGELOG.md.
+    if allof (
         header :contains "subject" ["Performance Report", "Analytics Summary", "Quarterly Review", 
         "KPI Update", "Metrics Dashboard", "Sales Report", "Financial Report", 
         "Business Intelligence", "Data Insights", "Audit Results", "Compliance Report",
@@ -230,7 +233,7 @@ if anyof (
         fileinto "Work/Reports";
         
         # Important reports (keep longer - 180 days)
-        if anyof (
+        if allof (
             header :contains "subject" ["Quarterly", "Annual", "Executive", "Board", "Audit"],
             size :over 500K
         ) {
@@ -269,7 +272,9 @@ if anyof (
     # DAILY REMINDERS & NOTIFICATIONS
     # ========================================================================
     
-    if anyof (
+    # NOTE: allof(), not anyof() -- same bug as the Reports gate above. With
+    # anyof(), every message under 200K stopped here regardless of subject.
+    if allof (
         header :contains "subject" ["Daily Reminder", "Follow-up Alert", "Action Item", 
         "To-Do Update", "Priority Notification", "Overdue Task", "Quick Check-in", 
         "Status Update", "Pending Action", "Time Tracking", "Deadline Today",

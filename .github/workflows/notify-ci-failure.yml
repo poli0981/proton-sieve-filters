@@ -2,7 +2,10 @@ name: Notify CI Failures
 
 on:
   workflow_run:
-    workflows: ["*"]
+    # A glob is not a supported matcher here -- workflow_run matches on literal
+    # workflow names, so ["*"] never fired. Until v0.2.1 there was also no CI
+    # workflow for it to watch.
+    workflows: ["CI"]
     types: [completed]
 
 # REQUIRED: declare permissions matching the reusable workflow's needs.
