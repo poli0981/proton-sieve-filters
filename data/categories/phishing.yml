@@ -1,0 +1,141 @@
+# SPDX-License-Identifier: CC0-1.0
+# Phishing & Typosquats -- the source of truth for filter/phishing.sieve.
+# Run `python tools/generate.py` after editing.
+#
+# Every entry here is a lookalike domain, not a real sender. They are
+# aggregated from the `kind: block` records of the other categories, so a
+# free-plan user (one active filter) can install this one on its own.
+#
+# Entries came from the project's original reference lists and are NOT
+# individually verified -- check one before trusting it.
+
+id: phishing
+title: Phishing & Typosquats
+description: Lookalike domains that impersonate services the other filters handle.
+install_order: 22
+languages:
+- en
+- vi
+- zh
+- ja
+folder: Phishing
+shape: flat
+whitelist:
+- :addrbook:personal
+spam_discard: false
+domains:
+- match: airbnbb.com
+  kind: block
+  scope: exact
+  note: Extra letter 'b' (from travel)
+  source: md
+- match: amazcn.com
+  kind: block
+  scope: exact
+  note: Missing letter 'o' (from shopping)
+  source: md
+- match: bookng.com
+  kind: block
+  scope: exact
+  note: Missing letter 'i' (from travel)
+  source: md
+- match: delta-airlines.com
+  kind: block
+  scope: exact
+  note: Hyphenated airline name (from travel)
+  source: md
+- match: ebay-inc.com
+  kind: block
+  scope: exact
+  note: Added unnecessary suffix (from shopping)
+  source: md
+- match: expedia-deals.com
+  kind: block
+  scope: exact
+  note: Unofficial subdomain (from travel)
+  source: md
+- match: faceb00k.com
+  kind: block
+  scope: exact
+  note: Zero instead of 'o' (from social)
+  source: md
+- match: lnkedin.com
+  kind: block
+  scope: exact
+  note: Missing 'i' (from social)
+  source: md
+- match: marriot.com
+  kind: block
+  scope: exact
+  note: Missing letter 't' (from travel)
+  source: md
+- match: payp4l.com
+  kind: block
+  scope: exact
+  note: Number '4' instead of 'a' (from invoice)
+  source: md
+- match: paypa1.com
+  kind: block
+  scope: exact
+  note: Number '1' instead of 'l' (from invoice)
+  source: md
+- match: paypai.com
+  kind: block
+  scope: exact
+  note: Capital 'I' instead of 'l' (from shopping)
+  source: md
+- match: paypal-verification.com
+  kind: block
+  scope: exact
+  note: Fake verification domain (from invoice)
+  source: md
+- match: pr0ton.me
+  kind: block
+  scope: exact
+  note: Zero instead of 'o' (from proton)
+  source: md
+- match: proton-mail.com
+  kind: block
+  scope: exact
+  note: Missing 'mail' in official domain (from proton)
+  source: md
+- match: proton.com
+  kind: block
+  scope: exact
+  note: 'Not one of Proton''s official sending domains (proton.me, protonmail.com, pm.me,
+    protonmail.ch). Least clear-cut entry in this list: if proton.com belongs to an unrelated
+    business you correspond with, remove it.'
+  source: md
+- match: protonmai1.com
+  kind: block
+  scope: exact
+  note: Number '1' instead of 'l' (from proton)
+  source: md
+- match: stripe-inc.com
+  kind: block
+  scope: exact
+  note: Unofficial subdomain (from invoice)
+  source: md
+- match: target-store.com
+  kind: block
+  scope: exact
+  note: Unofficial subdomain (from shopping)
+  source: md
+- match: twiter.com
+  kind: block
+  scope: exact
+  note: Missing 't' (from social)
+  source: md
+- match: wallmart.com
+  kind: block
+  scope: exact
+  note: Misspelled 'Walmart' (from shopping)
+  source: md
+- match: youutube.com
+  kind: block
+  scope: exact
+  note: Extra 'u' (from social)
+  source: md
+keyword_groups: []
+rules: []
+blocklist_folder: Phishing

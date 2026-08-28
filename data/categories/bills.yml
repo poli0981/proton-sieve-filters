@@ -1,0 +1,291 @@
+# SPDX-License-Identifier: CC0-1.0
+# Bills & Utilities -- the source of truth for filter/bills.sieve.
+# Run `python tools/generate.py` after editing.
+
+id: bills
+title: Bills & Utilities
+description: Telecoms, energy, water and insurance billing.
+install_order: 17
+languages:
+- en
+- vi
+- zh
+- ja
+folder: Bills
+shape: nested
+whitelist:
+- :addrbook:personal
+spam_discard: false
+domains:
+- match: aetna.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: allstate.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: att.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: aviva.co.uk
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: bell.ca
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: britishgas.co.uk
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: centurylink.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: cigna.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: comcast.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: coned.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: cox.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: directline.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: docomo.ne.jp
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: duke-energy.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: ee.co.uk
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: engie.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: eon.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: evn.com.vn
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: farmers.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: geico.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: humana.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: kddi.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: lemonade.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: libertymutual.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: mobifone.vn
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: movistar.es
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: nationalgrid.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: nationwide.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: o2.co.uk
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: octopus.energy
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: optus.com.au
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: orange.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: ovoenergy.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: pge.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: progressive.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: rogers.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: softbank.jp
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: spectrum.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: statefarm.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: t-mobile.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: telekom.de
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: telstra.com.au
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: telus.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: three.co.uk
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: usaa.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: verizon.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: viettel.vn
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: vnpt.com.vn
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: vodafone.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: xfinity.com
+  kind: allow
+  scope: subdomains
+  source: authored
+keyword_groups: []
+rules:
+- gate: true
+  folder: Bills
+  op: anyof
+  domains:
+  - aetna.com
+  - allstate.com
+  - att.com
+  - aviva.co.uk
+  - bell.ca
+  - britishgas.co.uk
+  - centurylink.com
+  - cigna.com
+  - comcast.com
+  - coned.com
+  - cox.com
+  - directline.com
+  - docomo.ne.jp
+  - duke-energy.com
+  - ee.co.uk
+  - engie.com
+  - eon.com
+  - evn.com.vn
+  - farmers.com
+  - geico.com
+  - humana.com
+  - kddi.com
+  - lemonade.com
+  - libertymutual.com
+  - mobifone.vn
+  - movistar.es
+  - nationalgrid.com
+  - nationwide.com
+  - o2.co.uk
+  - octopus.energy
+  - optus.com.au
+  - orange.com
+  - ovoenergy.com
+  - pge.com
+  - progressive.com
+  - rogers.com
+  - softbank.jp
+  - spectrum.com
+  - statefarm.com
+  - t-mobile.com
+  - telekom.de
+  - telstra.com.au
+  - telus.com
+  - three.co.uk
+  - usaa.com
+  - verizon.com
+  - viettel.vn
+  - vnpt.com.vn
+  - vodafone.com
+  - xfinity.com
+  subjects:
+  - Your Bill
+  - Bill Ready
+  - Statement Available
+  - Payment Due
+  - Autopay Confirmation
+  - Meter Reading
+  - Policy Renewal
+  - Premium Due
+  - Insurance Claim
+  - Service Charge
+  - Usage Summary
+  flags:
+  - \Seen
+  expire_days: 365
+  stop: true

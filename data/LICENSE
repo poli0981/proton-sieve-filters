@@ -1,0 +1,14 @@
+The domain and keyword lists in this directory are dedicated to the public
+domain under CC0 1.0 Universal.
+
+    SPDX-License-Identifier: CC0-1.0
+
+Full text: ../LICENSES/CC0-1.0.txt
+
+These are collections of facts -- which company sends mail from which domain,
+and which words appear in which kind of subject line. Facts are generally not
+copyrightable in the first place, and CC0 removes any residual database-right
+ambiguity as well. Use them anywhere, in anything, with no attribution required.
+
+The Sieve scripts generated from these files (filter/ and bundles/) are MIT, as
+is the generator in tools/. CC0 imposes no conditions, so there is no conflict.

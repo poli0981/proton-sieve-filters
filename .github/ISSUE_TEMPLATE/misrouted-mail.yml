@@ -1,0 +1,52 @@
+name: Mail went to the wrong folder
+description: A message was filed somewhere it should not have been, or not filed at all.
+labels: [routing]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Do not paste real message content.** The sender's domain and the subject
+        pattern are enough, and both can be redacted to the shape of the problem.
+        See [PRIVACY.md](https://github.com/poli0981/proton-sieve-filters/blob/main/PRIVACY.md).
+  - type: input
+    id: filter
+    attributes:
+      label: Which filter
+      placeholder: shopping.sieve
+    validations: { required: true }
+  - type: input
+    id: sender
+    attributes:
+      label: Sender domain (redacted is fine)
+      placeholder: something@example-shop.com
+    validations: { required: true }
+  - type: input
+    id: subject
+    attributes:
+      label: Subject pattern
+      placeholder: contains "Order Confirmation"
+    validations: { required: true }
+  - type: input
+    id: expected
+    attributes:
+      label: Where it should have gone
+      placeholder: Shopping/Orders
+    validations: { required: true }
+  - type: input
+    id: actual
+    attributes:
+      label: Where it actually went
+      placeholder: Payments -- or "stayed in the inbox"
+    validations: { required: true }
+  - type: textarea
+    id: installed
+    attributes:
+      label: Which filters you have installed, in order
+      description: Order decides conflicts, so this is usually the answer.
+      placeholder: |
+        01 spam, 02 shopping, 19 invoice, 21 security
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: 0.3.0 -- see the VERSION file or a filter's header

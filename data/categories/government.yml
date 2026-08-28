@@ -1,0 +1,152 @@
+# SPDX-License-Identifier: CC0-1.0
+# Government & Tax -- the source of truth for filter/government.sieve.
+# Run `python tools/generate.py` after editing.
+#
+# Retention is deliberately unset: government correspondence may be needed years later.
+
+id: government
+title: Government & Tax
+description: Tax authorities, government agencies and public services.
+install_order: 18
+languages:
+- en
+- vi
+- zh
+- ja
+folder: Government
+shape: nested
+whitelist:
+- :addrbook:personal
+spam_discard: false
+domains:
+- match: ato.gov.au
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: canada.ca
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: cra-arc.gc.ca
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: dol.gov
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: freetaxusa.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: ftc.gov
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: healthcare.gov
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: hrblock.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: ird.govt.nz
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: irs.gov
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: medicare.gov
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: sec.gov
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: servicesaustralia.gov.au
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: ssa.gov
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: studentaid.gov
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: taxact.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: taxslayer.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: treasury.gov
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: turbotax.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: usa.gov
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: uscis.gov
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: va.gov
+  kind: allow
+  scope: subdomains
+  source: authored
+keyword_groups: []
+rules:
+- gate: true
+  folder: Government
+  op: anyof
+  domains:
+  - ato.gov.au
+  - canada.ca
+  - cra-arc.gc.ca
+  - dol.gov
+  - freetaxusa.com
+  - ftc.gov
+  - healthcare.gov
+  - hrblock.com
+  - ird.govt.nz
+  - irs.gov
+  - medicare.gov
+  - sec.gov
+  - servicesaustralia.gov.au
+  - ssa.gov
+  - studentaid.gov
+  - taxact.com
+  - taxslayer.com
+  - treasury.gov
+  - turbotax.com
+  - usa.gov
+  - uscis.gov
+  - va.gov
+  subjects:
+  - Tax Return
+  - Tax Refund
+  - Notice of Assessment
+  - Benefit Statement
+  - Government Notice
+  - Public Service
+  - Jury Summons
+  - Voter Registration
+  - Passport Application
+  - Visa Application
+  - Social Security
+  flags:
+  - \Seen
+  stop: true

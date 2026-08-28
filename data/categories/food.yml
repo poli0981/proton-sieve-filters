@@ -1,0 +1,197 @@
+# SPDX-License-Identifier: CC0-1.0
+# Food & Delivery -- the source of truth for filter/food.sieve.
+# Run `python tools/generate.py` after editing.
+
+id: food
+title: Food & Delivery
+description: Restaurant delivery and food ordering.
+install_order: 4
+languages:
+- en
+- vi
+- zh
+- ja
+folder: Food
+shape: nested
+whitelist:
+- :addrbook:personal
+spam_discard: false
+domains:
+- match: burgerking.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: chipotle.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: chownow.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: deliveroo.co.uk
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: deliveryhero.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: dominos.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: doordash.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: dunkindonuts.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: foodpanda.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: glovoapp.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: gojek.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: grubhub.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: ifood.com.br
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: just-eat.co.uk
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: kfc.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: mcdonalds.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: menulog.com.au
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: panerabread.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: papajohns.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: pizzahut.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: rappi.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: seamless.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: slicelife.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: starbucks.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: subway.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: swiggy.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: tacobell.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: takeaway.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: toasttab.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: ubereats.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: wendys.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: wolt.com
+  kind: allow
+  scope: subdomains
+  source: authored
+keyword_groups: []
+rules:
+- gate: true
+  folder: Food
+  op: anyof
+  domains:
+  - burgerking.com
+  - chipotle.com
+  - chownow.com
+  - deliveroo.co.uk
+  - deliveryhero.com
+  - dominos.com
+  - doordash.com
+  - dunkindonuts.com
+  - foodpanda.com
+  - glovoapp.com
+  - gojek.com
+  - grubhub.com
+  - ifood.com.br
+  - just-eat.co.uk
+  - kfc.com
+  - mcdonalds.com
+  - menulog.com.au
+  - panerabread.com
+  - papajohns.com
+  - pizzahut.com
+  - rappi.com
+  - seamless.com
+  - slicelife.com
+  - starbucks.com
+  - subway.com
+  - swiggy.com
+  - tacobell.com
+  - takeaway.com
+  - toasttab.com
+  - ubereats.com
+  - wendys.com
+  - wolt.com
+  subjects:
+  - Order Confirmed
+  - Order Delivered
+  - Driver on the way
+  - Your food is ready
+  - Rate your order
+  - Order Receipt
+  - Restaurant Offer
+  flags:
+  - \Seen
+  expire_days: 7
+  stop: true

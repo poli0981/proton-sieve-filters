@@ -1,0 +1,35 @@
+name: Sync Wiki
+
+# docs/ is the source of truth for the wiki, so pages go through pull request
+# review like everything else. This mirrors them into the repository's Wiki tab
+# on merge.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - ".github/workflows/wiki.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: wiki-sync
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    name: Publish docs/ to the Wiki
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: Andrew-Chen-Wang/github-wiki-action@v4
+        with:
+          path: docs
+          # The Wiki has no directories, so relative links between pages work as
+          # bare page names. Links to files outside docs/ (../LICENSE and the
+          # like) resolve on GitHub but not in the Wiki -- Home.md links to the
+          # repository for those.
+          strategy: clone

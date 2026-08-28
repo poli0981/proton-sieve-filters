@@ -1,0 +1,122 @@
+# SPDX-License-Identifier: CC0-1.0
+# Recruiting & Applications -- the source of truth for filter/recruiting.sieve.
+# Run `python tools/generate.py` after editing.
+#
+# Retention is deliberately unset: offers, rejections and assessments are worth keeping.
+
+id: recruiting
+title: Recruiting & Applications
+description: Applicant tracking systems and recruiter correspondence.
+install_order: 11
+languages:
+- en
+- vi
+- zh
+- ja
+folder: Recruiting
+shape: nested
+whitelist:
+- :addrbook:personal
+spam_discard: false
+domains:
+- match: applytojob.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: ashbyhq.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: breezy.hr
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: greenhouse.io
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: icims.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: jazzhr.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: jobvite.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: lever.co
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: myworkdayjobs.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: otta.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: recruitee.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: smartrecruiters.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: successfactors.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: taleo.net
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: teamtailor.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: workable.com
+  kind: allow
+  scope: subdomains
+  source: authored
+keyword_groups: []
+rules:
+- gate: true
+  folder: Recruiting
+  op: anyof
+  domains:
+  - applytojob.com
+  - ashbyhq.com
+  - breezy.hr
+  - greenhouse.io
+  - icims.com
+  - jazzhr.com
+  - jobvite.com
+  - lever.co
+  - myworkdayjobs.com
+  - otta.com
+  - recruitee.com
+  - smartrecruiters.com
+  - successfactors.com
+  - taleo.net
+  - teamtailor.com
+  - workable.com
+  subjects:
+  - Application Received
+  - Application Update
+  - Interview Invitation
+  - Interview Scheduled
+  - Offer Letter
+  - Candidate Assessment
+  - Take-home Assignment
+  - Reference Request
+  - Application Status
+  - Thank You for Applying
+  - Next Steps
+  flags:
+  - \Seen
+  stop: true

@@ -1,0 +1,39 @@
+name: Wrong or missing domain / keyword
+description: A domain belongs elsewhere, is defunct, is wrong, or is missing.
+labels: [data]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The lists were compiled with AI assistance and are not individually
+        verified, so corrections are genuinely useful. See
+        [AI disclosure](https://github.com/poli0981/proton-sieve-filters/blob/main/docs/AI-Disclosure.md).
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is wrong
+      options:
+        - Domain is in the wrong category
+        - Domain is defunct or renamed
+        - Domain belongs to a different company than the note says
+        - Domain is missing
+        - A legitimate domain is in the phishing blocklist
+        - Keyword is too broad and catches unrelated mail
+    validations: { required: true }
+  - type: input
+    id: domain
+    attributes:
+      label: Domain or keyword
+      placeholder: example.com
+    validations: { required: true }
+  - type: input
+    id: category
+    attributes:
+      label: Category it is in (or should be in)
+      placeholder: shopping
+  - type: textarea
+    id: evidence
+    attributes:
+      label: How do you know
+      description: A link to the company's site or an announcement is ideal.
+    validations: { required: true }

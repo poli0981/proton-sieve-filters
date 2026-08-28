@@ -1,0 +1,4 @@
+# Tooling for validating the Sieve filters in this repository.
+sievelib>=1.4
+PyYAML>=6.0
+jsonschema>=4.0
