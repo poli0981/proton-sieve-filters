@@ -76,6 +76,9 @@ jobs:
       # Every filter must document the folders it files into, and README.md must
       # name every top-level folder. v0.2.0's README got five of fourteen wrong
       # and omitted seventy subfolders.
+      - name: Generated docs match the data
+        run: python tools/gen_docs.py --check
+
       - name: Folder documentation matches the filters
         run: python tools/check_folders.py
 

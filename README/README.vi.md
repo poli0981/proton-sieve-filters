@@ -41,18 +41,16 @@ máy chủ Proton **không bao giờ** đọc được *nội dung* thư của b
 tra header, envelope và *kích thước đã mã hoá* — chỉ vậy thôi. Không có test `body`, nên
 không bộ lọc nào ở đây khớp được theo nội dung thư thực sự viết gì.
 
-**🤖 Phát triển với hỗ trợ của AI.** Dự án này được phát triển với sự hỗ trợ của AI cho
-việc nghiên cứu, viết script và dịch thuật, sau đó được
-[@poli0981](https://github.com/poli0981) rà soát lại.
+**🤖 Phần lớn dự án này do AI viết.** GitHub Copilot (Claude Sonnet 4) và Grok 4 tạo ra các
+bộ lọc và dữ liệu ban đầu năm 2025; Claude Opus 5 thực hiện phần rà soát, xây dựng lại và
+toàn bộ công cụ kiểm tra cho v0.2.1–v0.3.0 năm 2026.
+[@poli0981](https://github.com/poli0981) định hướng và rà soát.
 
-- **👨‍💻 Con người (@poli0981): 35%** — ý tưởng, kiến trúc, prompt engineering, sửa lỗi,
-  nội dung tiếng Việt, kiểm thử
-- **🤖 AI (GitHub Copilot/Claude Sonnet 4 & Grok 4): 65%** — triển khai, dịch thuật,
-  nghiên cứu, tài liệu, tổng hợp danh sách domain/từ khoá
-
-Danh sách domain và từ khoá được tổng hợp theo cách này và **chưa được kiểm chứng từng
-mục**. Chúng có chứa dịch vụ đã ngừng hoạt động và ít nhất hai tên miền bị gán nhầm công
-ty. Xem [DISCLAIMER.md](../DISCLAIMER.md).
+Điều đó quan trọng với dữ liệu: danh sách domain và từ khoá **chưa được kiểm chứng từng
+mục**. Đợt rà soát v0.2.1 tìm thấy 13 domain mà chính chú thích của nó ghi "(defunct)", hai
+domain bị gán nhầm công ty, và một mục không phải hostname hợp lệ. Nhiều khả năng vẫn còn
+những lỗi tương tự. Xem [AI disclosure](../docs/AI-Disclosure.md) và
+[DISCLAIMER.md](../DISCLAIMER.md).
 
 ---
 
@@ -325,14 +323,9 @@ người gửi có trong sổ địa chỉ trước khi làm bất cứ điều 
 
 ## 🤝 Đóng góp
 
-1. Fork và tạo nhánh: `git checkout -b feature/amazing-feature`
-2. Thực hiện thay đổi, rồi chạy ba lệnh ở mục
-   [Kiểm tra thay đổi của bạn](#-kiểm-tra-thay-đổi-của-bạn)
-3. Thêm một test vào `tests/test_regressions.py` nếu bạn sửa lỗi
-4. Mở pull request mô tả rõ đã thay đổi gì và vì sao
-
-Hãy theo phong cách code hiện có, và tôn trọng
-[Contributor Covenant](https://www.contributor-covenant.org/version/2/0/code_of_conduct.html).
+Phần lớn đóng góp chỉ là một dòng trong file YAML. Xem
+[CONTRIBUTING.md](../CONTRIBUTING.md) để biết dòng đó đặt ở đâu và build sẽ kiểm tra gì.
+Dự án tuân theo [Contributor Covenant](../CODE_OF_CONDUCT.md).
 
 ---
 
@@ -343,7 +336,8 @@ Hãy theo phong cách code hiện có, và tôn trọng
 - **Cần gói trả phí.** Gói miễn phí chỉ cho phép một bộ lọc hoạt động.
 - **Chỉ áp dụng cho thư mới.** Bộ lọc không sắp xếp lại thư đã có sẵn trong hộp thư.
 - **Chỉ đọc được header.** Không thể khớp theo nội dung — xem [Đây là gì](#-đây-là-gì).
-- **Không bảo hành.** Đọc [DISCLAIMER.md](../DISCLAIMER.md) trước khi cài.
+- **Không bảo hành, và các bộ lọc này xoá thư.** Đọc [DISCLAIMER.md](../DISCLAIMER.md)
+  và [Retention & auto-delete](../docs/Retention-and-Auto-Delete.md) trước khi cài.
 
 ---
 
@@ -373,7 +367,27 @@ Chi tiết trong [LICENSES/README.md](../LICENSES/README.md); thông tin trích 
 Trước khi mở issue, hãy xem [các issue hiện có](https://github.com/poli0981/proton-sieve-filters/issues)
 và [tài liệu Sieve của Proton](https://proton.me/support/sieve-advanced-custom-filters).
 
-## 🔗 Tài nguyên
+## 📚 Tài liệu
+
+Tài liệu đầy đủ nằm trong [`docs/`](../docs/) (tiếng Anh), được đồng bộ sang
+[Wiki](https://github.com/poli0981/proton-sieve-filters/wiki).
+
+| Trang | |
+| --- | --- |
+| [Installation](../docs/Installation.md) | Thư mục, thứ tự cài, bundle |
+| [Filter reference](../docs/Filter-Reference.md) | Từng bộ lọc làm gì — sinh tự động từ dữ liệu |
+| [Retention & auto-delete](../docs/Retention-and-Auto-Delete.md) | **Thư nào bị xoá, sau bao lâu** |
+| [Customization](../docs/Customization.md) | Đổi domain, từ khoá, thư mục, thời hạn |
+| [Troubleshooting](../docs/Troubleshooting.md) | Khi có gì đó không chạy |
+| [Proton's Sieve dialect](../docs/Proton-Sieve-Dialect.md) | Ngôn ngữ hỗ trợ gì và bẫy ở đâu |
+| [AI disclosure](../docs/AI-Disclosure.md) | Ai viết phần nào, và điều đó nghĩa là gì |
+| [FAQ](../docs/FAQ.md) | |
+
+Chính sách dự án: [Disclaimer](../DISCLAIMER.md) · [Privacy](../PRIVACY.md) ·
+[Security](../SECURITY.md) · [Contributing](../CONTRIBUTING.md) ·
+[Code of conduct](../CODE_OF_CONDUCT.md) · [Giấy phép](../LICENSES/README.md)
+
+## 🔗 Tài nguyên ngoài
 
 - [Proton — Sieve advanced custom filters](https://proton.me/support/sieve-advanced-custom-filters)
 - [Proton — How to use email filters](https://proton.me/support/email-inbox-filters)

@@ -1,0 +1,13 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Problem with Proton Mail itself
+    url: https://proton.me/support
+    about: >-
+      This project is not affiliated with Proton AG. For the mail service, its
+      apps, or your account, contact Proton.
+  - name: Security or phishing-list problem
+    url: https://github.com/poli0981/proton-sieve-filters/security/advisories/new
+    about: Report privately. See SECURITY.md for what counts.
+  - name: Question
+    url: https://github.com/poli0981/proton-sieve-filters/blob/main/docs/FAQ.md
+    about: Check the FAQ and Troubleshooting first.

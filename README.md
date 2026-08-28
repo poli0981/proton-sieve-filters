@@ -41,19 +41,14 @@ servers never see your message *content*. Filters can test headers, the envelope
 *encrypted* size — that is all. There is no `body` test, so no filter here can match on
 what an email actually says.
 
-**🤖 AI-assisted development.** This project was developed with AI assistance for
-research, script writing, and translation, then reviewed by
-[@poli0981](https://github.com/poli0981).
+**🤖 Most of this was written by AI.** GitHub Copilot (Claude Sonnet 4) and Grok 4 produced
+the original filters and data in 2025; Claude Opus 5 did the v0.2.1–v0.3.0 audit, rebuild
+and tooling in 2026. [@poli0981](https://github.com/poli0981) directs and reviews it.
 
-- **👨‍💻 Human (@poli0981): 35%** — concept, architecture, prompt engineering, bug fixes,
-  Vietnamese content, QA
-- **🤖 AI (GitHub Copilot/Claude Sonnet 4 & Grok 4): 65%** — implementation, translations,
-  research, documentation, domain/keyword compilation
-
-The domain and keyword lists were compiled this way and are **not individually verified**.
-The v0.2.1 audit found 13 domains whose own comment said "(defunct)", two attributed to
-the wrong company, and one that was not a valid hostname. See [DISCLAIMER.md](DISCLAIMER.md)
-and [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md).
+That matters for the data: the domain and keyword lists are **not individually verified**.
+The v0.2.1 audit found 13 domains whose own comment said "(defunct)", two attributed to the
+wrong company, and one that was not a valid hostname. Others like them are probably still
+there. See [AI disclosure](docs/AI-Disclosure.md) and [DISCLAIMER.md](DISCLAIMER.md).
 
 ---
 
@@ -365,14 +360,9 @@ filter skips address-book senders before doing anything else.
 
 ## 🤝 Contributing
 
-1. Fork and branch: `git checkout -b feature/amazing-feature`
-2. Make the change, then run the three commands under
-   [Validating your changes](#-validating-your-changes)
-3. Add a test to `tests/test_regressions.py` if you fixed a bug
-4. Open a pull request describing what changed and why
-
-Follow the existing style, and respect the
-[Contributor Covenant](https://www.contributor-covenant.org/version/2/0/code_of_conduct.html).
+Most contributions are one line in a YAML file. See [CONTRIBUTING.md](CONTRIBUTING.md) for
+where it goes and what the build will check. The project follows the
+[Contributor Covenant](CODE_OF_CONDUCT.md).
 
 ---
 
@@ -384,7 +374,8 @@ Follow the existing style, and respect the
 - **New mail only.** Filters do not reorganise mail already in your mailbox.
 - **Headers only.** No content matching is possible — see
   [What this is](#-what-this-is).
-- **No warranty.** Read [DISCLAIMER.md](DISCLAIMER.md) before installing.
+- **No warranty, and these delete mail.** Read [DISCLAIMER.md](DISCLAIMER.md)
+  and [Retention & auto-delete](docs/Retention-and-Auto-Delete.md) before installing.
 
 ---
 
@@ -414,7 +405,27 @@ Details in [LICENSES/README.md](LICENSES/README.md); citation metadata in
 Before opening an issue, check the [existing issues](https://github.com/poli0981/proton-sieve-filters/issues)
 and [Proton's Sieve documentation](https://proton.me/support/sieve-advanced-custom-filters).
 
-## 🔗 Resources
+## 📚 Documentation
+
+Full documentation is in [`docs/`](docs/), mirrored to the
+[Wiki](https://github.com/poli0981/proton-sieve-filters/wiki).
+
+| Page | |
+| --- | --- |
+| [Installation](docs/Installation.md) | Folders, install order, bundles |
+| [Filter reference](docs/Filter-Reference.md) | What each of the 22 filters does — generated from the data |
+| [Retention & auto-delete](docs/Retention-and-Auto-Delete.md) | **What gets deleted, and when** |
+| [Customisation](docs/Customization.md) | Change domains, keywords, folders, timers |
+| [Troubleshooting](docs/Troubleshooting.md) | When something does not work |
+| [Proton's Sieve dialect](docs/Proton-Sieve-Dialect.md) | What the language supports, and its traps |
+| [AI disclosure](docs/AI-Disclosure.md) | Who wrote what, and what it means for the data |
+| [FAQ](docs/FAQ.md) | |
+
+Project policies: [Disclaimer](DISCLAIMER.md) · [Privacy](PRIVACY.md) ·
+[Security](SECURITY.md) · [Contributing](CONTRIBUTING.md) ·
+[Code of conduct](CODE_OF_CONDUCT.md) · [Licences](LICENSES/README.md)
+
+## 🔗 External
 
 - [Proton — Sieve advanced custom filters](https://proton.me/support/sieve-advanced-custom-filters)
 - [Proton — How to use email filters](https://proton.me/support/email-inbox-filters)

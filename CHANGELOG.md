@@ -9,6 +9,59 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [0.3.0] — 2026-08-28
 
+### Changed — documentation rewritten
+
+`DISCLAIMER.md` went from 272 lines to a focused document. The old one warned at length
+about court summons, day trading and academic dismissal, repeated three of its own sections
+verbatim, and **omitted the three things that actually mattered**: it never said the project
+is unaffiliated with Proton AG, never carried a trademark notice, and never mentioned that a
+paid plan is required. The string "Proton AG" appeared **nowhere in the repository**. Nor
+did it mention that the filters set delete timers — the single most consequential thing they
+do. All four are now in the first three sections.
+
+`REFERENCE.md` is deleted. 500 lines of which roughly 85% was filler — Kaggle, pandas,
+Tableau, AWS Training, CompTIA, Khan Academy — claiming "100+ verified sources" and a review
+date that had passed nine months earlier. Its one useful section became
+[`docs/Proton-Sieve-Dialect.md`](docs/Proton-Sieve-Dialect.md), which is now a real
+reference: the supported extension list, the absent `body` test, the 730-day expire ceiling,
+and the four matching gotchas that cost this project real bugs.
+
+### Added — documentation
+
+- **[`PRIVACY.md`](PRIVACY.md)** — this project collects nothing, and explains why that is
+  structural rather than a promise: the deliverable is text you paste into Proton's own
+  settings, and Proton's zero-access encryption means a filter can only ever see headers,
+  the envelope and the encrypted size.
+- **[`CONTRIBUTING.md`](CONTRIBUTING.md)** — where the one line goes, and a table of the
+  eight defect classes the build will stop you reintroducing.
+- **[`SECURITY.md`](SECURITY.md)** — what counts as a security issue for a project that
+  ships text files, and what does not.
+- **[`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)** — Contributor Covenant 2.1, vendored with a
+  real reporting contact. The README previously linked the hosted version, which GitHub does
+  not recognise and which named nobody to report to.
+- **Issue and PR templates**, including one for data corrections — the lists are
+  machine-generated, so corrections are the most useful kind of report.
+
+### Added — `docs/`, mirrored to the Wiki
+
+Eight pages. Two of them — [Filter reference](docs/Filter-Reference.md) and
+[Retention & auto-delete](docs/Retention-and-Auto-Delete.md) — are **generated from
+`data/`** by `tools/gen_docs.py`, with `--check` in CI. v0.2.0's README invented its filter
+counts and documented 14 folders when the filters used 86; anything derived from the data is
+generated now so it cannot say something the filters do not do.
+
+`.github/workflows/wiki.yml` mirrors `docs/` to the repository Wiki on merge to `main`, so
+pages go through review like everything else.
+
+### Added — [AI disclosure](docs/AI-Disclosure.md)
+
+A page naming which model wrote which part — GitHub Copilot (Claude Sonnet 4) and Grok 4 for
+v0.1.0–v0.2.0, **Claude Opus 5** for the v0.2.1–v0.3.0 audit, rebuild and tooling — and what
+that means for data nobody has fact-checked.
+
+The old **"35% human / 65% AI"** figure is removed rather than updated. It was never
+measured, and after this rework it would be wrong anyway.
+
 ### Changed — licensing
 
 - **Three licences, split by content type**, replacing a single MIT that sat awkwardly
