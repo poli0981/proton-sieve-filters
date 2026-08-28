@@ -9,6 +9,66 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+### Added — `data/` is now the source of truth
+
+- **`data/categories/*.yml` replaces `domain/*.md` and `keyword/*.md`.** The Markdown
+  lists were reference documentation that had drifted away from the filters: a domain
+  added to a `.sieve` was never added to the list, and over 700 Vietnamese, Chinese and
+  Japanese keywords were documented and implemented in **zero** filters. `filter/*.sieve`
+  will be generated from `data/` from the next release onward.
+
+  Migrated: **1,826 domain records** and **3,992 keywords** (3,003 English, 323
+  Vietnamese, 332 Chinese, 334 Japanese) across 14 categories.
+
+- **Every domain now carries an explicit `kind`.** The legacy lists encoded
+  allow-versus-block *only* in a missing `*.` prefix, with a "Watch for Typosquatting"
+  heading somewhere above — so any generator that read them naively would have
+  **allowlisted `payp4l.com`, `pr0ton.me` and `faceb00k.com`**. The four kinds are
+  `allow`, `block` (22 typosquats), `tld-example` (32 bare public suffixes, never
+  emitted) and `sender` (11 full addresses such as `noreply@proton.me`).
+
+- **A `scope` field distinguishes `*example.com` from `*.example.com`.** Public suffixes
+  such as `ac.uk` must use `subdomains-only`, so the generated pattern requires a label in
+  front. Matching a restricted academic namespace is deliberate; matching `hackac.uk` is
+  not.
+
+- **109 cross-category domain conflicts resolved.** `*apple.com` was claimed by seven
+  filters, `*google.com` by five. Each domain now has exactly one owner; the rest carry
+  `kind: ceded` naming the winner. Ownership follows install order — which reproduces what
+  Proton would do at runtime — except for ten high-traffic domains where the mechanical
+  answer was plainly wrong (`amazon.com` went to `shopping`, not `invoice`;
+  `linkedin.com` and `microsoft.com` to `work`, not `study`).
+
+- **Data corrections applied during migration**, each listed in `MIGRATION-REPORT.md`:
+  13 domains dropped whose own comment said "(defunct)"; `frontier.com` dropped from
+  gaming (Frontier Developments is `frontier.co.uk`; `frontier.com` is Frontier
+  Airlines); `steam.com` dropped (not Valve's domain); `canal+.com` corrected to
+  `canalplus.com`; 7 renamed services annotated.
+
+- **`data/shared/retention.yml`** — one canonical retention ladder. v0.2.0 reinvented it
+  per filter and ended up with fifteen different values for the same handful of concepts,
+  so a billing email expired after 365 days in five filters and 90, 60, 28 or 14 in
+  others.
+
+- **`data/schema/category.schema.json`** — JSON Schema for a category file, enforced in CI.
+
+- **`tools/check_data.py`** — validates the schema and the guard rails: a bare TLD
+  classified `allow`, a typosquat allowed anywhere, a domain owned by two categories, an
+  invalid hostname, a duplicate `install_order`. All six were verified to fail the build
+  when deliberately introduced.
+
+- **`tools/migrate.py`** and **`MIGRATION-REPORT.md`** — the migration is reproducible and
+  every quarantined, reclassified or dropped entry is listed for review.
+
+- **`tools/md_parse.py`** and **`tools/sieve_extract.py`** — the parsers behind it.
+  `sieve_extract` reads the full structure of all 14 filters with no unhandled constructs.
+
+### Removed
+
+- **`domain/` and `keyword/`.** Superseded by `data/`; the git history keeps them and
+  `MIGRATION-REPORT.md` records where every entry went. This also retires
+  `keyword/sp@m_keyword.md`, whose `@` broke shell globs and rsync-style tooling.
+
 ### Changed — breaking
 
 - **Every filter was renamed** to one convention: lowercase, no `_filter` suffix,

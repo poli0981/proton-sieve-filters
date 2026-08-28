@@ -1,0 +1,88 @@
+# Canonical retention ladder.
+#
+# v0.2.0 reimplemented retention from scratch in each filter, so the same concept
+# got different values in different files -- a billing email expired after 365
+# days in five filters, but 90, 60, 28 or 14 in others. Fifteen distinct values
+# were in use across thirteen categories.
+#
+# These tiers are the vocabulary a category should reach for. A category may
+# still set its own `expire_days`, but if it reuses a concept below it should
+# reuse the number too.
+#
+# Every value here is a DELETE timer: Proton removes the message when it runs
+# out. `null` means keep indefinitely.
+
+tiers:
+  - id: permanent
+    days: null
+    label: Keep forever
+    use_for:
+      - Tax documents, government correspondence
+      - Software licence keys and activation codes
+      - Anything the user may need to prove later
+
+  - id: records
+    days: 365
+    label: One year
+    use_for:
+      - Receipts, invoices, order confirmations
+      - Subscription and renewal notices
+      - Warranty and purchase records
+
+  - id: reference
+    days: 90
+    label: One quarter
+    use_for:
+      - Completed bookings and itineraries after travel
+      - HR and payroll notifications
+      - Medical appointment records
+
+  - id: tracking
+    days: 60
+    label: Two months
+    use_for:
+      - Shipping and delivery updates
+      - Returns and refunds in progress
+
+  - id: transactional
+    days: 30
+    label: One month
+    use_for:
+      - Policy and terms-of-service changes
+      - Account changes worth being able to look back at
+
+  - id: notification
+    days: 14
+    label: Two weeks
+    use_for:
+      - Security and sign-in alerts
+      - Service status and maintenance notices
+
+  - id: ephemeral
+    days: 7
+    label: One week
+    use_for:
+      - Newsletters and editorial mail
+      - Social network notifications
+      - Spam heuristic matches
+
+  - id: promotional
+    days: 3
+    label: Three days
+    use_for:
+      - Marketing, deals and discount codes
+      - Recommendations and "you might also like"
+
+  - id: expiring
+    days: 1
+    label: One day
+    use_for:
+      - Flash sales and same-day offers
+      - Daily digests and standup reminders
+
+# Categories that should never expire anything, whatever the tier table says.
+# Losing one of these is worse than keeping clutter.
+never_expire:
+  - Study            # coursework and research references are needed long-term
+  - Legal            # a policy change may matter years later
+  - Security/Critical  # breach notifications are evidence

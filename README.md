@@ -83,9 +83,10 @@ broadest, so running them early would let them claim mail the more specific filt
 handle better.
 
 > [!NOTE]
-> **109 domains are currently claimed by more than one filter** — `*apple.com` by seven of
-> them. The order above decides who wins. Consolidating this is tracked for a future
-> release; see [CHANGELOG.md](CHANGELOG.md).
+> **109 domains used to be claimed by more than one filter** — `*apple.com` by seven of
+> them — so which folder a message landed in depended on the order you happened to install
+> in. Each domain now has exactly one owning category, recorded in [`data/`](data/) and
+> enforced in CI. The order above still matters for subject-only matches.
 
 ---
 
@@ -131,8 +132,8 @@ and that order is what decides conflicts.
 
 ### Step 3 — customise (optional)
 
-Domains, keywords and retention periods are all plain text near the top of each script.
-See [Advanced customisation](#-advanced-customisation) below.
+Domains, keywords and retention periods live in [`data/categories/`](data/categories/), not
+in the `.sieve` files. See [Advanced customisation](#-advanced-customisation) below.
 
 ---
 
@@ -168,12 +169,18 @@ applies.
 
 ```
 proton-sieve-filters/
+├── data/              # SOURCE OF TRUTH -- every domain and keyword lives here
+│   ├── categories/    #   one .yml per filter
+│   ├── shared/        #   the canonical retention ladder
+│   └── schema/        #   JSON Schema for a category file
 ├── filter/            # The 14 Sieve scripts
-├── domain/            # Per-category domain reference lists (see note)
-├── keyword/           # Per-category keyword reference lists (see note)
-├── tools/             # Validation and linting
+├── tools/             # Migration, validation and linting
 │   ├── validate_sieve.py    # parses every filter with a real Sieve parser
 │   ├── lint_proton.py       # checks against Proton's dialect and known bug classes
+│   ├── check_data.py        # enforces the data model in data/
+│   ├── check_folders.py     # documented folders must match the filters
+│   ├── check_links.py       # relative Markdown links must resolve
+│   ├── migrate.py           # one-off: the legacy Markdown lists -> data/
 │   ├── proton_dialect.py    # Proton's supported extensions, tests and limits
 │   └── sieve_eval.py        # evaluator for the Sieve subset used here
 ├── tests/
@@ -181,14 +188,16 @@ proton-sieve-filters/
 ├── README/            # Translations
 ├── CHANGELOG.md
 ├── DISCLAIMER.md
+├── MIGRATION-REPORT.md
 └── LICENSE
 ```
 
 > [!NOTE]
-> `domain/` and `keyword/` are **reference documentation that has drifted from the
-> scripts** — they are not the source the filters are built from. Over 700 Vietnamese,
-> Chinese and Japanese keywords are documented there and implemented in **zero** filters.
-> Making these lists the single source of truth is the next planned change.
+> **Edit [`data/`](data/), not `filter/`.** The 1,826 domain records and 3,992 keywords
+> live in `data/categories/*.yml`, and the `.sieve` files are generated from them. See
+> [data/README.md](data/README.md) for the model — in particular the `kind` field, which
+> makes the difference between a domain being allowlisted and a typosquat being blocked
+> explicit rather than implied by a missing `*.` prefix.
 
 ---
 
@@ -196,13 +205,18 @@ proton-sieve-filters/
 
 ### Adding a domain
 
-Add it to the `address :domain :matches "from" [...]` list in the **top-level gate** of the
-script, not only to a subcategory block. A domain that appears only in a nested block can
-never be reached, because the top-level gate filters the message out first:
+Add it to the owning category in [`data/`](data/), not to a `.sieve` file:
 
-```sieve
-address :domain :matches "from" ["*yourshop.com", "*anothershop.com"],
+```yaml
+domains:
+  - match: yourshop.com
+    kind: allow
+    scope: subdomains
+    note: What this service is
 ```
+
+A domain may be `allow` in exactly **one** category — `tools/check_data.py` fails the
+build otherwise. See [data/README.md](data/README.md).
 
 ### Adjusting retention
 
@@ -246,10 +260,13 @@ if allof (
 python -m pip install -r tools/requirements.txt
 python tools/validate_sieve.py    # does every filter parse?
 python tools/lint_proton.py       # Proton dialect + known bug classes
+python tools/check_data.py        # the data model in data/
+python tools/check_folders.py     # documented folders match the filters
+python tools/check_links.py       # relative links resolve
 python tests/test_regressions.py  # behavioural tests
 ```
 
-All three run in CI on every push and pull request. `validate_sieve.py` uses a real Sieve
+All of these run in CI on every push and pull request. `validate_sieve.py` uses a real Sieve
 parser, taught Proton's `extlists` `:list` match-type and the `vnd.proton.expire` command.
 
 Passing locally is not the last word — **Proton's own editor is the only authority on its
