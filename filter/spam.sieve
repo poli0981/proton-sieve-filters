@@ -1,8 +1,20 @@
-# Sieve filter
-# spam_filter.sieve
-# Only for user use Proton Mail.
+# Spam filter -- filter/spam.sieve
+#
+# For Proton Mail only. A paid plan is required to run this alongside other
+# filters: the free plan allows just one active filter at a time.
+#
+# This script filters spam messages based on specific subject lines and
+# content patterns.
+#
+# Folders: Spam
+#
+# WARNING: this filter sets auto-delete timers on matched mail via
+#          vnd.proton.expire. Read CHANGELOG.md before installing.
+#
+# Filters run in the order you install them, and on conflicting actions the
+# last one wins -- see docs/ for the recommended order.
+#
 # Version: 0.2.1
-# This Sieve script filters spam messages based on specific subject lines and content patterns.
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 

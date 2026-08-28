@@ -25,47 +25,47 @@ def case(name, filename, message, check, why):
 
 
 # 1. The mail-destroying catch-all.
-case("EULAChange: ordinary newsletter is NOT quarantined",
-     "EULAChange_filter.sieve",
+case("legal: ordinary newsletter is NOT quarantined",
+     "legal.sieve",
      msg("news@substack.com", "Your Tuesday briefing"),
      lambda r: r.folder != "Legal/Suspicious" and r.expire_days != 30,
      "every non-government sender was filed to Legal/Suspicious with a 30-day delete timer")
 
-case("EULAChange: a real legal threat IS still caught",
-     "EULAChange_filter.sieve",
+case("legal: a real legal threat IS still caught",
+     "legal.sieve",
      msg("legal@random-firm.com", "Cease and Desist - immediate action"),
      lambda r: r.folder == "Legal/Suspicious",
      "the narrowed gate must not lose true positives")
 
 # 2. spam_filter did not parse at all.
-case("spam_filter: script parses and files spam",
-     "spam_filter.sieve",
+case("spam: script parses and files spam",
+     "spam.sieve",
      msg("winner@lottery.tk", "Congratulations you have won"),
      lambda r: r is not None,
      "the whole script failed to parse, so none of it ever ran")
 
-case("spam_filter: display name with a comma is NOT spam-filed",
-     "spam_filter.sieve",
+case("spam: display name with a comma is NOT spam-filed",
+     "spam.sieve",
      msg("hr@company.com", "Update", to='"Doe, John" <john@example.com>'),
      lambda r: r.folder != "Spam",
      "header :contains \"to\" [\",\"] matched any quoted display name")
 
 # 3. work_filter dead code.
-case("work_filter: 300K IT notice reaches Work/IT",
-     "work_filter.sieve",
+case("work: 300K IT notice reaches Work/IT",
+     "work.sieve",
      msg("it@microsoft.com", "IT Notice: VPN Access change", size=300 * 1024),
      lambda r: r.folder == "Work/IT",
      "size :over 100K in an anyof() sent every large message to Work/Reports")
 
-case("work_filter: small finance mail reaches Work/Finance",
-     "work_filter.sieve",
+case("work: small finance mail reaches Work/Finance",
+     "work.sieve",
      msg("ap@microsoft.com", "Expense Report approval needed", size=50 * 1024),
      lambda r: r.folder != "Work/Reminders",
      "size :under 200K in an anyof() sent every small message to Work/Reminders")
 
 # 4. Expiry overwritten by the shortest match.
-case("invoice_filter: receipt keeps 365 days, not 7",
-     "invoice_filter.sieve",
+case("invoice: receipt keeps 365 days, not 7",
+     "invoice.sieve",
      msg("receipts@paypal.com", "Your Receipt - Payment Success"),
      lambda r: r.expire_days == 365,
      "no stop; meant a later 7-day tier overwrote the 365-day receipt tier")
@@ -80,27 +80,27 @@ case("shopping: non-promo mail reaches the 14-day default",
      "under 500K and made the 14-day default unreachable")
 
 # 6. Catch-alls.
-case("SecurityAccount: a plain noreply newsletter is NOT filed to Security",
-     "SecurityAccount_filter.sieve",
+case("security: a plain noreply newsletter is NOT filed to Security",
+     "security.sieve",
      msg("noreply@substack.com", "Weekly Update"),
      lambda r: r.folder is None,
      "any noreply@ sender was filed to Security, expired in 14 days, and stopped")
 
-case("SecurityAccount: a real security alert IS still caught",
-     "SecurityAccount_filter.sieve",
+case("security: a real security alert IS still caught",
+     "security.sieve",
      msg("noreply@bank.com", "Security Alert: new sign-in"),
      lambda r: r.folder is not None and str(r.folder).startswith("Security"),
      "narrowing must not lose true positives")
 
-case("social_media: a noreply sender with unrelated subject is NOT filed",
-     "social_media_filter.sieve",
+case("social: a noreply sender with unrelated subject is NOT filed",
+     "social.sieve",
      msg("noreply@newsletter.example", "Monthly digest"),
      lambda r: r.folder != "Social Account",
      "a bare noreply sender test matched every automated message")
 
 # 7. Unreachable weather block.
-case("newsletter: weather.com reaches News/Weather",
-     "newsletter.sieve",
+case("news: weather.com reaches News/Weather",
+     "news.sieve",
      msg("alerts@weather.com", "Severe Weather warning for your area"),
      lambda r: r.folder == "News/Weather",
      "the weather domains were absent from the outer gate, so the block was dead")

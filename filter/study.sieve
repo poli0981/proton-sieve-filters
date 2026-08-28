@@ -1,8 +1,22 @@
-# Sieve filter
-# Filter_Study.sieve
-# Only for user use Proton Mail.
+# Study & Education filter -- filter/study.sieve
+#
+# For Proton Mail only. A paid plan is required to run this alongside other
+# filters: the free plan allows just one active filter at a time.
+#
+# This script filters messages related to educational and academic platforms,
+# moves them to appropriate Study subfolders.
+#
+# Folders: Study, Study/Algorithms, Study/Art, Study/Biology,
+#          Study/Business, Study/Certification, Study/Chemistry,
+#          Study/Engineering, Study/General, Study/History, Study/Languages,
+#          Study/Mathematics, Study/Medicine, Study/Music, Study/Physics,
+#          Study/Programming, Study/Research, Study/TestPrep,
+#          Study/Textbooks
+#
+# Filters run in the order you install them, and on conflicting actions the
+# last one wins -- see docs/ for the recommended order.
+#
 # Version: 0.2.1
-# This Sieve script filters messages related to educational and academic platforms, moves them to appropriate Study subfolders.
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 

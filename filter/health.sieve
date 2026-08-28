@@ -1,8 +1,20 @@
-# Sieve filter
-# Filter_Health_And_Fitness.sieve
-# Only for user use Proton Mail.
+# Health & Fitness filter -- filter/health.sieve
+#
+# For Proton Mail only. A paid plan is required to run this alongside other
+# filters: the free plan allows just one active filter at a time.
+#
+# This script filters messages related to health and fitness platforms/apps,
+# moves them to "Health" folder.
+#
+# Folders: Health
+#
+# WARNING: this filter sets auto-delete timers on matched mail via
+#          vnd.proton.expire. Read CHANGELOG.md before installing.
+#
+# Filters run in the order you install them, and on conflicting actions the
+# last one wins -- see docs/ for the recommended order.
+#
 # Version: 0.2.1
-# This Sieve script filters messages related to health and fitness platforms/apps, moves them to "Health" folder.
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 

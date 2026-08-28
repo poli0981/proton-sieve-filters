@@ -35,3 +35,26 @@ jobs:
       # Behavioural tests: one per defect, so none of them can come back.
       - name: Regression tests
         run: python tests/test_regressions.py
+
+  docs:
+    name: Validate documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install tooling
+        run: python -m pip install --disable-pip-version-check -r tools/requirements.txt
+
+      # Every filter must document the folders it files into, and README.md must
+      # name every top-level folder. v0.2.0's README got five of fourteen wrong
+      # and omitted seventy subfolders.
+      - name: Folder documentation matches the filters
+        run: python tools/check_folders.py
+
+      # [LICENSE](LICENSE) was broken in four READMEs for a year.
+      - name: Relative links resolve
+        run: python tools/check_links.py

@@ -1,5 +1,13 @@
 # Proton Sieve Filters - スマートメールフィルター
 
+> [!WARNING]
+> **この翻訳は最新ではありません。** 2025年8月17日のv0.2.0時点の内容で、それ以降更新
+> されていません。フィルター名は変更され、メールを削除していた不具合が修正されています。
+> 正確な情報は英語版の [README.md](../../README.md) と [CHANGELOG.md](../../CHANGELOG.md)
+> をご覧ください。
+>
+> 翻訳の更新を歓迎します。
+
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![GitHub contributors](https://img.shields.io/badge/Contributors-Welcome-brightgreen.svg)](https://github.com/poli0981/proton-sieve-filters/graphs/contributors)
 [![GitHub issues](https://img.shields.io/github/issues/poli0981/proton-sieve-filters.svg)](https://github.com/poli0981/proton-sieve-filters/issues)
@@ -119,7 +127,7 @@
 
 ## 📄 ライセンス
 
-このプロジェクトは **MITライセンス** の下でライセンスされています - 詳細は [LICENSE](LICENSE) ファイルをご覧ください。
+このプロジェクトは **MITライセンス** の下でライセンスされています - 詳細は [LICENSE](../../LICENSE) ファイルをご覧ください。
 
 ## 👨‍💻 連絡先とサポート
 

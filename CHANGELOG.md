@@ -7,6 +7,73 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [Unreleased]
+
+### Changed — breaking
+
+- **Every filter was renamed** to one convention: lowercase, no `_filter` suffix,
+  named after its category. `README.md` documents the new names.
+
+  | Old | New |
+  | --- | --- |
+  | `EULAChange_filter.sieve` | `legal.sieve` |
+  | `SecurityAccount_filter.sieve` | `security.sieve` |
+  | `TravelFilters.sieve` | `travel.sieve` |
+  | `entertainment_filter.sieve` | `entertainment.sieve` |
+  | `game_filter.sieve` | `gaming.sieve` |
+  | `healthAndFitness.sieve` | `health.sieve` |
+  | `invoice_filter.sieve` | `invoice.sieve` |
+  | `newsletter.sieve` | `news.sieve` |
+  | `proton_notifiaction.sieve` | `proton.sieve` |
+  | `social_media_filter.sieve` | `social.sieve` |
+  | `spam_filter.sieve` | `spam.sieve` |
+  | `study_filter.sieve` | `study.sieve` |
+  | `work_filter.sieve` | `work.sieve` |
+
+  This also fixes the misspelled `proton_notifiaction.sieve`, which `README.md` had
+  always referred to by its correct spelling — so the documented path never existed.
+
+- **`README.md` moved from `README/` to the repository root.** GitHub only renders a
+  readme found in the root, `.github/` or `docs/`, so the project landing page showed
+  no readme at all.
+- **Removed `filter/test.sieve`** (scratch: it filed into an undocumented `Test`
+  folder, still carried a comment copied from `invoice_filter.sieve`, and was the only
+  script that never called `stop;`) **and `filter/AI_filter.sieve`** (121 bytes of
+  comments, no code). 14 filters remain.
+- **`README.ja.md` and `README.zh.md` moved to `README/community/`** with a banner
+  saying they are out of date. They were ~52% translations of v0.2.0 and omitted the
+  entire Limitations & Disclaimers section, so non-English readers got no risk warning.
+
+### Fixed
+
+- **`[LICENSE](LICENSE)` was broken in all four READMEs.** Because they lived in
+  `README/`, the link resolved to `README/LICENSE`, which does not exist.
+- **`README.md`'s "Required Folders" instruction was wrong.** It told users to create
+  14 folders — five of which no script ever used (`Invoices` vs `Payments`,
+  `Newsletters` vs `News`, `Social` vs `Social Account`, `Spam_Filter` vs `Spam`,
+  `EULA` vs `Legal`) — while omitting the ~70 subfolders every script depends on. The
+  filters target **86 distinct folders**; each script now lists its own in its header.
+- Header banners: line 2 named a file that did not exist in every filter
+  (`Filter_News.sieve` inside `newsletter.sieve`), and line 3 read
+  `# Only for user use Proton Mail.` in all 15. Headers are now generated to one
+  format and state the paid-plan requirement, the folders used, and — where the filter
+  sets `expire` — an auto-delete warning.
+- Stripped trailing whitespace from **397 lines** and added a final newline to all 15
+  files; normalised CRLF to LF.
+
+### Added
+
+- `.gitattributes` and `.editorconfig` to keep line endings and whitespace consistent.
+- `tools/check_folders.py` — fails the build when a filter's documented folder list
+  drifts from the folders it actually uses, or when `README.md` omits a top-level one.
+- `tools/check_links.py` — resolves every relative Markdown link.
+- Both are wired into a new `docs` job in CI.
+- `README.md` now documents the **recommended install order**. Proton applies filters
+  sequentially and the last conflicting action wins, so with 109 domains claimed by
+  more than one filter, order determines the outcome. This was previously undocumented.
+
+---
+
 ## [0.2.1] — 2026-08-28
 
 Correctness release. **Everyone running v0.2.0 or earlier should read the advisory

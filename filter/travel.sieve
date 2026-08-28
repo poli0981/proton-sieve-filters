@@ -1,8 +1,22 @@
-# Sieve filter
-# Filter_Travel.sieve
-# Only for user use Proton Mail.
+# Travel filter -- filter/travel.sieve
+#
+# For Proton Mail only. A paid plan is required to run this alongside other
+# filters: the free plan allows just one active filter at a time.
+#
+# This script filters messages related to travel and booking platforms, moves
+# them to "Travel" folder.
+#
+# Folders: Travel, Travel/Activities, Travel/Alerts, Travel/Deals,
+#          Travel/Flights, Travel/Hotels, Travel/Planning, Travel/Reviews,
+#          Travel/Transport
+#
+# WARNING: this filter sets auto-delete timers on matched mail via
+#          vnd.proton.expire. Read CHANGELOG.md before installing.
+#
+# Filters run in the order you install them, and on conflicting actions the
+# last one wins -- see docs/ for the recommended order.
+#
 # Version: 0.2.1
-# This Sieve script filters messages related to travel and booking platforms, moves them to "Travel" folder.
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 

@@ -1,8 +1,21 @@
-# Sieve filter
-# Filter_News.sieve
-# Only for user use Proton Mail.
+# News & Newsletters filter -- filter/news.sieve
+#
+# For Proton Mail only. A paid plan is required to run this alongside other
+# filters: the free plan allows just one active filter at a time.
+#
+# This script filters messages related to news platforms, moves them to "News"
+# folder or subfolders by category.
+#
+# Folders: News, News/Business, News/Entertainment, News/Politics,
+#          News/Science, News/Sports, News/Tech, News/Weather, News/World
+#
+# WARNING: this filter sets auto-delete timers on matched mail via
+#          vnd.proton.expire. Read CHANGELOG.md before installing.
+#
+# Filters run in the order you install them, and on conflicting actions the
+# last one wins -- see docs/ for the recommended order.
+#
 # Version: 0.2.1
-# This Sieve script filters messages related to news platforms, moves them to "News" folder or subfolders by category.
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 

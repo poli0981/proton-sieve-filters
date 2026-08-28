@@ -1,0 +1,12 @@
+# Normalise line endings in the repository to LF.
+* text=auto eol=lf
+
+# Sieve scripts are copy-pasted into Proton's web editor; keep them LF so the
+# working tree matches the repository on every platform.
+*.sieve  text eol=lf
+*.md     text eol=lf
+*.py     text eol=lf
+*.yml    text eol=lf
+*.yaml   text eol=lf
+
+LICENSE  text eol=lf

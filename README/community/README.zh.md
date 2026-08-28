@@ -1,5 +1,12 @@
 # Proton Sieve Filters - 智能邮件过滤器
 
+> [!WARNING]
+> **此翻译已过时。** 内容对应 2025 年 8 月 17 日的 v0.2.0，此后未再更新。过滤器文件已
+> 重命名，且已修复一个会删除邮件的缺陷。请以英文版 [README.md](../../README.md) 和
+> [CHANGELOG.md](../../CHANGELOG.md) 为准。
+>
+> 欢迎提交翻译更新。
+
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![GitHub contributors](https://img.shields.io/badge/Contributors-Welcome-brightgreen.svg)](https://github.com/poli0981/proton-sieve-filters/graphs/contributors)
 [![GitHub issues](https://img.shields.io/github/issues/poli0981/proton-sieve-filters.svg)](https://github.com/poli0981/proton-sieve-filters/issues)
@@ -119,7 +126,7 @@
 
 ## 📄 许可证
 
-本项目采用 **MIT许可证** 授权 - 详情请见 [LICENSE](LICENSE) 文件。
+本项目采用 **MIT许可证** 授权 - 详情请见 [LICENSE](../../LICENSE) 文件。
 
 ## 👨‍💻 联系与支持
 

@@ -1,8 +1,23 @@
-# Sieve filter
-# Filter_Entertainment.sieve
-# Only for user use Proton Mail.
+# Entertainment filter -- filter/entertainment.sieve
+#
+# For Proton Mail only. A paid plan is required to run this alongside other
+# filters: the free plan allows just one active filter at a time.
+#
+# This script filters messages related to entertainment platforms (movies,
+# music, forums, etc.), moves them to "Entertainment" folder.
+#
+# Folders: Entertainment/Books, Entertainment/Comics, Entertainment/Events,
+#          Entertainment/General, Entertainment/Movies-TV,
+#          Entertainment/Music, Entertainment/News, Entertainment/Podcasts,
+#          Entertainment/Reviews
+#
+# WARNING: this filter sets auto-delete timers on matched mail via
+#          vnd.proton.expire. Read CHANGELOG.md before installing.
+#
+# Filters run in the order you install them, and on conflicting actions the
+# last one wins -- see docs/ for the recommended order.
+#
 # Version: 0.2.1
-# This Sieve script filters messages related to entertainment platforms (movies, music, forums, etc.), moves them to "Entertainment" folder.
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 

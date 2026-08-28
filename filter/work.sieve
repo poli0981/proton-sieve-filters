@@ -1,8 +1,21 @@
-# Sieve filter
-# Filter_Work.sieve
-# Only for user use Proton Mail.
+# Work filter -- filter/work.sieve
+#
+# For Proton Mail only. A paid plan is required to run this alongside other
+# filters: the free plan allows just one active filter at a time.
+#
+# This script filters messages related to work/professional platforms, moves
+# them to "Work" folder or subfolders.
+#
+# Folders: Work, Work/Career, Work/Finance, Work/HR, Work/IT, Work/Meetings,
+#          Work/Projects, Work/Reminders, Work/Reports, Work/Sales
+#
+# WARNING: this filter sets auto-delete timers on matched mail via
+#          vnd.proton.expire. Read CHANGELOG.md before installing.
+#
+# Filters run in the order you install them, and on conflicting actions the
+# last one wins -- see docs/ for the recommended order.
+#
 # Version: 0.2.1
-# This Sieve script filters messages related to work/professional platforms, moves them to "Work" folder or subfolders.
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 

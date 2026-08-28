@@ -1,8 +1,23 @@
-# Sieve filter
-# Filter_Shopping.sieve
-# Only for user use Proton Mail.
+# Shopping filter -- filter/shopping.sieve
+#
+# For Proton Mail only. A paid plan is required to run this alongside other
+# filters: the free plan allows just one active filter at a time.
+#
+# This script filters messages related to shopping/e-commerce platforms, moves
+# them to "Shopping" folder.
+#
+# Folders: Shopping, Shopping/Account, Shopping/Cart, Shopping/Deals,
+#          Shopping/Orders, Shopping/Recommendations, Shopping/Returns,
+#          Shopping/Reviews, Shopping/Rewards, Shopping/Shipping,
+#          Shopping/Subscriptions, Shopping/Wishlist
+#
+# WARNING: this filter sets auto-delete timers on matched mail via
+#          vnd.proton.expire. Read CHANGELOG.md before installing.
+#
+# Filters run in the order you install them, and on conflicting actions the
+# last one wins -- see docs/ for the recommended order.
+#
 # Version: 0.2.1
-# This Sieve script filters messages related to shopping/e-commerce platforms, moves them to "Shopping" folder.
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
