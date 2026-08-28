@@ -13,10 +13,11 @@
 # WARNING: this filter sets auto-delete timers on matched mail via
 #          vnd.proton.expire. Read CHANGELOG.md before installing.
 #
-# Install position 14 of 14. Filters run in the order you install them, and on
-# conflicting actions the last one wins -- see README.md for the full order.
+# Install position 1 of 22. Filters run in the order you install them,
+# and on conflicting actions the last one wins -- see README.md for the
+# full order.
 #
-# Version: 0.2.1
+# Version: 0.3.0
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
@@ -124,7 +125,12 @@ if header :contains "subject" ["Money Transfer", "Lottery Winner", "Inheritance 
     "Windows Repair Tool", "Driver Update Software", "Microsoft Tech Support",
     "Windows Support Alert", "Apple Tech Support", "Computer Support Call",
     "Technical Support Needed", "System Error Alert", "Computer Virus Warning",
-    "Security Software Update"] {
+    "Security Software Update", "Làm giàu nhanh", "Kiếm tiền dễ dàng",
+    "Trúng số độc đắc", "Thừa kế tài sản", "Chuyển khoản khẩn cấp", "Cơ hội đầu tư",
+    "Làm việc tại nhà", "Giảm cân thần kỳ", "Thuốc không cần toa",
+    "Tài khoản bị khóa", "快速致富", "轻松赚钱", "中奖通知", "遗产继承", "紧急转账", "投资机会", "在家工作",
+    "神奇减肥", "无处方药物", "账户被锁", "簡単にお金を稼ぐ", "宝くじに当選", "遺産相続", "緊急送金", "投資機会", "在宅ワーク",
+    "奇跡のダイエット", "処方箋不要", "アカウント停止", "セキュリティ警告"] {
     addflag "\\Seen";
     fileinto "Spam";
     expire "day" "7";

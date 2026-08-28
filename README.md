@@ -2,11 +2,11 @@
 
 [![CI](https://github.com/poli0981/proton-sieve-filters/actions/workflows/ci.yml/badge.svg)](https://github.com/poli0981/proton-sieve-filters/actions/workflows/ci.yml)
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-0.2.1-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-0.3.0-blue.svg)](CHANGELOG.md)
 [![Contributions welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](https://github.com/poli0981/proton-sieve-filters/issues)
 
-14 Sieve scripts that sort a Proton Mail inbox into folders — shopping, travel, work,
-security, and ten more. Sieve is the server-side filtering language Proton exposes to
+22 Sieve scripts that sort a Proton Mail inbox into folders — shopping, travel, work,
+security, phishing protection, and seventeen more. Sieve is the server-side filtering language Proton exposes to
 paid accounts.
 
 **Languages:** English · [Tiếng Việt](README/README.vi.md) — both maintained.
@@ -55,38 +55,81 @@ See [DISCLAIMER.md](DISCLAIMER.md).
 
 ---
 
-## 📂 Available filters (v0.2.1)
+## 📂 Available filters (v0.3.0)
 
-Install them in this order. Proton runs filters **sequentially**, and where two filters
-want to act on the same message, **the last action wins** — so order is not cosmetic. The
-order below runs specific filters before broad ones.
+**Install them in this order.** Proton applies **every** matching filter to a message and,
+where two conflict, **the last one applied wins**. So the sequence runs broad categories
+first and specific ones last, giving the most specific filter the final say.
 
 | # | Filter | Purpose | Top-level folder | Folders |
 |---|--------|---------|------------------|---------|
-| 1 | [`security.sieve`](filter/security.sieve) | Account alerts, 2FA, breaches | `Security` | 10 |
-| 2 | [`proton.sieve`](filter/proton.sieve) | Proton service notifications | `Proton` | 1 |
-| 3 | [`invoice.sieve`](filter/invoice.sieve) | Bills, payments, receipts | `Payments` | 1 |
-| 4 | [`legal.sieve`](filter/legal.sieve) | Terms, policies, legal updates | `Legal` | 2 |
-| 5 | [`health.sieve`](filter/health.sieve) | Medical, fitness, wellness | `Health` | 1 |
-| 6 | [`travel.sieve`](filter/travel.sieve) | Bookings, flights, hotels | `Travel` | 9 |
-| 7 | [`study.sieve`](filter/study.sieve) | Education, courses, learning | `Study` | 19 |
-| 8 | [`gaming.sieve`](filter/gaming.sieve) | Games, platforms, gaming news | `Gaming` | 1 |
-| 9 | [`entertainment.sieve`](filter/entertainment.sieve) | Streaming, media, events | `Entertainment` | 9 |
-| 10 | [`news.sieve`](filter/news.sieve) | News and newsletters | `News` | 9 |
-| 11 | [`social.sieve`](filter/social.sieve) | Social network notifications | `Social Account` | 1 |
-| 12 | [`work.sieve`](filter/work.sieve) | Professional, business | `Work` | 10 |
-| 13 | [`shopping.sieve`](filter/shopping.sieve) | E-commerce, deals, purchases | `Shopping` | 12 |
-| 14 | [`spam.sieve`](filter/spam.sieve) | Additional spam heuristics | `Spam` | 1 |
+| 1 | [`spam.sieve`](filter/spam.sieve) | Additional spam heuristics beyond Proton's own | `Spam` | 1 |
+| 2 | [`shopping.sieve`](filter/shopping.sieve) | E-commerce, orders, shipping and deals | `Shopping` | 13 |
+| 3 | [`work.sieve`](filter/work.sieve) | Professional and business correspondence | `Work` | 10 |
+| 4 | [`food.sieve`](filter/food.sieve) | Restaurant delivery and food ordering | `Food` | 1 |
+| 5 | [`devtools.sieve`](filter/devtools.sieve) | Package registries, CI, hosting and observability | `Dev` | 1 |
+| 6 | [`ai.sieve`](filter/ai.sieve) | AI assistants, model providers and generative tools | `AI` | 1 |
+| 7 | [`social.sieve`](filter/social.sieve) | Social network notifications | `Social Account` | 2 |
+| 8 | [`news.sieve`](filter/news.sieve) | News outlets and newsletter platforms | `News` | 9 |
+| 9 | [`entertainment.sieve`](filter/entertainment.sieve) | Streaming, music, podcasts, books and events | `Entertainment` | 9 |
+| 10 | [`gaming.sieve`](filter/gaming.sieve) | Game stores, publishers, esports and gaming news | `Gaming` | 1 |
+| 11 | [`recruiting.sieve`](filter/recruiting.sieve) | Applicant tracking systems and recruiter correspondence | `Recruiting` | 1 |
+| 12 | [`study.sieve`](filter/study.sieve) | Courses, universities, research and learning platforms | `Study` | 19 |
+| 13 | [`shipping.sieve`](filter/shipping.sieve) | Carrier tracking and delivery notifications | `Shipping` | 1 |
+| 14 | [`travel.sieve`](filter/travel.sieve) | Flights, hotels, car hire and trip planning | `Travel` | 10 |
+| 15 | [`health.sieve`](filter/health.sieve) | Medical, fitness and wellness services | `Health` | 1 |
+| 16 | [`legal.sieve`](filter/legal.sieve) | Terms of service, privacy policy and EULA changes | `Legal` | 2 |
+| 17 | [`bills.sieve`](filter/bills.sieve) | Telecoms, energy, water and insurance billing | `Bills` | 1 |
+| 18 | [`government.sieve`](filter/government.sieve) | Tax authorities, government agencies and public services | `Government` | 1 |
+| 19 | [`invoice.sieve`](filter/invoice.sieve) | Receipts, invoices, payment processors and billing | `Payments` | 2 |
+| 20 | [`proton.sieve`](filter/proton.sieve) | Mail from Proton's own services | `Proton` | 2 |
+| 21 | [`security.sieve`](filter/security.sieve) | Account alerts, sign-in notifications, 2FA and breach warnings | `Security` | 10 |
+| 22 | [`phishing.sieve`](filter/phishing.sieve) | Lookalike domains impersonating the services above | `Phishing` | 1 |
 
-`work.sieve`, `shopping.sieve` and `spam.sieve` are deliberately last: their gates are the
-broadest, so running them early would let them claim mail the more specific filters
-handle better.
+`phishing.sieve` is last on purpose: a message from a domain pretending to be PayPal should
+end up flagged as phishing whatever else claimed it.
 
 > [!NOTE]
-> **109 domains used to be claimed by more than one filter** — `*apple.com` by seven of
-> them — so which folder a message landed in depended on the order you happened to install
-> in. Each domain now has exactly one owning category, recorded in [`data/`](data/) and
-> enforced in CI. The order above still matters for subject-only matches.
+> 109 domains used to be claimed by more than one filter — `apple.com` by seven of them —
+> so the destination depended on the order you happened to install in. Each domain now has
+> exactly one owning category, recorded in [`data/`](data/) and enforced in CI.
+
+---
+
+## 📦 Bundles — one filter instead of 22
+
+Proton's free plan allows **one active filter**, which makes 22 separate filters unusable
+on it. A bundle merges several categories into a single script.
+
+| Bundle | Contains | Size |
+|--------|----------|------|
+| [`bundles/essentials.sieve`](bundles/essentials.sieve) | phishing, security, invoice, government, shipping | ~26 KB |
+| [`bundles/everything.sieve`](bundles/everything.sieve) | all 22 categories | ~190 KB |
+
+**`essentials` is the one to use.** It covers phishing protection plus the categories where
+losing a message actually costs something. `everything` is provided for completeness, but
+Proton publishes no maximum filter size and 190 KB is a lot to paste into a web editor —
+check that it saves before relying on it.
+
+Inside a bundle the ordering inverts: it is one script, so `stop;` means the **first**
+match wins. The generator emits bundles in reverse install order so a bundle routes mail
+the same way the separate filters would. Edit
+[`data/bundles.yml`](data/bundles.yml) to build your own.
+
+---
+
+## 🌍 Multi-language keywords
+
+Filters match subjects in **English, Vietnamese, Chinese and Japanese**. 989 non-English
+keywords were documented in the old reference lists and implemented in **zero** filters —
+every `.sieve` file was pure ASCII while the README advertised multi-language support.
+They are emitted now.
+
+Adding them changed nothing for existing mail: 23,027 test messages route identically
+before and after, while the number of multilingual messages that get filed at all went
+from 2 to 496.
+
+To build an English-only set, set `languages: [en]` in the category files and regenerate.
 
 ---
 
@@ -97,23 +140,22 @@ handle better.
 **The scripts silently fail to file mail into a folder that does not exist.** Create them
 under **Settings → Folders and labels → Add folder**.
 
-Start with the 14 top-level folders:
+Start with the 22 top-level folders:
 
 ```
-Entertainment    News             Shopping
-Gaming           Payments         Social Account
-Health           Proton           Spam
-Legal            Security         Study
-                                  Travel
-                                  Work
+AI          Entertainment   Government   Phishing     Shipping         Study
+Bills       Food            Health       Proton       Shopping         Travel
+Dev         Gaming          Legal        Recruiting   Social Account   Work
+                            News         Security     Spam
+                            Payments
 ```
 
 Note the exact names: **`Payments`** (not "Invoices"), **`News`** (not "Newsletters"),
-**`Social Account`** (with a space), **`Spam`**, and **`Legal`** (not "EULA").
+**`Social Account`** (with a space), **`Spam`**, **`Legal`** (not "EULA") and **`Dev`**.
 
 Then create the subfolders for whichever filters you install. Every script lists its own
 folders in its header comment — open the file and read the `# Folders:` block. In total
-the 14 filters target **86 distinct folders**. For example, `work.sieve` needs:
+the 22 filters target **94 distinct folders**. For example, `work.sieve` needs:
 
 ```
 Work/Career    Work/HR         Work/Meetings   Work/Reminders   Work/Sales
@@ -139,7 +181,7 @@ in the `.sieve` files. See [Advanced customisation](#-advanced-customisation) be
 
 ## ⏰ Retention & auto-delete
 
-Every filter except `study.sieve` sets an expiry on the mail it files, using Proton's
+Most filters set an expiry on the mail it files, using Proton's
 `vnd.proton.expire` extension. **Proton deletes the message when the timer runs out.**
 
 Typical values as shipped:
@@ -368,7 +410,7 @@ and [Proton's Sieve documentation](https://proton.me/support/sieve-advanced-cust
 ---
 
 **Repository**: https://github.com/poli0981/proton-sieve-filters
-**Version**: 0.2.1 · **Last updated**: 2026-08-28
+**Version**: 0.3.0 · **Last updated**: 2026-08-28
 
 *This project is not affiliated with, endorsed by, or sponsored by Proton AG. Proton and
 Proton Mail are trademarks of Proton AG.*

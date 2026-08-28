@@ -4,7 +4,12 @@
 id: health
 title: Health & Fitness
 description: Medical, fitness and wellness services.
-install_order: 5
+install_order: 15
+languages:
+- en
+- vi
+- zh
+- ja
 folder: Health
 shape: nested
 whitelist:

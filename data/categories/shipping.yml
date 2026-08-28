@@ -1,0 +1,226 @@
+# Shipping & Deliveries -- the source of truth for filter/shipping.sieve.
+# Run `python tools/generate.py` after editing.
+
+id: shipping
+title: Shipping & Deliveries
+description: Carrier tracking and delivery notifications.
+install_order: 13
+languages:
+- en
+- vi
+- zh
+- ja
+folder: Shipping
+shape: nested
+whitelist:
+- :addrbook:personal
+spam_discard: false
+domains:
+- match: 17track.net
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: aftership.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: aramex.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: auspost.com.au
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: bluedart.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: canadapost-postescanada.ca
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: correos.es
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: delhivery.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: deutschepost.de
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: dhl.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: dpd.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: easyship.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: evri.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: fedex.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: ghn.vn
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: giaohangtietkiem.vn
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: gls-group.eu
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: goshippo.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: japanpost.jp
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: jtexpress.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: laposte.fr
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: lasership.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: ninjavan.co
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: nzpost.co.nz
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: ontrac.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: parcelforce.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: poste.it
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: postnl.nl
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: purolator.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: royalmail.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: sendcloud.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: sf-express.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: tnt.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: ups.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: usps.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: viettelpost.vn
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: vnpost.vn
+  kind: allow
+  scope: subdomains
+  source: authored
+keyword_groups: []
+rules:
+- gate: true
+  folder: Shipping
+  op: anyof
+  domains:
+  - 17track.net
+  - aftership.com
+  - aramex.com
+  - auspost.com.au
+  - bluedart.com
+  - canadapost-postescanada.ca
+  - correos.es
+  - delhivery.com
+  - deutschepost.de
+  - dhl.com
+  - dpd.com
+  - easyship.com
+  - evri.com
+  - fedex.com
+  - ghn.vn
+  - giaohangtietkiem.vn
+  - gls-group.eu
+  - goshippo.com
+  - japanpost.jp
+  - jtexpress.com
+  - laposte.fr
+  - lasership.com
+  - ninjavan.co
+  - nzpost.co.nz
+  - ontrac.com
+  - parcelforce.com
+  - poste.it
+  - postnl.nl
+  - purolator.com
+  - royalmail.com
+  - sendcloud.com
+  - sf-express.com
+  - tnt.com
+  - ups.com
+  - usps.com
+  - viettelpost.vn
+  - vnpost.vn
+  subjects:
+  - Shipped
+  - Out for Delivery
+  - Delivery Update
+  - Tracking Number
+  - Package Delivered
+  - Shipment Notification
+  - In Transit
+  - Delivery Attempt
+  - Ready for Pickup
+  - Package Delayed
+  - Your parcel
+  - Proof of Delivery
+  flags:
+  - \Seen
+  expire_days: 60
+  stop: true

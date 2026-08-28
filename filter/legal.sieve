@@ -13,10 +13,11 @@
 # WARNING: this filter sets auto-delete timers on matched mail via
 #          vnd.proton.expire. Read CHANGELOG.md before installing.
 #
-# Install position 4 of 14. Filters run in the order you install them, and on
-# conflicting actions the last one wins -- see README.md for the full order.
+# Install position 16 of 22. Filters run in the order you install them,
+# and on conflicting actions the last one wins -- see README.md for the
+# full order.
 #
-# Version: 0.2.1
+# Version: 0.3.0
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 

@@ -1,0 +1,25 @@
+# Bundles merge several categories into one Sieve script.
+#
+# Proton's free plan allows exactly ONE active filter, which makes the 22
+# separate filters unusable on it. A bundle is one script, so a free-plan user
+# gets something.
+#
+# There is no documented size limit for a Proton filter, but all 22 categories
+# together are over 200 KB, which is impractical to paste into the web editor.
+# `essentials` is the recommended bundle; `everything` is provided for
+# completeness and may be refused.
+
+bundles:
+  - id: essentials
+    title: Essentials
+    description: >-
+      Phishing protection plus the categories where losing a message actually
+      costs something. The recommended single filter for a free Proton plan.
+    categories: [phishing, security, invoice, government, shipping]
+
+  - id: everything
+    title: Everything
+    description: >-
+      All 22 categories in one script. Large -- check that Proton accepts it
+      before relying on it.
+    categories: all

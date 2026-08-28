@@ -4,7 +4,12 @@
 id: legal
 title: Legal & Policy Notifications
 description: Terms of service, privacy policy and EULA changes.
-install_order: 4
+install_order: 16
+languages:
+- en
+- vi
+- zh
+- ja
 folder: Legal
 shape: nested
 whitelist:

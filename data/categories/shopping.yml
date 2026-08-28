@@ -4,7 +4,12 @@
 id: shopping
 title: Shopping
 description: E-commerce, orders, shipping and deals.
-install_order: 13
+install_order: 2
+languages:
+- en
+- vi
+- zh
+- ja
 folder: Shopping
 shape: nested
 whitelist:

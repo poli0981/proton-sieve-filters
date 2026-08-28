@@ -14,10 +14,11 @@
 # WARNING: this filter sets auto-delete timers on matched mail via
 #          vnd.proton.expire. Read CHANGELOG.md before installing.
 #
-# Install position 12 of 14. Filters run in the order you install them, and on
-# conflicting actions the last one wins -- see README.md for the full order.
+# Install position 3 of 22. Filters run in the order you install them,
+# and on conflicting actions the last one wins -- see README.md for the
+# full order.
 #
-# Version: 0.2.1
+# Version: 0.3.0
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
@@ -114,7 +115,29 @@ if anyof (
         "Corporate", "Company", "Team", "Department", "Meeting", "Project", "Task",
         "Assignment", "Deadline", "Report", "Analysis", "Quarterly", "Annual",
         "Performance", "KPI", "Metrics", "Dashboard", "Training", "Workshop", "Seminar",
-        "Conference", "Client", "Customer", "Vendor"],
+        "Conference", "Client", "Customer", "Vendor", "Công việc", "Văn phòng",
+        "Kinh doanh", "Chuyên nghiệp", "Công ty", "Nhóm", "Phòng ban", "Cuộc họp",
+        "Dự án", "Nhiệm vụ", "Bài tập", "Hạn chót", "Báo cáo", "Phân tích", "Hàng quý",
+        "Hàng năm", "Hiệu suất", "Chỉ số KPI", "Số liệu", "Bảng điều khiển", "Đào tạo",
+        "Hội thảo", "Hội nghị", "Khách hàng", "Nhà cung cấp", "Nhắc nhở cuộc họp",
+        "Lời mời lịch", "Cập nhật lịch trình", "Cuộc gọi hội nghị", "Cuộc họp Zoom",
+        "Cuộc họp Teams", "Xác nhận cuộc hẹn", "Cập nhật dự án", "Nhiệm vụ được giao",
+        "Cột mốc quan trọng", "Sắp đến hạn", "Báo cáo dự án", "Tiến độ nhóm",
+        "Đánh giá hiệu suất", "Khảo sát nhân viên", "Yêu cầu đào tạo", "Thông báo HR",
+        "Lương", "Phiếu lương", "Phúc lợi", "Yêu cầu nghỉ phép",
+        "Cảnh báo khách hàng tiềm năng", "Cập nhật giao dịch", "Báo cáo đường ống",
+        "Mục tiêu bán hàng", "Thông báo IT", "Cập nhật hệ thống", "Cảnh báo bảo mật",
+        "工作", "办公室", "商业", "专业的", "公司", "团队", "部门", "会议", "项目", "任务", "作业", "截止日期",
+        "报告", "分析", "季度", "年度", "绩效", "关键绩效指标", "指标", "仪表板", "培训", "研讨会", "客户", "供应商",
+        "会议提醒", "日历邀请", "日程更新", "电话会议", "Zoom会议", "Teams会议", "预约确认", "项目更新", "分配任务",
+        "里程碑", "截止日期临近", "项目报告", "团队进度", "绩效评估", "员工调查", "培训要求", "人力资源通知", "工资单", "薪资",
+        "福利", "请假申请", "潜在客户提醒", "交易更新", "销售管道报告", "销售目标", "IT通知", "系统更新", "安全警报", "仕事",
+        "オフィス", "ビジネス", "プロフェッショナル", "会社", "チーム", "部門", "会議", "プロジェクト", "タスク", "課題",
+        "締切", "報告書", "四半期", "年次", "パフォーマンス", "重要業績評価指標", "メトリクス", "ダッシュボード", "研修",
+        "ワークショップ", "セミナー", "クライアント", "顧客", "ベンダー", "会議リマインダー", "カレンダー招待", "スケジュール更新",
+        "電話会議", "Zoom会議", "Teams会議", "予約確認", "プロジェクト更新", "タスク割当", "マイルストーン", "締切間近",
+        "プロジェクト報告", "チーム進捗", "人事評価", "従業員調査", "研修必須", "人事通知", "給与", "給与明細", "福利厚生",
+        "有給申請", "リード警告", "取引更新", "パイプライン報告", "売上目標", "ITお知らせ", "システム更新", "セキュリティ警告"],
     header :matches "from" ["*@*corp.com", "*@*inc.com", "*@*ltd.com", "*@*llc.com",
         "*@*group.com", "*@*company.com", "*@*business.com", "*@*enterprise.com",
         "*@*consulting.com", "*@*solutions.com"]

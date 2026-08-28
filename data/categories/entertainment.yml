@@ -5,6 +5,11 @@ id: entertainment
 title: Entertainment
 description: Streaming, music, podcasts, books and events.
 install_order: 9
+languages:
+- en
+- vi
+- zh
+- ja
 folder: Entertainment/General
 shape: nested
 whitelist:

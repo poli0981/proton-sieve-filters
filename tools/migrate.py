@@ -26,9 +26,12 @@ from md_parse import parse_domain_file, parse_keyword_file  # noqa: E402
 from sieve_extract import extract  # noqa: E402
 
 # --------------------------------------------------------------------------- #
-# Category metadata. install_order encodes the documented install sequence:
-# Proton runs filters in order and the last conflicting action wins, so a domain
-# claimed by two categories is awarded to the one with the LOWER order.
+# Category metadata as of the v0.2.1 bootstrap. install_order was renumbered in
+# v0.3.0 once Proton's documented behaviour was checked properly: every matching
+# filter is applied and the LAST conflicting action wins, so the sequence now runs
+# broad categories first and specific ones last. Ownership of a contested domain
+# is a curation decision -- a deterministic tiebreaker plus the explicit overrides
+# below -- not a reproduction of runtime order.
 # --------------------------------------------------------------------------- #
 CATEGORIES = {
     "security":      dict(order=1,  title="Security & Account",
@@ -118,10 +121,8 @@ RENAMED = {
     "hellosign.com": "dropboxsign.com",
     "lynda.com": "linkedin.com",
 }
-# Awarding a contested domain to the lowest install_order reproduces exactly what
-# Proton would do at runtime, so it is the safe default. For a handful of
-# high-traffic domains the mechanical winner is plainly not the natural owner,
-# and these say who should get them instead.
+# The tiebreaker is deterministic but arbitrary, so for high-traffic domains
+# these name the owner explicitly.
 OWNER_OVERRIDE = {
     "amazon.com": "shopping",        # order confirmations dominate, not invoices
     "google.com": "work",            # Workspace, Docs sharing, Calendar

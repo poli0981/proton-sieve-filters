@@ -7,6 +7,74 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [0.3.0] — 2026-08-28
+
+### Added — eight new filters
+
+22 categories now, up from 14.
+
+| Filter | Why |
+| --- | --- |
+| `phishing.sieve` | The 22 typosquats the reference lists had documented were **prose warnings only** — no filter acted on them. They are now one filter that flags `payp4l.com`, `pr0ton.me`, `faceb00k.com` and the rest, and it covers their subdomains too. |
+| `shipping.sieve` | `Shopping/Shipping` fired on subject strings alone; **not one carrier domain existed anywhere in the repo**. 37 carriers now. |
+| `bills.sieve` | Telecoms, energy and insurance were entirely absent. 50 domains. |
+| `government.sieve` | Tax and government mail was absent apart from two domains hard-coded inside the legal filter. 22 domains, and **no expiry** — losing a tax notice is worse than clutter. |
+| `recruiting.sieve` | Only job *boards* were covered; application status mail comes from the ATS. 16 domains, no expiry. |
+| `ai.sieve` | Replaces the `AI_filter.sieve` stub that was 121 bytes of comments. 28 domains. |
+| `devtools.sieve` | Package registries were absent. 31 domains. |
+| `food.sieve` | Meal kits were covered, restaurant delivery was not. 32 domains. |
+
+Also extended: **password managers and 2FA** added to security (9 domains), and
+**non-US retail banking plus crypto exchanges** to invoice (30 domains) — the reference
+lists documented eight exchanges and only three had ever reached a filter.
+
+### Added — multi-language keywords actually work
+
+989 Vietnamese, Chinese and Japanese keywords were documented in the old lists and
+implemented in **zero** filters: every `.sieve` file was pure ASCII while the README
+advertised multi-language support. 13 of the 22 filters now match on them, controlled by a
+`languages:` key per category.
+
+Verified not to disturb anything: **23,027 test messages route identically** before and
+after, while multilingual messages that get filed at all went from **2 to 496**.
+
+### Added — bundles
+
+Proton's free plan allows one active filter, so 22 separate filters are unusable on it.
+`bundles/essentials.sieve` (~26 KB) merges phishing, security, invoice, government and
+shipping. `bundles/everything.sieve` (~190 KB) merges all 22 and may be too large to save.
+Both are generated from `data/bundles.yml`.
+
+### Fixed — the documented install order was backwards
+
+Proton applies **every** matching filter and, on conflicting actions, **the last one
+wins**. v0.2.1 documented the opposite, putting specific filters first and broad ones last
+— which under real semantics let `work`, `shopping` and `spam` override the precise
+filters. The order is reversed: broad first, specific last, `phishing` last of all.
+
+Inside a bundle this inverts again — one script, so `stop;` makes the *first* match win —
+so bundles are emitted in reverse install order.
+
+### Fixed
+
+- **The generator would have emitted a filter that swallowed the whole mailbox.** A
+  top-level rule with no test at all compiles to unconditional `fileinto`, which is the
+  catch-all class of defect v0.2.1 spent its time removing. The first draft of
+  `phishing.yml` produced exactly that. `generate.py` now refuses to emit it.
+- `expire` values above Proton's documented maximum of **730 days** are now a lint error.
+
+### Notes
+
+- **`study.sieve` still sets no retention**, deviating from the original plan to give it
+  the 14 periods its keyword file documented. `data/shared/retention.yml` lists Study
+  under `never_expire`, and adding delete timers to coursework in a release that exists to
+  stop this project deleting mail was the wrong trade.
+- `proton.com` is in the phishing blocklist because it is not one of Proton's sending
+  domains (`proton.me`, `protonmail.com`, `pm.me`, `protonmail.ch`). It is the least
+  clear-cut entry in that list and is annotated as such.
+
+---
+
 ## [Unreleased]
 
 ### Added — filters are generated

@@ -4,7 +4,12 @@
 id: proton
 title: Proton Service Notifications
 description: Mail from Proton's own services.
-install_order: 2
+install_order: 20
+languages:
+- en
+- vi
+- zh
+- ja
 folder: Proton
 shape: nested
 whitelist:

@@ -28,6 +28,14 @@ WIDTH = 88
 INDENT = "    "
 
 
+def version():
+    """Single source for the version stamped into every generated file."""
+    try:
+        return io.open("VERSION", encoding="utf-8").read().strip()
+    except OSError:
+        return "0.0.0"
+
+
 # --------------------------------------------------------------------------- #
 # Emitting Sieve
 # --------------------------------------------------------------------------- #
@@ -272,11 +280,12 @@ def header(doc):
         ]
 
     lines += [
-        "# Install position %d of 14. Filters run in the order you install them, and on"
-        % doc["install_order"],
-        "# conflicting actions the last one wins -- see README.md for the full order.",
+        "# Install position %d of %d. Filters run in the order you install them,"
+        % (doc["install_order"], doc.get("_total", doc["install_order"])),
+        "# and on conflicting actions the last one wins -- see README.md for the",
+        "# full order.",
         "#",
-        "# Version: 0.2.1",
+        "# Version: %s" % version(),
     ]
     return lines
 
@@ -288,6 +297,23 @@ def requires(doc):
     if doc.get("whitelist") or doc.get("spam_discard"):
         caps.append("extlists")
     return "require [%s];" % ", ".join(q(c) for c in caps)
+
+
+def extra_subjects(doc):
+    """Keywords from keyword_groups in the languages this category enables.
+
+    Over 700 Vietnamese, Chinese and Japanese keywords were documented in the
+    legacy lists and implemented in none of the filters -- every .sieve file was
+    pure ASCII, while the README advertised multi-language support.
+    """
+    langs = [l for l in (doc.get("languages") or ["en"]) if l != "en"]
+    out = []
+    for group in doc.get("keyword_groups") or []:
+        for lang in langs:
+            for kw in group.get(lang) or []:
+                if kw not in out:
+                    out.append(kw)
+    return out
 
 
 def render(doc, path):
@@ -343,7 +369,22 @@ def render(doc, path):
         ]
 
     rules = doc.get("rules") or []
-    for i, rule in enumerate(rules):
+
+    # Merge the non-English keywords into the gate's subject test.
+    extra = extra_subjects(doc)
+    if extra and rules:
+        gate = rules[0]
+        gate["subjects"] = list(gate.get("subjects") or []) +             [k for k in extra if k not in (gate.get("subjects") or [])]
+
+    for rule in rules:
+        # A top-level block with no test at all applies to EVERY message. That is
+        # the catch-all class of bug this project spent v0.2.1 removing, so it is
+        # an error rather than something to emit and hope nobody notices.
+        if test_lines(rule, allowed, "") is None:
+            raise SystemExit(
+                "%s: top-level rule for folder %r has no test, so it would match "
+                "every message. Give it domains/subjects, or remove it."
+                % (doc["id"], rule.get("folder")))
         out += render_rule(rule, allowed, "")
         out.append("")
 
@@ -356,11 +397,127 @@ def render(doc, path):
 
 
 
+def render_bundle(docs, spec, total):
+    """Merge several categories into one script.
+
+    Proton's free plan allows exactly ONE active filter, which makes 22 separate
+    filters unusable on it. The preamble is emitted once and each category's
+    rules follow in install order; every gate already ends in `stop;`, so the
+    first category to match wins, exactly as it would if they were installed
+    separately.
+    """
+    ids = spec["categories"]
+    picked = docs if ids == "all" else [d for d in docs if d["id"] in ids]
+    # A bundle is ONE script, so `stop;` makes the FIRST match win -- the reverse
+    # of separate filters, where Proton applies every one and the LAST
+    # conflicting action wins. Emitting in reverse install order makes a bundle
+    # route the same way the individual filters would.
+    picked = sorted(picked, key=lambda d: -d["install_order"])
+
+    caps = ["fileinto", "imap4flags"]
+    if any(uses_expire(d) for d in picked):
+        caps.append("vnd.proton.expire")
+    caps.append("extlists")
+
+    fold = sorted({f for d in picked for f in folders_of(d)})
+
+    out = [
+        "# %s bundle -- bundles/%s.sieve" % (spec["title"], spec["id"]),
+        "#",
+        "# GENERATED FILE -- do not edit. Edit data/bundles.yml and run:",
+        "#     python tools/generate.py",
+        "#",
+    ]
+    out += ["# " + l for l in textwrap.wrap(" ".join(spec["description"].split()),
+                                            WIDTH - 2)]
+    out += [
+        "#",
+        "# This is ONE filter containing %d categories: %s."
+        % (len(picked), ", ".join(d["id"] for d in picked)),
+        "# Proton's free plan allows one active filter, so a bundle is the only way",
+        "# to use more than one category on it.",
+        "#",
+    ]
+    cur = "# Folders:"
+    for i, f in enumerate(fold):
+        piece = f + ("," if i < len(fold) - 1 else "")
+        if len(cur) + 1 + len(piece) > WIDTH - 2:
+            out.append(cur)
+            cur = "#          " + piece
+        else:
+            cur = cur + " " + piece
+    out += [cur, "#"]
+    if any(uses_expire(d) for d in picked):
+        out += [
+            "# WARNING: this bundle sets auto-delete timers on matched mail via",
+            "#          vnd.proton.expire. Read CHANGELOG.md before installing.",
+            "#",
+        ]
+    out += ["# Version: %s" % version(), "", "require [%s];" % ", ".join(q(c) for c in caps), ""]
+
+    out += [
+        "# Never touch mail from people you know.",
+        'if header :list "from" ":addrbook:personal" {',
+        INDENT + "stop;",
+        "}",
+        "",
+    ]
+    if any(d.get("spam_discard") for d in picked):
+        out += [
+            "# Drop what Proton already knows is spam.",
+            'if header :list "from" ":incomingdefaults:spam" {',
+            INDENT + "discard;",
+            INDENT + "stop;",
+            "}",
+            "",
+        ]
+
+    for doc in picked:
+        allowed = {r["match"]: patterns(r) for r in doc.get("domains", [])
+                   if r.get("kind") == "allow"}
+        out += ["# " + "=" * (WIDTH - 4),
+                "# %s  (install position %d of %d)"
+                % (doc["title"], doc["install_order"], total),
+                "# " + "=" * (WIDTH - 4), ""]
+
+        blocked = sorted([r for r in doc.get("domains", []) if r.get("kind") == "block"],
+                         key=lambda r: r["match"])
+        if blocked:
+            head = 'if address :domain :matches "from" '
+            lines = string_list([p for r in blocked for p in patterns(r)],
+                                " " * len(head), INDENT)
+            lines[0] = head + lines[0].strip()
+            lines[-1] += " {"
+            out += lines + [
+                INDENT + "addflag %s;" % q(chr(92) + "Flagged"),
+                INDENT + "fileinto %s;" % q(doc.get("blocklist_folder", "Spam")),
+                "",
+                INDENT + "stop;",
+                "}",
+                "",
+            ]
+
+        rules = doc.get("rules") or []
+        extra = extra_subjects(doc)
+        if extra and rules:
+            gate = rules[0]
+            gate["subjects"] = list(gate.get("subjects") or []) +                 [k for k in extra if k not in (gate.get("subjects") or [])]
+        for rule in rules:
+            out += render_rule(rule, allowed, "")
+            out.append("")
+
+    while out and out[-1] == "":
+        out.pop()
+    out += ["", "# End of %s bundle" % spec["title"]]
+    return "\n".join(out) + "\n"
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true",
                     help="fail if the committed .sieve files differ from the data")
     ap.add_argument("--out", default="filter")
+    ap.add_argument("--bundle-out", default="bundles")
     args = ap.parse_args(argv)
 
     docs = []
@@ -368,6 +525,8 @@ def main(argv=None):
         with io.open(p, encoding="utf-8") as fh:
             docs.append(yaml.safe_load(fh))
     docs.sort(key=lambda d: d["install_order"])
+    for d in docs:
+        d["_total"] = len(docs)
 
     drift = 0
     for doc in docs:
@@ -386,11 +545,33 @@ def main(argv=None):
         else:
             io.open(path, "w", encoding="utf-8", newline="\n").write(text)
 
+    bundles = []
+    if os.path.exists("data/bundles.yml"):
+        with io.open("data/bundles.yml", encoding="utf-8") as fh:
+            bundles = (yaml.safe_load(fh) or {}).get("bundles", [])
+
+    for spec in bundles:
+        path = "%s/%s.sieve" % (args.bundle_out, spec["id"])
+        text = render_bundle(docs, spec, len(docs))
+        if args.check:
+            current = io.open(path, encoding="utf-8").read() if os.path.exists(path) else ""
+            if current != text:
+                drift += 1
+                print("DRIFT  %s differs from what data/bundles.yml generates" % path)
+        else:
+            if not os.path.isdir(args.bundle_out):
+                os.makedirs(args.bundle_out)
+            io.open(path, "w", encoding="utf-8", newline="\n").write(text)
+
+    total = len(docs) + len(bundles)
     if args.check:
-        print("\n%d/%d filter(s) match the data" % (len(docs) - drift, len(docs)))
+        print("\n%d/%d file(s) match the data" % (total - drift, total))
         return 1 if drift else 0
 
-    print("wrote %d filter(s) from data/categories/" % len(docs))
+    print("wrote %d filter(s) and %d bundle(s)" % (len(docs), len(bundles)))
+    for spec in bundles:
+        p = "%s/%s.sieve" % (args.bundle_out, spec["id"])
+        print("    %-28s %8d bytes" % (p, os.path.getsize(p)))
     return 0
 
 

@@ -4,7 +4,12 @@
 id: study
 title: Study & Education
 description: Courses, universities, research and learning platforms.
-install_order: 7
+install_order: 12
+languages:
+- en
+- vi
+- zh
+- ja
 folder: Study
 shape: nested
 whitelist:

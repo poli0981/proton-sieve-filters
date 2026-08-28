@@ -4,7 +4,12 @@
 id: social
 title: Social Media
 description: Social network notifications.
-install_order: 11
+install_order: 7
+languages:
+- en
+- vi
+- zh
+- ja
 folder: Social Account
 shape: nested
 whitelist:

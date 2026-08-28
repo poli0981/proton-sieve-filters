@@ -4,7 +4,14 @@
   "title": "Proton Sieve filter category",
   "description": "One email category. filter/<id>.sieve is generated from this file; edits go here, not to the .sieve.",
   "type": "object",
-  "required": ["id", "title", "description", "install_order", "folder", "domains"],
+  "required": [
+    "id",
+    "title",
+    "description",
+    "install_order",
+    "folder",
+    "domains"
+  ],
   "additionalProperties": false,
   "properties": {
     "id": {
@@ -12,56 +19,83 @@
       "pattern": "^[a-z][a-z0-9_]*$",
       "description": "Matches the filename and the generated filter/<id>.sieve."
     },
-    "title": { "type": "string", "minLength": 1 },
-    "description": { "type": "string", "minLength": 1 },
-
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
     "install_order": {
       "type": "integer",
       "minimum": 1,
-      "description": "Position in the documented install sequence. Proton runs filters in the order they were created and the LAST conflicting action wins, so this decides who owns a contested domain. Must be unique across categories."
+      "description": "Position in the documented install sequence. Proton applies EVERY matching filter and, on conflicting actions, the LAST one wins -- so the sequence runs broad categories first and specific ones last, giving the specific filter the final say. Inside a bundle this inverts: a bundle is one script, so `stop;` makes the FIRST match win, and the generator emits bundles in reverse order to compensate. Must be unique across categories."
     },
-
     "folder": {
       "type": "string",
       "description": "Default Proton folder for this category, e.g. \"Payments\"."
     },
-
     "shape": {
-      "enum": ["nested", "flat"],
+      "enum": [
+        "nested",
+        "flat"
+      ],
       "description": "nested: one gate with subcategory rules inside it. flat: independent top-level blocks (security, spam)."
     },
-
     "whitelist": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "description": "extlists names checked before anything else, e.g. \":addrbook:personal\"."
     },
-
     "spam_discard": {
       "type": "boolean",
       "description": "Discard mail already on Proton's incoming spam list before filtering."
     },
-
     "domains": {
       "type": "array",
-      "items": { "$ref": "#/$defs/domain" }
+      "items": {
+        "$ref": "#/$defs/domain"
+      }
     },
-
     "keyword_groups": {
       "type": "array",
-      "items": { "$ref": "#/$defs/keywordGroup" }
+      "items": {
+        "$ref": "#/$defs/keywordGroup"
+      }
     },
-
     "rules": {
       "type": "array",
-      "items": { "$ref": "#/$defs/rule" }
+      "items": {
+        "$ref": "#/$defs/rule"
+      }
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "en",
+          "vi",
+          "zh",
+          "ja"
+        ]
+      },
+      "description": "Languages the generator emits subject keywords in. Keywords come from keyword_groups. Set to [en] for an English-only build. Over 700 non-English keywords were documented in the legacy lists and implemented in no filter at all until v0.3.0."
+    },
+    "blocklist_folder": {
+      "type": "string",
+      "description": "Folder that kind: block domains are filed into. Defaults to \"Spam\"; the phishing category uses \"Phishing\"."
     }
   },
-
   "$defs": {
     "domain": {
       "type": "object",
-      "required": ["match", "kind"],
+      "required": [
+        "match",
+        "kind"
+      ],
       "additionalProperties": false,
       "properties": {
         "match": {
@@ -69,14 +103,26 @@
           "description": "Registrable domain, no leading wildcard. The generator adds the wildcard according to `scope`."
         },
         "kind": {
-          "enum": ["allow", "block", "tld-example", "sender", "ceded"],
+          "enum": [
+            "allow",
+            "block",
+            "tld-example",
+            "sender",
+            "ceded"
+          ],
           "description": "allow: matched into this category. block: a typosquat -- never allowlisted, emitted as a phishing rule instead. tld-example: a bare public suffix from the reference lists, never emitted, kept so nobody re-adds it. sender: a full address matched against From. ceded: another category owns this domain; see ceded_to."
         },
         "scope": {
-          "enum": ["subdomains", "subdomains-only", "exact"],
+          "enum": [
+            "subdomains",
+            "subdomains-only",
+            "exact"
+          ],
           "description": "subdomains: emitted as *domain (suffix match). subdomains-only: emitted as *.domain, so a label is required in front -- required for public suffixes such as ac.uk. exact: emitted with no wildcard."
         },
-        "note": { "type": "string" },
+        "note": {
+          "type": "string"
+        },
         "ceded_to": {
           "type": "string",
           "description": "Category id that owns this domain instead. Required when kind is \"ceded\"."
@@ -88,38 +134,76 @@
       },
       "allOf": [
         {
-          "if": { "properties": { "kind": { "const": "ceded" } }, "required": ["kind"] },
-          "then": { "required": ["ceded_to"] }
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "ceded"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "ceded_to"
+            ]
+          }
         },
         {
-          "if": { "properties": { "kind": { "const": "block" } }, "required": ["kind"] },
-          "then": { "required": ["note"] }
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "block"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "note"
+            ]
+          }
         }
       ]
     },
-
     "keywordGroup": {
       "type": "object",
-      "required": ["group"],
+      "required": [
+        "group"
+      ],
       "additionalProperties": false,
       "properties": {
-        "group": { "type": "string" },
+        "group": {
+          "type": "string"
+        },
         "folder": {
           "type": "string",
           "description": "Optional subfolder this group routes to."
         },
-        "en": { "$ref": "#/$defs/keywordList" },
-        "vi": { "$ref": "#/$defs/keywordList" },
-        "zh": { "$ref": "#/$defs/keywordList" },
-        "ja": { "$ref": "#/$defs/keywordList" }
+        "en": {
+          "$ref": "#/$defs/keywordList"
+        },
+        "vi": {
+          "$ref": "#/$defs/keywordList"
+        },
+        "zh": {
+          "$ref": "#/$defs/keywordList"
+        },
+        "ja": {
+          "$ref": "#/$defs/keywordList"
+        }
       }
     },
-
     "keywordList": {
       "type": "array",
-      "items": { "type": "string", "minLength": 1 }
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
     },
-
     "rule": {
       "type": "object",
       "additionalProperties": false,
@@ -128,29 +212,82 @@
           "type": "boolean",
           "description": "True for the single top-level gate of a nested category."
         },
-        "folder": { "type": "string" },
+        "folder": {
+          "type": "string"
+        },
         "op": {
-          "enum": ["anyof", "allof"],
+          "enum": [
+            "anyof",
+            "allof"
+          ],
           "description": "How the fields below combine. A size test inside an anyof satisfies the whole gate on its own -- that bug shipped 36 times in v0.2.0, so prefer allof when a size constraint is meant to narrow."
         },
-        "subjects": { "type": "array", "items": { "type": "string" } },
-        "exclude_subjects": { "type": "array", "items": { "type": "string" } },
-        "domains": { "type": "array", "items": { "type": "string" } },
-        "from_contains": { "type": "array", "items": { "type": "string" } },
-        "from_patterns": { "type": "array", "items": { "type": "string" } },
-        "size_under": { "type": "string", "pattern": "^[0-9]+[KMG]?$" },
-        "size_over": { "type": "string", "pattern": "^[0-9]+[KMG]?$" },
-        "flags": { "type": "array", "items": { "type": "string" } },
-        "unflags": { "type": "array", "items": { "type": "string" } },
+        "subjects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "exclude_subjects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "domains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "from_contains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "from_patterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "size_under": {
+          "type": "string",
+          "pattern": "^[0-9]+[KMG]?$"
+        },
+        "size_over": {
+          "type": "string",
+          "pattern": "^[0-9]+[KMG]?$"
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "unflags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "expire_days": {
-          "type": ["integer", "null"],
+          "type": [
+            "integer",
+            "null"
+          ],
           "minimum": 1,
           "description": "Delete timer in days. null keeps the message indefinitely. Reuse a tier from data/shared/retention.yml where one fits."
         },
-        "stop": { "type": "boolean" },
+        "stop": {
+          "type": "boolean"
+        },
         "tiers": {
           "type": "array",
-          "items": { "$ref": "#/$defs/rule" },
+          "items": {
+            "$ref": "#/$defs/rule"
+          },
           "description": "Nested retention tiers evaluated inside this rule."
         }
       }

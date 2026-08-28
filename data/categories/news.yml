@@ -4,7 +4,12 @@
 id: news
 title: News & Newsletters
 description: News outlets and newsletter platforms.
-install_order: 10
+install_order: 8
+languages:
+- en
+- vi
+- zh
+- ja
 folder: News
 shape: nested
 whitelist:

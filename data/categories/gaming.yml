@@ -4,7 +4,12 @@
 id: gaming
 title: Gaming
 description: Game stores, publishers, esports and gaming news.
-install_order: 8
+install_order: 10
+languages:
+- en
+- vi
+- zh
+- ja
 folder: Gaming
 shape: nested
 whitelist:

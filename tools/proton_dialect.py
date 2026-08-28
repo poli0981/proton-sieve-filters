@@ -41,3 +41,6 @@ UNSUPPORTED_REGEX_SHORTHAND = (r"\b", r"\w", r"\W", r"\d", r"\D", r"\s", r"\S")
 # Plan limits.
 MAX_ACTIVE_FILTERS_PAID = 250
 MAX_ACTIVE_FILTERS_FREE = 1
+
+# vnd.proton.expire accepts at most 730 days.
+MAX_EXPIRE_DAYS = 730

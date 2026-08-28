@@ -4,7 +4,12 @@
 id: spam
 title: Spam
 description: Additional spam heuristics beyond Proton's own.
-install_order: 14
+install_order: 1
+languages:
+- en
+- vi
+- zh
+- ja
 folder: Spam
 shape: flat
 whitelist:

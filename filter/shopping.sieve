@@ -16,10 +16,11 @@
 # WARNING: this filter sets auto-delete timers on matched mail via
 #          vnd.proton.expire. Read CHANGELOG.md before installing.
 #
-# Install position 13 of 14. Filters run in the order you install them, and on
-# conflicting actions the last one wins -- see README.md for the full order.
+# Install position 2 of 22. Filters run in the order you install them,
+# and on conflicting actions the last one wins -- see README.md for the
+# full order.
 #
-# Version: 0.2.1
+# Version: 0.3.0
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
@@ -128,7 +129,21 @@ if anyof (
     header :contains "subject" ["Order Confirmation", "Purchase Confirmation",
         "Your Cart", "Abandoned Cart", "Checkout", "Order Shipped", "Out for Delivery",
         "Tracking Number", "Flash Sale", "Black Friday", "Cyber Monday", "Holiday Sale",
-        "Limited Time Offer", "Clearance Sale", "Promo Code"]
+        "Limited Time Offer", "Clearance Sale", "Promo Code", "Xác nhận đơn hàng",
+        "Hóa đơn mua hàng", "Thanh toán thành công", "Đơn hàng đã đặt", "Giao hàng",
+        "Theo dõi đơn hàng", "Đã giao hàng", "Khuyến mãi", "Giảm giá", "Mã giảm giá",
+        "Ưu đãi đặc biệt", "Thời gian có hạn", "Giỏ hàng bỏ quên", "Hoàn trả",
+        "Hoàn tiền", "Trao đổi", "Điểm thưởng", "Chương trình khách hàng thân thiết",
+        "Đánh giá sản phẩm", "Đăng ký định kỳ", "Danh sách yêu thích",
+        "Cập nhật tài khoản", "Phương thức thanh toán", "Cảnh báo bảo mật", "订单确认",
+        "购买确认", "交易完成", "付款成功", "已下订单", "感谢您的订单", "发货", "跟踪号码", "正在配送", "已送达", "包裹到达",
+        "配送更新", "促销", "限时优惠", "闪购", "价格下跌", "清仓销售", "黑色星期五", "网购星期一", "购物车提醒", "完成购买",
+        "退货", "退款", "换货", "积分奖励", "会员福利", "产品评价", "订阅", "自动配送", "愿望清单", "价格下跌提醒",
+        "账户更新", "付款方式", "安全警报", "注文確認", "購入確認", "取引完了", "お支払い完了", "ご注文ありがとうございます",
+        "発送済み", "追跡番号", "配送中", "配達完了", "荷物到着", "セール", "限定オファー", "タイムセール", "価格下落",
+        "在庫処分", "ブラックフライデー", "サイバーマンデー", "カートリマインダー", "購入を完了", "返品", "返金", "交換",
+        "ポイント獲得", "会員特典", "商品レビュー", "サブスクリプション", "定期配送", "ウィッシュリスト", "価格下落通知",
+        "アカウント更新", "支払い方法", "セキュリティ警告"]
 ) {
     addflag "\\Seen";
     fileinto "Shopping";

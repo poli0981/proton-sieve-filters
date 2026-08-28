@@ -4,14 +4,55 @@
 id: security
 title: Security & Account
 description: Account alerts, sign-in notifications, 2FA and breach warnings.
-install_order: 1
+install_order: 21
+languages:
+- en
+- vi
+- zh
+- ja
 folder: Security/Critical
 shape: flat
 whitelist:
 - :addrbook:personal
 - :addrbook:myself
 spam_discard: true
-domains: []
+domains:
+- match: 1password.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: authy.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: bitwarden.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: dashlane.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: duo.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: keepersecurity.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: lastpass.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: nordpass.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: yubico.com
+  kind: allow
+  scope: subdomains
+  source: authored
 keyword_groups:
 - group: Account Compromise & Hacking
   en:

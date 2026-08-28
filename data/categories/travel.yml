@@ -4,7 +4,12 @@
 id: travel
 title: Travel
 description: Flights, hotels, car hire and trip planning.
-install_order: 6
+install_order: 14
+languages:
+- en
+- vi
+- zh
+- ja
 folder: Travel
 shape: nested
 whitelist:

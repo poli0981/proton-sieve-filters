@@ -18,6 +18,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from proton_dialect import (  # noqa: E402
     CORE_COMMANDS,
+    MAX_EXPIRE_DAYS,
     SUPPORTED_EXTENSIONS,
     UNSUPPORTED_REGEX_SHORTHAND,
 )
@@ -101,6 +102,13 @@ def check_text(path, rep):
         if ext in SUPPORTED_EXTENSIONS:
             rep.add(WARN, path, "L%d" % lineno,
                     '"%s" is declared but never used' % ext)
+
+    for i, l in enumerate(lines, 1):
+        m = re.search(r'expire\s+"day"\s+"(\d+)"', l)
+        if m and int(m.group(1)) > MAX_EXPIRE_DAYS:
+            rep.add(ERROR, path, "L%d" % i,
+                    "expire of %s days exceeds Proton's maximum of %d"
+                    % (m.group(1), MAX_EXPIRE_DAYS))
 
     whole = "\r\n".join(lines)
     for i, l in enumerate(lines, 1):

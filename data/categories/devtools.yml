@@ -1,0 +1,196 @@
+# Developer Tools -- the source of truth for filter/devtools.sieve.
+# Run `python tools/generate.py` after editing.
+
+id: devtools
+title: Developer Tools
+description: Package registries, CI, hosting and observability.
+install_order: 5
+languages:
+- en
+- vi
+- zh
+- ja
+folder: Dev
+shape: nested
+whitelist:
+- :addrbook:personal
+spam_discard: false
+domains:
+- match: circleci.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: crates.io
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: datadoghq.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: docker.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: elastic.co
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: fastly.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: fly.io
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: hashicorp.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: jenkins.io
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: jetbrains.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: jfrog.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: linode.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: mongodb.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: neon.tech
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: npmjs.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: nuget.org
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: packagist.org
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: pagerduty.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: planetscale.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: pulumi.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: pypi.org
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: quay.io
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: railway.app
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: render.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: rubygems.org
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: snyk.io
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: sourcegraph.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: statuspage.io
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: supabase.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: travis-ci.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: vultr.com
+  kind: allow
+  scope: subdomains
+  source: authored
+keyword_groups: []
+rules:
+- gate: true
+  folder: Dev
+  op: anyof
+  domains:
+  - circleci.com
+  - crates.io
+  - datadoghq.com
+  - docker.com
+  - elastic.co
+  - fastly.com
+  - fly.io
+  - hashicorp.com
+  - jenkins.io
+  - jetbrains.com
+  - jfrog.com
+  - linode.com
+  - mongodb.com
+  - neon.tech
+  - npmjs.com
+  - nuget.org
+  - packagist.org
+  - pagerduty.com
+  - planetscale.com
+  - pulumi.com
+  - pypi.org
+  - quay.io
+  - railway.app
+  - render.com
+  - rubygems.org
+  - snyk.io
+  - sourcegraph.com
+  - statuspage.io
+  - supabase.com
+  - travis-ci.com
+  - vultr.com
+  subjects:
+  - Build Failed
+  - Build Succeeded
+  - Deployment
+  - Security Advisory
+  - Vulnerability Alert
+  - Dependency Update
+  - Incident
+  - Downtime
+  - Usage Report
+  - Quota Exceeded
+  - New Release
+  - Package Published
+  flags:
+  - \Seen
+  expire_days: 30
+  stop: true

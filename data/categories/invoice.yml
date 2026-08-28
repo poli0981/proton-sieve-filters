@@ -4,7 +4,12 @@
 id: invoice
 title: Invoices & Payments
 description: Receipts, invoices, payment processors and billing.
-install_order: 3
+install_order: 19
+languages:
+- en
+- vi
+- zh
+- ja
 folder: Payments
 shape: nested
 whitelist:
@@ -67,6 +72,10 @@ domains:
   scope: subdomains
   note: Bank of America
   source: md+sieve
+- match: barclays.co.uk
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: bestbuy.com
   kind: allow
   scope: subdomains
@@ -87,11 +96,19 @@ domains:
   scope: subdomains
   note: Bitcoin.com services
   source: md+sieve
+- match: bitfinex.com
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: bitpay.com
   kind: allow
   scope: subdomains
   note: BitPay crypto payments
   source: md+sieve
+- match: bitstamp.net
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: blockchain.com
   kind: allow
   scope: subdomains
@@ -102,11 +119,23 @@ domains:
   scope: subdomains
   note: BlueSnap payment platform
   source: md+sieve
+- match: bnpparibas.com
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: braintree.com
   kind: allow
   scope: subdomains
   note: Braintree payment gateway
   source: md+sieve
+- match: bunq.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: bybit.com
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: chargebee.com
   kind: allow
   scope: subdomains
@@ -142,6 +171,10 @@ domains:
   scope: subdomains
   note: Crypto.com platform
   source: md
+- match: dbs.com.sg
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: discover.com
   kind: allow
   scope: subdomains
@@ -198,11 +231,27 @@ domains:
   note: Google Pay & Play Store
   ceded_to: work
   source: md+sieve
+- match: hdfcbank.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: hsbc.com
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: hyperwallet.com
   kind: allow
   scope: subdomains
   note: Hyperwallet payout platform
   source: md+sieve
+- match: icicibank.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: ing.com
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: intuit.com
   kind: allow
   scope: subdomains
@@ -223,26 +272,58 @@ domains:
   scope: subdomains
   note: Kraken crypto exchange
   source: md
+- match: kucoin.com
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: laybuy.com
   kind: allow
   scope: subdomains
   note: Laybuy payment service
   source: md
+- match: ledger.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: lloydsbank.com
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: mastercard.com
   kind: allow
   scope: subdomains
   note: Mastercard credit cards
   source: md+sieve
+- match: mbbank.com.vn
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: mercadopago.com
   kind: allow
   scope: subdomains
   note: MercadoPago Latin America
   source: md+sieve
+- match: metamask.io
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: mollie.com
   kind: allow
   scope: subdomains
   note: Mollie European payments
   source: md+sieve
+- match: monzo.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: n26.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: natwest.com
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: neteller.com
   kind: allow
   scope: subdomains
@@ -253,6 +334,14 @@ domains:
   scope: subdomains
   note: Nuvei payment technology
   source: md+sieve
+- match: ocbc.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: okx.com
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: paddle.com
   kind: allow
   scope: subdomains
@@ -313,6 +402,10 @@ domains:
   scope: subdomains
   note: PayU emerging markets
   source: md+sieve
+- match: rabobank.nl
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: rapyd.net
   kind: allow
   scope: subdomains
@@ -333,6 +426,10 @@ domains:
   scope: subdomains
   note: Revolut digital banking
   source: md+sieve
+- match: santander.com
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: sezzle.com
   kind: allow
   scope: subdomains
@@ -348,6 +445,10 @@ domains:
   scope: subdomains
   note: Skrill digital wallet
   source: md+sieve
+- match: societegenerale.com
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: splitit.com
   kind: allow
   scope: subdomains
@@ -358,6 +459,10 @@ domains:
   scope: subdomains
   note: Square payment solutions
   source: md+sieve
+- match: starlingbank.com
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: staxpayments.com
   kind: allow
   scope: subdomains
@@ -383,11 +488,23 @@ domains:
   scope: subdomains
   note: Target retail
   source: md+sieve
+- match: techcombank.com.vn
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: tipalti.com
   kind: allow
   scope: subdomains
   note: Tipalti supplier payments
   source: md+sieve
+- match: trezor.io
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: uob.com.sg
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: usbank.com
   kind: allow
   scope: subdomains
@@ -403,11 +520,19 @@ domains:
   scope: subdomains
   note: Verifone payment systems
   source: md+sieve
+- match: vietcombank.com.vn
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: visa.com
   kind: allow
   scope: subdomains
   note: Visa credit cards
   source: md+sieve
+- match: vpbank.com.vn
+  kind: allow
+  scope: subdomains
+  source: authored
 - match: walmart.com
   kind: allow
   scope: subdomains
@@ -713,17 +838,24 @@ rules:
   - apple.com
   - authorize.net
   - bankofamerica.com
+  - barclays.co.uk
   - bestbuy.com
   - bill.com
   - bitcoin.com
+  - bitfinex.com
   - bitpay.com
+  - bitstamp.net
   - bluesnap.com
+  - bnpparibas.com
   - braintree.com
+  - bunq.com
+  - bybit.com
   - chargebee.com
   - chase.com
   - checkout.com
   - citi.com
   - coinbase.com
+  - dbs.com.sg
   - discover.com
   - dlocal.com
   - dyneti.com
@@ -734,15 +866,29 @@ rules:
   - finix.com
   - flutterwave.com
   - google.com
+  - hdfcbank.com
+  - hsbc.com
   - hyperwallet.com
+  - icicibank.com
+  - ing.com
   - intuit.com
   - jpmorgan.com
   - klarna.com
+  - kucoin.com
+  - ledger.com
+  - lloydsbank.com
   - mastercard.com
+  - mbbank.com.vn
   - mercadopago.com
+  - metamask.io
   - mollie.com
+  - monzo.com
+  - n26.com
+  - natwest.com
   - neteller.com
   - nuvei.com
+  - ocbc.com
+  - okx.com
   - paddle.com
   - pagseguro.com
   - payoneer.com
@@ -752,23 +898,32 @@ rules:
   - paystack.com
   - paytm.com
   - payu.com
+  - rabobank.nl
   - rapyd.net
   - razorpay.com
   - recurly.com
   - revolut.com
+  - santander.com
   - sezzle.com
   - shopify.com
   - skrill.com
+  - societegenerale.com
   - squareup.com
+  - starlingbank.com
   - staxpayments.com
   - stripe.com
   - sumup.com
   - target.com
+  - techcombank.com.vn
   - tipalti.com
+  - trezor.io
+  - uob.com.sg
   - usbank.com
   - venmo.com
   - verifone.com
+  - vietcombank.com.vn
   - visa.com
+  - vpbank.com.vn
   - walmart.com
   - wechatpay.com
   - wellsfargo.com

@@ -1,0 +1,177 @@
+# AI Services -- the source of truth for filter/ai.sieve.
+# Run `python tools/generate.py` after editing.
+
+id: ai
+title: AI Services
+description: AI assistants, model providers and generative tools.
+install_order: 6
+languages:
+- en
+- vi
+- zh
+- ja
+folder: AI
+shape: nested
+whitelist:
+- :addrbook:personal
+spam_discard: false
+domains:
+- match: anthropic.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: character.ai
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: civitai.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: claude.ai
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: cohere.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: copy.ai
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: deepmind.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: descript.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: elevenlabs.io
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: fireworks.ai
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: groq.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: huggingface.co
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: ideogram.ai
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: jasper.ai
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: langchain.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: leonardo.ai
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: midjourney.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: mistral.ai
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: openai.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: perplexity.ai
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: poe.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: replicate.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: runwayml.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: stability.ai
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: suno.com
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: synthesia.io
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: together.ai
+  kind: allow
+  scope: subdomains
+  source: authored
+- match: writesonic.com
+  kind: allow
+  scope: subdomains
+  source: authored
+keyword_groups: []
+rules:
+- gate: true
+  folder: AI
+  op: anyof
+  domains:
+  - anthropic.com
+  - character.ai
+  - civitai.com
+  - claude.ai
+  - cohere.com
+  - copy.ai
+  - deepmind.com
+  - descript.com
+  - elevenlabs.io
+  - fireworks.ai
+  - groq.com
+  - huggingface.co
+  - ideogram.ai
+  - jasper.ai
+  - langchain.com
+  - leonardo.ai
+  - midjourney.com
+  - mistral.ai
+  - openai.com
+  - perplexity.ai
+  - poe.com
+  - replicate.com
+  - runwayml.com
+  - stability.ai
+  - suno.com
+  - synthesia.io
+  - together.ai
+  - writesonic.com
+  subjects:
+  - Usage Summary
+  - Credit Balance
+  - Model Update
+  - API Key
+  - Rate Limit
+  - New Model Available
+  - Beta Access
+  - Waitlist
+  flags:
+  - \Seen
+  expire_days: 30
+  stop: true

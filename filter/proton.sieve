@@ -13,10 +13,11 @@
 # WARNING: this filter sets auto-delete timers on matched mail via
 #          vnd.proton.expire. Read CHANGELOG.md before installing.
 #
-# Install position 2 of 14. Filters run in the order you install them, and on
-# conflicting actions the last one wins -- see README.md for the full order.
+# Install position 20 of 22. Filters run in the order you install them,
+# and on conflicting actions the last one wins -- see README.md for the
+# full order.
 #
-# Version: 0.2.1
+# Version: 0.3.0
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
@@ -43,7 +44,13 @@ if anyof (
         "protonmail.com", "*.protonmail.com", "protonstatus.com", "*.protonstatus.com",
         "protonvpn.com", "*.protonvpn.com"],
     header :contains "subject" ["Proton Mail", "Proton VPN", "Proton Drive",
-        "Proton Calendar", "Proton Pass", "Proton Account", "ProtonMail"],
+        "Proton Calendar", "Proton Pass", "Proton Account", "ProtonMail",
+        "Cảnh báo bảo mật", "Tài khoản bị xâm phạm", "Truy cập trái phép",
+        "Cảnh báo đăng nhập", "Vi phạm bảo mật", "Tài khoản bị khóa",
+        "Hoạt động đáng nghi", "Mật khẩu đã thay đổi", "Xác thực hai yếu tố",
+        "Ủy quyền thiết bị", "安全警报", "账户被盗用", "未授权访问", "登录警报", "安全漏洞", "账户被锁定", "可疑活动",
+        "密码已更改", "双重认证", "设备授权", "セキュリティアラート", "アカウントが侵害されました", "不正アクセス", "ログインアラート",
+        "セキュリティ違反", "アカウントがロックされました", "疑わしい活動", "パスワードが変更されました", "二要素認証", "デバイス認証"],
     header :contains "from" ["noreply@proton.me", "no-reply@proton.me",
         "notifications@proton.me", "support@proton.me", "security@proton.me",
         "billing@proton.me", "newsletter@proton.me", "updates@proton.me",

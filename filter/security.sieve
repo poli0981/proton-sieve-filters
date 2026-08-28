@@ -15,10 +15,11 @@
 # WARNING: this filter sets auto-delete timers on matched mail via
 #          vnd.proton.expire. Read CHANGELOG.md before installing.
 #
-# Install position 1 of 14. Filters run in the order you install them, and on
-# conflicting actions the last one wins -- see README.md for the full order.
+# Install position 21 of 22. Filters run in the order you install them,
+# and on conflicting actions the last one wins -- see README.md for the
+# full order.
 #
-# Version: 0.2.1
+# Version: 0.3.0
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
@@ -53,7 +54,34 @@ if header :contains "subject" ["Account Compromised", "Unauthorized Access Detec
     "Payment Method Compromised", "Card Used Unauthorized",
     "Suspicious Payment Alert", "Identity Theft Warning", "Fraud Alert",
     "Unauthorized Purchase", "Billing Alert", "Credit Card Security Alert",
-    "Payment Fraud Detection"] {
+    "Payment Fraud Detection", "Tài khoản bị xâm phạm",
+    "Phát hiện truy cập trái phép", "Cảnh báo vi phạm bảo mật", "Tài khoản bị hack",
+    "Hoạt động đăng nhập đáng ngờ", "Đăng nhập từ thiết bị lạ",
+    "Đăng nhập từ vị trí mới", "Hoạt động tài khoản bất thường",
+    "Nhiều lần đăng nhập thất bại", "Mật khẩu bị thay đổi",
+    "Cảnh báo rò rỉ dữ liệu", "Báo cáo sự cố bảo mật", "Thông tin cá nhân bị lộ",
+    "Cập nhật bảo mật khẩn cấp", "Yêu cầu hành động ngay lập tức",
+    "Mật khẩu đã thay đổi thành công", "Yêu cầu đặt lại mật khẩu",
+    "Xác nhận thay đổi mật khẩu", "Xác thực hai yếu tố", "Mã xác thực",
+    "Mã bảo mật", "Mã đăng nhập", "Tài khoản bị khóa", "Tài khoản bị đình chỉ",
+    "Tài khoản bị đóng băng", "Phát hiện hoạt động gian lận", "Giao dịch trái phép",
+    "Phương thức thanh toán bị xâm phạm", "Cảnh báo gian lận", "Cập nhật hồ sơ",
+    "Thay đổi thông tin cá nhân", "Địa chỉ email đã thay đổi", "Cấp quyền ứng dụng",
+    "Truy cập của bên thứ ba", "Ủy quyền OAuth", "Tuân thủ GDPR",
+    "Cập nhật chính sách bảo mật", "Thông báo pháp lý", "Mẹo bảo mật",
+    "Cảnh báo lừa đảo", "Cảnh báo phần mềm độc hại", "账户被入侵", "检测到未授权访问", "安全漏洞警报",
+    "账户被黑", "可疑登录活动", "来自未知设备的登录", "来自新位置的登录", "异常账户活动", "多次登录失败", "密码被他人更改",
+    "数据泄露警报", "安全事件报告", "个人信息泄露", "紧急安全更新", "需要立即行动", "密码更改成功", "密码重置请求", "密码更改确认",
+    "双重验证", "验证码", "安全码", "登录码", "账户被锁定", "账户被暂停", "账户被冻结", "检测到欺诈活动", "未授权交易",
+    "支付方式被入侵", "欺诈警报", "个人资料更新", "个人信息更改", "电子邮件地址已更改", "应用程序权限授予", "第三方访问",
+    "OAuth授权", "GDPR合规", "隐私政策更新", "法律通知", "安全提示", "网络钓鱼警报", "恶意软件警报",
+    "アカウントが侵害されました", "不正アクセスを検出", "セキュリティ侵害アラート", "アカウントがハッキング", "疑わしいログイン活動",
+    "不明なデバイスからのログイン", "新しい場所からのログイン", "異常なアカウント活動", "複数回のログイン失敗", "パスワードが他人により変更",
+    "データ漏洩アラート", "セキュリティインシデントレポート", "個人情報の漏洩", "緊急セキュリティアップデート", "即座のアクション必要",
+    "パスワード変更成功", "パスワードリセット要求", "パスワード変更確認", "二要素認証", "認証コード", "セキュリティコード",
+    "ログインコード", "アカウントロック", "アカウント一時停止", "アカウント凍結", "不正行為を検出", "不正取引", "支払い方法が侵害",
+    "詐欺アラート", "プロフィール更新", "個人情報変更", "メールアドレス変更", "アプリ権限付与", "サードパーティアクセス",
+    "OAuth認証", "GDPR準拠", "プライバシーポリシー更新", "法的通知", "セキュリティヒント", "フィッシング警告", "マルウェア警告"] {
     removeflag "\\Seen";
     addflag "\\Flagged";
     fileinto "Security/Critical";
