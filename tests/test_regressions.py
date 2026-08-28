@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Regression tests for the P0 defects fixed in v0.2.1.
 
 Run against a directory of .sieve files:  python test_p0.py <dir>

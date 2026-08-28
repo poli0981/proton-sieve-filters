@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """Lint Sieve filters against Proton Mail's dialect and against the bug classes
 that shipped in v0.2.0.
 

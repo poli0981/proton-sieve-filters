@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: CC-BY-4.0
+cff-version: 1.2.0
+title: Proton Sieve Filters
+message: >-
+  If you use this project or its domain and keyword data, please cite it as
+  below. The data itself is CC0 and requires no attribution; this is offered
+  for convenience.
+type: software
+authors:
+  - alias: poli0981
+    website: "https://github.com/poli0981"
+repository-code: "https://github.com/poli0981/proton-sieve-filters"
+abstract: >-
+  A generated set of Sieve filters that sort a Proton Mail inbox into folders,
+  built from a typed dataset of email sender domains and subject keywords across
+  22 categories, with validation tooling for Proton's Sieve dialect.
+keywords:
+  - sieve
+  - rfc5228
+  - proton-mail
+  - email-filtering
+  - mail-sorting
+license: MIT
+license-url: "https://github.com/poli0981/proton-sieve-filters/blob/main/LICENSES/README.md"
+version: 0.3.0
+date-released: "2026-08-28"

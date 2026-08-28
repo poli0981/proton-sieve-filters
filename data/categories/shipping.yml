@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: CC0-1.0
 # Shipping & Deliveries -- the source of truth for filter/shipping.sieve.
 # Run `python tools/generate.py` after editing.
 

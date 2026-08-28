@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 # Bundles merge several categories into one Sieve script.
 #
 # Proton's free plan allows exactly ONE active filter, which makes the 22

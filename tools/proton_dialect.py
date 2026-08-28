@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Proton Mail's Sieve dialect, in one place.
 
 Sources: https://proton.me/support/sieve-advanced-custom-filters

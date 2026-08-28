@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """Generate filter/*.sieve from data/categories/*.yml.
 
     python tools/generate.py            # write the filters

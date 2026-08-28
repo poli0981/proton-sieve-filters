@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """Parse the legacy `domain/*.md` and `keyword/*.md` reference files.
 
 These files are prose documents, not data files: every payload block is an

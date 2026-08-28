@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """A small evaluator for the subset of Sieve these filters use.
 
 Enough to answer "where does this message end up?" so the P0 fixes can be

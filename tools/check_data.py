@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """Validate data/categories/*.yml.
 
     python tools/check_data.py [path ...]      # default: data/categories/

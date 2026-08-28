@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: CC0-1.0
 # Food & Delivery -- the source of truth for filter/food.sieve.
 # Run `python tools/generate.py` after editing.
 

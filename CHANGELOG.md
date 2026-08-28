@@ -9,6 +9,49 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [0.3.0] — 2026-08-28
 
+### Changed — licensing
+
+- **Three licences, split by content type**, replacing a single MIT that sat awkwardly
+  across software, a dataset and prose:
+
+  | Path | Licence |
+  | --- | --- |
+  | `filter/`, `bundles/`, `tools/`, `tests/`, `data/schema/`, `data/bundles.yml` | MIT |
+  | `data/categories/`, `data/shared/` | CC0-1.0 |
+  | Documentation | CC-BY-4.0 |
+
+  The domain and keyword lists are collections of facts — which company sends from which
+  domain, which words appear in which subject. CC0 puts them in the public domain with no
+  attribution required and removes any residual database-right ambiguity. The generated
+  `.sieve` files stay MIT: CC0 imposes no conditions, so nothing is inherited.
+
+- **Copyright updated to `2025-2026`**; it had said `2025` while the newest commits were
+  from 2026.
+- `LICENSES/` holds the three canonical SPDX texts, unmodified, plus a
+  [matrix](LICENSES/README.md) of which covers what. `data/LICENSE` states the CC0
+  dedication in place.
+- SPDX identifiers added to every Python file (MIT) and every category and shared data
+  file (CC0).
+- **`CITATION.cff`** added, replacing the citation block `REFERENCE.md` had hand-rolled.
+
+### Changed — `ACKNOWLEDGE.md` → `ACKNOWLEDGMENTS.md`, rewritten
+
+The old file thanked "Static Analysis and Linting Tools" that did not exist in the
+repository, "Beta Testers and Early Adopters" for a project that had never had an external
+contributor, and roughly thirty standards bodies and universities with no connection to
+it. It also asked redistributors for more attribution than MIT requires.
+
+The replacement credits what is actually used — the RFCs, Proton, and the three PyPI
+packages the tooling depends on — states the AI authorship and what it means for the data,
+and says plainly that MIT's notice requirement is the whole obligation.
+
+### Fixed
+
+- **The Vietnamese README had drifted to 14 filters** while the English one documented 22.
+  It is back at full parity, and `tools/check_folders.py` now validates **both** maintained
+  READMEs — every top-level folder and every filter filename must appear in each.
+
+
 ### Added — eight new filters
 
 22 categories now, up from 14.

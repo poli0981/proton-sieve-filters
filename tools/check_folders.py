@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """Check that each filter's `# Folders:` header block lists exactly the folders
 it actually files into, and that README.md's top-level folder list is complete.
 
@@ -82,16 +83,24 @@ def main(argv):
                   % (f, ", ".join(sorted(phantom))))
             bad += 1
 
-    # Every top-level folder must appear in README.md's setup section.
-    readme = "README.md"
-    if os.path.exists(readme):
+    # Every top-level folder must appear in the maintained READMEs. The
+    # Vietnamese one is checked too: it sat at 14 filters while the English one
+    # said 22, which is exactly the drift this whole check exists to stop.
+    tops = sorted({f.split("/")[0] for f in every})
+    for readme in ("README.md", os.path.join("README", "README.vi.md")):
+        if not os.path.exists(readme):
+            continue
         text = io.open(readme, encoding="utf-8").read()
-        tops = sorted({f.split("/")[0] for f in every})
         missing = [t for t in tops if t not in text]
         if missing:
-            print("README        does not mention top-level folder(s): %s"
-                  % ", ".join(missing))
+            print("%-22s does not mention top-level folder(s): %s"
+                  % (readme, ", ".join(missing)))
             bad += 1
+        for f in sorted(glob.glob("filter/*.sieve")):
+            name = os.path.basename(f)
+            if name not in text:
+                print("%-22s does not mention %s" % (readme, name))
+                bad += 1
 
     print("\n%d filter(s), %d distinct folder(s), %d problem(s)"
           % (len(files), len(every), bad))

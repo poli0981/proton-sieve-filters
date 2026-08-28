@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: CC0-1.0
 # Government & Tax -- the source of truth for filter/government.sieve.
 # Run `python tools/generate.py` after editing.
 #

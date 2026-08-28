@@ -95,3 +95,10 @@ python tools/check_data.py
 
 Validates against [`schema/category.schema.json`](schema/category.schema.json)
 and enforces everything above. It runs in CI.
+
+## Licence
+
+Everything in this directory except `bundles.yml` and `schema/` is **CC0-1.0** — a public
+domain dedication. These are collections of facts: which company sends mail from which
+domain, and which words appear in which kind of subject line. Take them and use them
+anywhere, with no attribution required. See [LICENSE](LICENSE).

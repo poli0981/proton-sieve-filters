@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """One-off migration: filter/*.sieve + domain/*.md + keyword/*.md -> data/*.yml
 
     python tools/migrate.py [--report MIGRATION-REPORT.md]

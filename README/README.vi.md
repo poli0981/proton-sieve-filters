@@ -1,13 +1,14 @@
 # Proton Sieve Filters
 
 [![CI](https://github.com/poli0981/proton-sieve-filters/actions/workflows/ci.yml/badge.svg)](https://github.com/poli0981/proton-sieve-filters/actions/workflows/ci.yml)
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](../LICENSE)
-[![Version](https://img.shields.io/badge/Version-0.2.1-blue.svg)](../CHANGELOG.md)
+[![MIT License](https://img.shields.io/badge/Code-MIT-green.svg)](../LICENSE)
+[![Data CC0](https://img.shields.io/badge/Data-CC0--1.0-green.svg)](../LICENSES/CC0-1.0.txt)
+[![Version](https://img.shields.io/badge/Version-0.3.0-blue.svg)](../CHANGELOG.md)
 [![Contributions welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](https://github.com/poli0981/proton-sieve-filters/issues)
 
-14 script Sieve giúp sắp xếp hộp thư Proton Mail vào các thư mục — mua sắm, du lịch, công
-việc, bảo mật và mười danh mục khác. Sieve là ngôn ngữ lọc thư phía máy chủ mà Proton mở
-cho các tài khoản trả phí.
+22 script Sieve giúp sắp xếp hộp thư Proton Mail vào các thư mục — mua sắm, du lịch, công
+việc, bảo mật, chống giả mạo tên miền và mười bảy danh mục khác. Sieve là ngôn ngữ lọc thư
+phía máy chủ mà Proton mở cho các tài khoản trả phí.
 
 **Ngôn ngữ:** [English](../README.md) · Tiếng Việt — cả hai đều được bảo trì.
 Bản dịch cộng đồng, hiện đã lỗi thời:
@@ -55,37 +56,78 @@ ty. Xem [DISCLAIMER.md](../DISCLAIMER.md).
 
 ---
 
-## 📂 Các bộ lọc hiện có (v0.2.1)
+## 📂 Các bộ lọc hiện có (v0.3.0)
 
-Hãy cài theo đúng thứ tự này. Proton chạy các bộ lọc **tuần tự**, và khi hai bộ lọc cùng
-muốn tác động lên một thư thì **hành động cuối cùng thắng** — nên thứ tự không phải chuyện
-hình thức. Thứ tự dưới đây đặt bộ lọc cụ thể trước, bộ lọc rộng sau.
+**Hãy cài theo đúng thứ tự này.** Proton áp dụng **mọi** bộ lọc khớp với một thư, và khi
+hai bộ lọc xung đột thì **hành động cuối cùng thắng**. Vì vậy thứ tự chạy các danh mục
+rộng trước, cụ thể sau — để bộ lọc cụ thể nhất có tiếng nói cuối cùng.
 
 | # | Bộ lọc | Mục đích | Thư mục gốc | Số thư mục |
 |---|--------|----------|-------------|------------|
-| 1 | [`security.sieve`](../filter/security.sieve) | Cảnh báo tài khoản, 2FA, rò rỉ dữ liệu | `Security` | 10 |
-| 2 | [`proton.sieve`](../filter/proton.sieve) | Thông báo dịch vụ Proton | `Proton` | 1 |
-| 3 | [`invoice.sieve`](../filter/invoice.sieve) | Hoá đơn, thanh toán, biên lai | `Payments` | 1 |
-| 4 | [`legal.sieve`](../filter/legal.sieve) | Điều khoản, chính sách, thông báo pháp lý | `Legal` | 2 |
-| 5 | [`health.sieve`](../filter/health.sieve) | Y tế, thể hình, sức khoẻ | `Health` | 1 |
-| 6 | [`travel.sieve`](../filter/travel.sieve) | Đặt chỗ, chuyến bay, khách sạn | `Travel` | 9 |
-| 7 | [`study.sieve`](../filter/study.sieve) | Giáo dục, khoá học, học tập | `Study` | 19 |
-| 8 | [`gaming.sieve`](../filter/gaming.sieve) | Game, nền tảng, tin tức game | `Gaming` | 1 |
-| 9 | [`entertainment.sieve`](../filter/entertainment.sieve) | Streaming, giải trí, sự kiện | `Entertainment` | 9 |
-| 10 | [`news.sieve`](../filter/news.sieve) | Tin tức và bản tin | `News` | 9 |
-| 11 | [`social.sieve`](../filter/social.sieve) | Thông báo mạng xã hội | `Social Account` | 1 |
-| 12 | [`work.sieve`](../filter/work.sieve) | Công việc, doanh nghiệp | `Work` | 10 |
-| 13 | [`shopping.sieve`](../filter/shopping.sieve) | Thương mại điện tử, khuyến mãi | `Shopping` | 12 |
-| 14 | [`spam.sieve`](../filter/spam.sieve) | Heuristic chống spam bổ sung | `Spam` | 1 |
+| 1 | [`spam.sieve`](../filter/spam.sieve) | Heuristic chống spam bổ sung | `Spam` | 1 |
+| 2 | [`shopping.sieve`](../filter/shopping.sieve) | Thương mại điện tử, đơn hàng, khuyến mãi | `Shopping` | 13 |
+| 3 | [`work.sieve`](../filter/work.sieve) | Công việc, doanh nghiệp | `Work` | 10 |
+| 4 | [`food.sieve`](../filter/food.sieve) | Giao đồ ăn, đặt món | `Food` | 1 |
+| 5 | [`devtools.sieve`](../filter/devtools.sieve) | Package registry, CI, hosting, giám sát | `Dev` | 1 |
+| 6 | [`ai.sieve`](../filter/ai.sieve) | Trợ lý AI, nhà cung cấp mô hình | `AI` | 1 |
+| 7 | [`social.sieve`](../filter/social.sieve) | Thông báo mạng xã hội | `Social Account` | 2 |
+| 8 | [`news.sieve`](../filter/news.sieve) | Tin tức và bản tin | `News` | 9 |
+| 9 | [`entertainment.sieve`](../filter/entertainment.sieve) | Streaming, âm nhạc, podcast, sự kiện | `Entertainment` | 9 |
+| 10 | [`gaming.sieve`](../filter/gaming.sieve) | Cửa hàng game, nhà phát hành, esports | `Gaming` | 1 |
+| 11 | [`recruiting.sieve`](../filter/recruiting.sieve) | Hệ thống tuyển dụng, thư nhà tuyển dụng | `Recruiting` | 1 |
+| 12 | [`study.sieve`](../filter/study.sieve) | Khoá học, đại học, nghiên cứu | `Study` | 19 |
+| 13 | [`shipping.sieve`](../filter/shipping.sieve) | Theo dõi vận chuyển, giao hàng | `Shipping` | 1 |
+| 14 | [`travel.sieve`](../filter/travel.sieve) | Chuyến bay, khách sạn, thuê xe | `Travel` | 10 |
+| 15 | [`health.sieve`](../filter/health.sieve) | Y tế, thể hình, sức khoẻ | `Health` | 1 |
+| 16 | [`legal.sieve`](../filter/legal.sieve) | Điều khoản, chính sách riêng tư, EULA | `Legal` | 2 |
+| 17 | [`bills.sieve`](../filter/bills.sieve) | Viễn thông, điện nước, bảo hiểm | `Bills` | 1 |
+| 18 | [`government.sieve`](../filter/government.sieve) | Cơ quan thuế, dịch vụ công | `Government` | 1 |
+| 19 | [`invoice.sieve`](../filter/invoice.sieve) | Biên lai, hoá đơn, cổng thanh toán | `Payments` | 2 |
+| 20 | [`proton.sieve`](../filter/proton.sieve) | Thư từ chính dịch vụ Proton | `Proton` | 2 |
+| 21 | [`security.sieve`](../filter/security.sieve) | Cảnh báo tài khoản, đăng nhập, 2FA | `Security` | 10 |
+| 22 | [`phishing.sieve`](../filter/phishing.sieve) | Tên miền giả mạo các dịch vụ ở trên | `Phishing` | 1 |
 
-`work.sieve`, `shopping.sieve` và `spam.sieve` được đặt cuối một cách có chủ đích: điều
-kiện lọc của chúng rộng nhất, nên nếu chạy sớm chúng sẽ giành mất những thư mà các bộ lọc
-cụ thể hơn xử lý tốt hơn.
+`phishing.sieve` đặt cuối là có chủ đích: thư từ một tên miền giả dạng PayPal phải bị gắn
+cờ lừa đảo, bất kể bộ lọc nào khác đã nhận nó.
 
 > [!NOTE]
-> **Hiện có 109 tên miền bị nhiều bộ lọc cùng nhận** — riêng `*apple.com` bị bảy bộ lọc
-> nhận. Thứ tự ở trên quyết định bộ lọc nào thắng. Việc hợp nhất chúng được lên kế hoạch
-> cho bản phát hành sau; xem [CHANGELOG.md](../CHANGELOG.md).
+> Trước đây 109 tên miền bị nhiều bộ lọc cùng nhận — riêng `apple.com` bị bảy bộ lọc — nên
+> thư vào thư mục nào phụ thuộc vào thứ tự bạn tình cờ cài. Giờ mỗi tên miền có đúng một
+> danh mục sở hữu, ghi trong [`data/`](../data/) và được CI kiểm tra.
+
+---
+
+## 📦 Bundle — một bộ lọc thay vì 22
+
+Gói miễn phí của Proton chỉ cho phép **một bộ lọc hoạt động**, khiến 22 bộ lọc riêng lẻ
+không dùng được. Bundle gộp nhiều danh mục vào một script duy nhất.
+
+| Bundle | Gồm | Kích thước |
+|--------|-----|------------|
+| [`bundles/essentials.sieve`](../bundles/essentials.sieve) | phishing, security, invoice, government, shipping | ~26 KB |
+| [`bundles/everything.sieve`](../bundles/everything.sieve) | cả 22 danh mục | ~190 KB |
+
+**Nên dùng `essentials`.** Nó phủ phần chống lừa đảo cùng những danh mục mà mất thư là mất
+thật. `everything` có đủ mọi thứ, nhưng Proton không công bố giới hạn kích thước bộ lọc và
+190 KB là rất lớn để dán vào trình soạn web — hãy thử lưu trước khi tin dùng.
+
+Bên trong bundle thứ tự bị đảo: vì là một script nên `stop;` khiến **cái đầu tiên** khớp
+thắng. Generator sinh bundle theo thứ tự cài đặt ngược lại để kết quả định tuyến giống hệt
+khi cài riêng lẻ. Sửa [`data/bundles.yml`](../data/bundles.yml) để tự tạo bundle riêng.
+
+---
+
+## 🌍 Từ khoá đa ngôn ngữ
+
+Bộ lọc khớp tiêu đề bằng **tiếng Anh, Việt, Trung và Nhật**. 989 từ khoá không phải tiếng
+Anh từng được ghi trong danh sách tham khảo cũ nhưng triển khai trong **0** bộ lọc — mọi
+file `.sieve` đều thuần ASCII trong khi README quảng cáo hỗ trợ đa ngôn ngữ. Giờ chúng đã
+được sinh ra thật.
+
+Việc thêm chúng không làm xáo trộn gì: 23.027 message thử nghiệm định tuyến y hệt trước và
+sau, trong khi số message đa ngữ được phân loại đi từ 2 lên 496.
+
+Muốn bản chỉ tiếng Anh, đặt `languages: [en]` trong file danh mục rồi chạy lại generator.
 
 ---
 
@@ -96,24 +138,23 @@ cụ thể hơn xử lý tốt hơn.
 **Script sẽ âm thầm thất bại nếu thư mục đích chưa tồn tại.** Tạo chúng tại
 **Cài đặt → Thư mục và nhãn → Thêm thư mục**.
 
-Bắt đầu với 14 thư mục gốc:
+Bắt đầu với 22 thư mục gốc:
 
 ```
-Entertainment    News             Shopping
-Gaming           Payments         Social Account
-Health           Proton           Spam
-Legal            Security         Study
-                                  Travel
-                                  Work
+AI          Entertainment   Government   Phishing     Shipping         Study
+Bills       Food            Health       Proton       Shopping         Travel
+Dev         Gaming          Legal        Recruiting   Social Account   Work
+                            News         Security     Spam
+                            Payments
 ```
 
 Chú ý đúng tên: **`Payments`** (không phải "Invoices"), **`News`** (không phải
-"Newsletters"), **`Social Account`** (có dấu cách), **`Spam`**, và **`Legal`** (không phải
-"EULA").
+"Newsletters"), **`Social Account`** (có dấu cách), **`Spam`**, **`Legal`** (không phải
+"EULA") và **`Dev`**.
 
 Sau đó tạo thư mục con cho những bộ lọc bạn cài. Mỗi script tự liệt kê thư mục của nó
-ngay trong phần chú thích đầu file — mở file và đọc khối `# Folders:`. Tổng cộng 14 bộ lọc
-nhắm tới **86 thư mục khác nhau**. Ví dụ `work.sieve` cần:
+ngay trong phần chú thích đầu file — mở file và đọc khối `# Folders:`. Tổng cộng 22 bộ lọc
+nhắm tới **94 thư mục khác nhau**. Ví dụ `work.sieve` cần:
 
 ```
 Work/Career    Work/HR         Work/Meetings   Work/Reminders   Work/Sales
@@ -132,14 +173,15 @@ Hãy đánh số ở đầu tên bộ lọc. Proton liệt kê bộ lọc theo t
 
 ### Bước 3 — tuỳ chỉnh (không bắt buộc)
 
-Domain, từ khoá và thời hạn lưu trữ đều là văn bản thuần nằm gần đầu mỗi script. Xem
+Domain, từ khoá và thời hạn lưu trữ nằm trong [`data/categories/`](../data/categories/),
+không phải trong file `.sieve`. Xem
 [Tuỳ chỉnh nâng cao](#-tuỳ-chỉnh-nâng-cao) bên dưới.
 
 ---
 
 ## ⏰ Thời gian lưu trữ & tự động xoá
 
-Mọi bộ lọc trừ `study.sieve` đều đặt thời hạn cho thư mà nó xử lý, thông qua extension
+Hầu hết bộ lọc đều đặt thời hạn cho thư mà nó xử lý, thông qua extension
 `vnd.proton.expire` của Proton. **Proton sẽ xoá thư khi hết hạn.**
 
 Các giá trị mặc định:
@@ -153,7 +195,8 @@ Các giá trị mặc định:
 | Bản tin, khuyến mãi, thông báo mạng xã hội | 1–14 ngày |
 | Thư khớp heuristic spam | 7 ngày |
 
-Để giữ một danh mục vĩnh viễn, hãy xoá dòng `expire "day" "N";` của nó. Để tìm mọi thời
+Để giữ một danh mục vĩnh viễn, hãy xoá `expire_days` trong
+[`data/categories/`](../data/categories/) rồi chạy lại generator. Để tìm mọi thời
 hạn trong một script:
 
 ```bash
@@ -306,7 +349,20 @@ Hãy theo phong cách code hiện có, và tôn trọng
 
 ## 📄 Giấy phép
 
-MIT — xem [LICENSE](../LICENSE).
+Ba giấy phép, vì đây là ba loại nội dung khác nhau.
+
+| Đường dẫn | Giấy phép |
+| --- | --- |
+| `filter/`, `bundles/`, `tools/`, `tests/`, `data/schema/`, `data/bundles.yml` | **MIT** |
+| `data/categories/`, `data/shared/` | **CC0-1.0** — thuộc phạm vi công cộng, không cần ghi công |
+| Tài liệu (`README*`, `docs/`, `CHANGELOG.md`, `DISCLAIMER.md`, …) | **CC-BY-4.0** |
+
+Các file `.sieve` được sinh ra là MIT, do công cụ MIT tạo từ dữ liệu CC0. CC0 không đặt
+ràng buộc nào nên không có gì được kế thừa — nếu bạn chỉ lấy danh sách domain thì bạn
+không nợ gì cả.
+
+Chi tiết trong [LICENSES/README.md](../LICENSES/README.md); thông tin trích dẫn trong
+[CITATION.cff](../CITATION.cff).
 
 ## 👨‍💻 Liên hệ
 
@@ -328,7 +384,7 @@ và [tài liệu Sieve của Proton](https://proton.me/support/sieve-advanced-cu
 ---
 
 **Kho mã**: https://github.com/poli0981/proton-sieve-filters
-**Phiên bản**: 0.2.1 · **Cập nhật lần cuối**: 28-08-2026
+**Phiên bản**: 0.3.0 · **Cập nhật lần cuối**: 28-08-2026
 
 *Dự án này không liên kết với, không được chứng thực hay tài trợ bởi Proton AG. Proton và
 Proton Mail là thương hiệu của Proton AG.*

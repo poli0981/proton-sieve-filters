@@ -1,7 +1,8 @@
 # Proton Sieve Filters
 
 [![CI](https://github.com/poli0981/proton-sieve-filters/actions/workflows/ci.yml/badge.svg)](https://github.com/poli0981/proton-sieve-filters/actions/workflows/ci.yml)
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Code MIT](https://img.shields.io/badge/Code-MIT-green.svg)](LICENSE)
+[![Data CC0](https://img.shields.io/badge/Data-CC0--1.0-green.svg)](LICENSES/CC0-1.0.txt)
 [![Version](https://img.shields.io/badge/Version-0.3.0-blue.svg)](CHANGELOG.md)
 [![Contributions welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](https://github.com/poli0981/proton-sieve-filters/issues)
 
@@ -50,8 +51,9 @@ research, script writing, and translation, then reviewed by
   research, documentation, domain/keyword compilation
 
 The domain and keyword lists were compiled this way and are **not individually verified**.
-They contain defunct services and at least two domains attributed to the wrong company.
-See [DISCLAIMER.md](DISCLAIMER.md).
+The v0.2.1 audit found 13 domains whose own comment said "(defunct)", two attributed to
+the wrong company, and one that was not a valid hostname. See [DISCLAIMER.md](DISCLAIMER.md)
+and [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md).
 
 ---
 
@@ -386,9 +388,22 @@ Follow the existing style, and respect the
 
 ---
 
-## 📄 License
+## 📄 Licence
 
-MIT — see [LICENSE](LICENSE).
+Three licences, because this is three kinds of thing.
+
+| Path | Licence |
+| --- | --- |
+| `filter/`, `bundles/`, `tools/`, `tests/`, `data/schema/`, `data/bundles.yml` | **MIT** |
+| `data/categories/`, `data/shared/` | **CC0-1.0** — public domain, no attribution required |
+| Documentation (`README*`, `docs/`, `CHANGELOG.md`, `DISCLAIMER.md`, …) | **CC-BY-4.0** |
+
+The generated `.sieve` files are MIT and are produced by MIT tooling from CC0 data. CC0
+imposes no conditions, so nothing is inherited and there is no clause to satisfy — if you
+want only the domain lists, you owe nothing.
+
+Details in [LICENSES/README.md](LICENSES/README.md); citation metadata in
+[CITATION.cff](CITATION.cff).
 
 ## 👨‍💻 Contact
 

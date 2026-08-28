@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """Compare where a message lands under two sets of filters.
 
     python tools/check_roundtrip.py OLD_DIR NEW_DIR

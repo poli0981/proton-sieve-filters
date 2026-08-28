@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Author the new categories for v0.3.0 and renumber install_order.
 
 Domain lists here are deliberately conservative: well-known senders only. The

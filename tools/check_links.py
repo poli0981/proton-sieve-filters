@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """Check that every relative Markdown link resolves to a file that exists.
 
     python tools/check_links.py [path ...]      # default: the whole repo

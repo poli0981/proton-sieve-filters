@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """Parse every Sieve filter with a real Sieve parser.
 
     python tools/validate_sieve.py [path ...]      # default: filter/

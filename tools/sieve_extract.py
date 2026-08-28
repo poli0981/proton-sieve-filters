@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
 """Extract the structure of a filter into plain data.
 
 The 14 filters share one shape:

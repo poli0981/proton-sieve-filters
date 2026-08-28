@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: CC0-1.0
 # Developer Tools -- the source of truth for filter/devtools.sieve.
 # Run `python tools/generate.py` after editing.
 
