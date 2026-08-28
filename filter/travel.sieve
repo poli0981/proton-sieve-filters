@@ -1,342 +1,363 @@
 # Travel filter -- filter/travel.sieve
 #
+# GENERATED FILE -- do not edit. Edit data/categories/travel.yml and run:
+#     python tools/generate.py
+#
 # For Proton Mail only. A paid plan is required to run this alongside other
 # filters: the free plan allows just one active filter at a time.
 #
-# This script filters messages related to travel and booking platforms, moves
-# them to "Travel" folder.
+# Flights, hotels, car hire and trip planning.
 #
-# Folders: Travel, Travel/Activities, Travel/Alerts, Travel/Deals,
+# Folders: Spam, Travel, Travel/Activities, Travel/Alerts, Travel/Deals,
 #          Travel/Flights, Travel/Hotels, Travel/Planning, Travel/Reviews,
 #          Travel/Transport
 #
 # WARNING: this filter sets auto-delete timers on matched mail via
 #          vnd.proton.expire. Read CHANGELOG.md before installing.
 #
-# Filters run in the order you install them, and on conflicting actions the
-# last one wins -- see docs/ for the recommended order.
+# Install position 6 of 14. Filters run in the order you install them, and on
+# conflicting actions the last one wins -- see README.md for the full order.
 #
 # Version: 0.2.1
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
-# Whitelist
+# Never touch mail from people you know.
 if header :list "from" ":addrbook:personal" {
     stop;
 }
 
-# Filter messages related to travel/booking
-if anyof (
-    # Major Travel Booking Platforms
-    address :domain :matches "from" ["*booking.com", "*expedia.com", "*tripadvisor.com",
-    "*kayak.com", "*priceline.com", "*trivago.com", "*hotwire.com",
-    "*orbitz.com", "*travelocity.com", "*momondo.com", "*skyscanner.com",
-    "*cheapflights.com", "*onetravel.com", "*travelzoo.com", "*viator.com",
-    "*getyourguide.com", "*klook.com", "*tiqets.com", "*citypass.com"],
+# Known typosquats of the services this filter handles. These are lookalike
+# domains, not the real senders -- flag them instead of filing them away.
+if address :domain :matches "from" ["airbnbb.com", "*.airbnbb.com", "bookng.com",
+    "*.bookng.com", "delta-airlines.com", "*.delta-airlines.com", "expedia-deals.com",
+    "*.expedia-deals.com", "marriot.com", "*.marriot.com"] {
+    addflag "\\Flagged";
+    fileinto "Spam";
 
-    # Accommodation Platforms
-    address :domain :matches "from" ["*airbnb.com", "*vrbo.com", "*homeaway.com",
-    "*vacasa.com", "*turnkey.com", "*redawning.com",
-    "*flipkey.com", "*whimstay.com", "*glamping.com", "*hipcamp.com",
-    "*koa.com", "*recreation.gov", "*reserveamerica.com"],
+    stop;
+}
 
-    # Hotel Chains & Booking Sites
-    address :domain :matches "from" ["*hotels.com", "*marriott.com", "*hilton.com",
-    "*ihg.com", "*wyndhamhotels.com", "*accor.com", "*hyatt.com",
-    "*bestwestern.com", "*choicehotels.com", "*redlion.com", "*laquinta.com",
-    "*hamptoninn.com", "*holidayinn.com", "*doubletree.com", "*embassy.com",
-    "*sheraton.com", "*westin.com", "*fairmont.com", "*fourseasons.com",
-    "*ritz-carlton.com", "*mandarin-oriental.com", "*peninsula.com"],
-
-    # Airlines - US Domestic
-    address :domain :matches "from" ["*delta.com", "*united.com", "*americanairlines.com",
-    "*southwest.com", "*jetblue.com", "*alaskaair.com", "*spirit.com",
-    "*frontier.com", "*hawaiianairlines.com", "*allegiantair.com",
-    "*sunairlines.com", "*breezeairways.com"],
-
-    # Airlines - International
-    address :domain :matches "from" ["*emirates.com", "*qatarairways.com", "*etihad.com",
-    "*lufthansa.com", "*klm.com", "*airfrance.com", "*britishairways.com",
-    "*virginatlantic.com", "*swiss.com", "*austrian.com", "*turkish.com",
-    "*aeroflot.com", "*alitalia.com", "*iberia.com", "*tap.pt", "*sas.se",
-    "*finnair.com", "*icelandair.com", "*norwegianair.com", "*ryanair.com",
-    "*easyjet.com", "*wizzair.com", "*vueling.com"],
-
-    # Airlines - Asian & Pacific
-    address :domain :matches "from" ["*singaporeair.com", "*cathaypacific.com",
-    "*jal.com", "*ana.co.jp", "*koreanair.com", "*asiana.com", "*thaiairways.com",
-    "*malaysiaairlines.com", "*philippineairlines.com", "*garuda-indonesia.com",
-    "*vietnamairlines.com", "*airasia.com", "*cebu-pacific.com", "*jetstar.com",
-    "*qantas.com", "*airnz.com", "*fijianairways.com"],
-
-    # Car Rental Companies
-    address :domain :matches "from" ["*hertz.com", "*avis.com", "*enterprise.com",
-    "*budget.com", "*alamo.com", "*national.com", "*thrifty.com", "*dollar.com",
-    "*sixt.com", "*europcar.com", "*zipcar.com", "*turo.com", "*getaround.com",
-    "*car2go.com", "*kayak.com", "*rentalcars.com", "*expedia.com"],
-
-    # Ride-sharing & Transportation
-    address :domain :matches "from" ["*uber.com", "*lyft.com", "*via.com",
-    "*gett.com", "*juno.com", "*grab.com", "*didi.com", "*ola.com",
-    "*99app.com", "*cabify.com", "*boltapp.com", "*freenow.com"],
-
-    # Cruise Lines
-    address :domain :matches "from" ["*royalcaribbean.com", "*carnivalcruiseline.com",
-    "*ncl.com", "*princess.com", "*celebritycruises.com", "*hollandamerica.com",
-    "*msc.com", "*costacruises.com", "*cunard.com", "*disneycruise.com",
-    "*vikingcruises.com", "*silversea.com", "*regent7seas.com"],
-
-    # Public Transportation & Rail
-    address :domain :matches "from" ["*amtrak.com", "*greyhound.com", "*megabus.com",
-    "*flixbus.com", "*boltbus.com", "*trainline.com", "*eurail.com",
-    "*interrail.eu", "*sncf.com", "*trenitalia.com", "*renfe.com", "*ns.nl",
-    "*deutschebahn.com", "*sbb.ch", "*oebb.at", "*jrpass.com"],
-
-    # Travel Insurance & Services
-    address :domain :matches "from" ["*worldnomads.com", "*allianz.com", "*axa.com",
-    "*travelsafe.com", "*insuremytrip.com", "*squaremouth.com", "*travelguard.com",
-    "*covermore.com", "*travelex.com", "*airhelp.com", "*flightright.com"],
-
-    # Travel Apps & Utilities
-    address :domain :matches "from" ["*tripit.com", "*hopper.com", "*citymapper.com",
-    "*rome2rio.com", "*waze.com", "*google.com", "*apple.com",
-    "*loungebuddy.com", "*prioritypass.com", "*seatguru.com", "*xe.com",
-    "*splitwise.com", "*packpoint.com", "*timeshifter.com", "*flightaware.com"],
-
-    # Activity & Experience Booking
-    address :domain :matches "from" ["*alltrails.com", "*roadtrippers.com", "*yelp.com",
-    "*foursquare.com", "*zomato.com", "*opentable.com", "*resy.com",
-    "*eventbrite.com", "*stubhub.com", "*ticketmaster.com", "*goldstar.com",
-    "*groupon.com", "*livingsocial.com"],
-
-    # Travel Communities & Reviews
-    address :domain :matches "from" ["*lonelyplanet.com", "*frommers.com", "*fodors.com",
-    "*ricksteves.com", "*timeout.com", "*atlasobscura.com", "*nomadlist.com",
-    "*couchsurfing.com", "*meetup.com", "*backpackr.com"],
-
-    # Specialty Travel Services
-    address :domain :matches "from" ["*costcotravel.com", "*aaa.com", "*samsonite.com",
-    "*away.com", "*rimowa.com", "*tumi.com", "*travelpro.com", "*gasbuddy.com",
-    "*roadtrippers.com", "*campgrounds.com", "*rvlife.com"]
-) {
-    # Mark email as read first
+if address :domain :matches "from" ["99app.com", "*.99app.com", "aaa.com", "*.aaa.com",
+    "accor.com", "*.accor.com", "aeroflot.com", "*.aeroflot.com", "airasia.com",
+    "*.airasia.com", "airbnb.com", "*.airbnb.com", "airfrance.com",
+    "*.airfrance.com", "airhelp.com", "*.airhelp.com", "airnz.com", "*.airnz.com",
+    "alamo.com", "*.alamo.com", "alaskaair.com", "*.alaskaair.com", "alitalia.com",
+    "*.alitalia.com", "allegiantair.com", "*.allegiantair.com", "allianz.com",
+    "*.allianz.com", "alltrails.com", "*.alltrails.com", "americanairlines.com",
+    "*.americanairlines.com", "amtrak.com", "*.amtrak.com", "ana.co.jp",
+    "*.ana.co.jp", "asiana.com", "*.asiana.com", "atlasobscura.com",
+    "*.atlasobscura.com", "austrian.com", "*.austrian.com", "avis.com",
+    "*.avis.com", "away.com", "*.away.com", "axa.com", "*.axa.com", "backpackr.com",
+    "*.backpackr.com", "bestwestern.com", "*.bestwestern.com", "boltapp.com",
+    "*.boltapp.com", "boltbus.com", "*.boltbus.com", "booking.com", "*.booking.com",
+    "breezeairways.com", "*.breezeairways.com", "britishairways.com",
+    "*.britishairways.com", "budget.com", "*.budget.com", "cabify.com",
+    "*.cabify.com", "campgrounds.com", "*.campgrounds.com", "car2go.com",
+    "*.car2go.com", "carnivalcruiseline.com", "*.carnivalcruiseline.com",
+    "cathaypacific.com", "*.cathaypacific.com", "cebu-pacific.com",
+    "*.cebu-pacific.com", "celebritycruises.com", "*.celebritycruises.com",
+    "cheapflights.com", "*.cheapflights.com", "choicehotels.com",
+    "*.choicehotels.com", "citymapper.com", "*.citymapper.com", "citypass.com",
+    "*.citypass.com", "costacruises.com", "*.costacruises.com", "costcotravel.com",
+    "*.costcotravel.com", "couchsurfing.com", "*.couchsurfing.com", "covermore.com",
+    "*.covermore.com", "cunard.com", "*.cunard.com", "delta.com", "*.delta.com",
+    "deutschebahn.com", "*.deutschebahn.com", "didi.com", "*.didi.com",
+    "disneycruise.com", "*.disneycruise.com", "dollar.com", "*.dollar.com",
+    "doubletree.com", "*.doubletree.com", "easyjet.com", "*.easyjet.com",
+    "embassy.com", "*.embassy.com", "emirates.com", "*.emirates.com",
+    "enterprise.com", "*.enterprise.com", "etihad.com", "*.etihad.com",
+    "eurail.com", "*.eurail.com", "europcar.com", "*.europcar.com", "expedia.com",
+    "*.expedia.com", "fairmont.com", "*.fairmont.com", "fijianairways.com",
+    "*.fijianairways.com", "finnair.com", "*.finnair.com", "flightaware.com",
+    "*.flightaware.com", "flightright.com", "*.flightright.com", "flipkey.com",
+    "*.flipkey.com", "flixbus.com", "*.flixbus.com", "fodors.com", "*.fodors.com",
+    "fourseasons.com", "*.fourseasons.com", "foursquare.com", "*.foursquare.com",
+    "freenow.com", "*.freenow.com", "frommers.com", "*.frommers.com",
+    "frontier.com", "*.frontier.com", "garuda-indonesia.com",
+    "*.garuda-indonesia.com", "gasbuddy.com", "*.gasbuddy.com", "getaround.com",
+    "*.getaround.com", "gett.com", "*.gett.com", "getyourguide.com",
+    "*.getyourguide.com", "glamping.com", "*.glamping.com", "goldstar.com",
+    "*.goldstar.com", "grab.com", "*.grab.com", "greyhound.com", "*.greyhound.com",
+    "groupon.com", "*.groupon.com", "hamptoninn.com", "*.hamptoninn.com",
+    "hawaiianairlines.com", "*.hawaiianairlines.com", "hertz.com", "*.hertz.com",
+    "hilton.com", "*.hilton.com", "hipcamp.com", "*.hipcamp.com", "holidayinn.com",
+    "*.holidayinn.com", "hollandamerica.com", "*.hollandamerica.com",
+    "homeaway.com", "*.homeaway.com", "hopper.com", "*.hopper.com", "hotels.com",
+    "*.hotels.com", "hotwire.com", "*.hotwire.com", "hyatt.com", "*.hyatt.com",
+    "iberia.com", "*.iberia.com", "icelandair.com", "*.icelandair.com", "ihg.com",
+    "*.ihg.com", "insuremytrip.com", "*.insuremytrip.com", "interrail.eu",
+    "*.interrail.eu", "jal.com", "*.jal.com", "jetblue.com", "*.jetblue.com",
+    "jetstar.com", "*.jetstar.com", "jrpass.com", "*.jrpass.com", "kayak.com",
+    "*.kayak.com", "klm.com", "*.klm.com", "klook.com", "*.klook.com", "koa.com",
+    "*.koa.com", "koreanair.com", "*.koreanair.com", "laquinta.com",
+    "*.laquinta.com", "livingsocial.com", "*.livingsocial.com", "lonelyplanet.com",
+    "*.lonelyplanet.com", "loungebuddy.com", "*.loungebuddy.com", "lufthansa.com",
+    "*.lufthansa.com", "lyft.com", "*.lyft.com", "malaysiaairlines.com",
+    "*.malaysiaairlines.com", "mandarin-oriental.com", "*.mandarin-oriental.com",
+    "marriott.com", "*.marriott.com", "meetup.com", "*.meetup.com", "megabus.com",
+    "*.megabus.com", "momondo.com", "*.momondo.com", "msc.com", "*.msc.com",
+    "national.com", "*.national.com", "ncl.com", "*.ncl.com", "nomadlist.com",
+    "*.nomadlist.com", "norwegianair.com", "*.norwegianair.com", "ns.nl", "*.ns.nl",
+    "oebb.at", "*.oebb.at", "ola.com", "*.ola.com", "onetravel.com",
+    "*.onetravel.com", "opentable.com", "*.opentable.com", "orbitz.com",
+    "*.orbitz.com", "packpoint.com", "*.packpoint.com", "peninsula.com",
+    "*.peninsula.com", "philippineairlines.com", "*.philippineairlines.com",
+    "priceline.com", "*.priceline.com", "princess.com", "*.princess.com",
+    "prioritypass.com", "*.prioritypass.com", "qantas.com", "*.qantas.com",
+    "qatarairways.com", "*.qatarairways.com", "recreation.gov", "*.recreation.gov",
+    "redawning.com", "*.redawning.com", "redlion.com", "*.redlion.com",
+    "regent7seas.com", "*.regent7seas.com", "renfe.com", "*.renfe.com",
+    "rentalcars.com", "*.rentalcars.com", "reserveamerica.com",
+    "*.reserveamerica.com", "resy.com", "*.resy.com", "ricksteves.com",
+    "*.ricksteves.com", "rimowa.com", "*.rimowa.com", "ritz-carlton.com",
+    "*.ritz-carlton.com", "roadtrippers.com", "*.roadtrippers.com", "rome2rio.com",
+    "*.rome2rio.com", "royalcaribbean.com", "*.royalcaribbean.com", "rvlife.com",
+    "*.rvlife.com", "ryanair.com", "*.ryanair.com", "samsonite.com",
+    "*.samsonite.com", "sas.se", "*.sas.se", "sbb.ch", "*.sbb.ch", "seatguru.com",
+    "*.seatguru.com", "sheraton.com", "*.sheraton.com", "silversea.com",
+    "*.silversea.com", "singaporeair.com", "*.singaporeair.com", "sixt.com",
+    "*.sixt.com", "skyscanner.com", "*.skyscanner.com", "sncf.com", "*.sncf.com",
+    "southwest.com", "*.southwest.com", "spirit.com", "*.spirit.com",
+    "splitwise.com", "*.splitwise.com", "squaremouth.com", "*.squaremouth.com",
+    "stubhub.com", "*.stubhub.com", "sunairlines.com", "*.sunairlines.com",
+    "swiss.com", "*.swiss.com", "tap.pt", "*.tap.pt", "thaiairways.com",
+    "*.thaiairways.com", "thrifty.com", "*.thrifty.com", "ticketmaster.com",
+    "*.ticketmaster.com", "timeout.com", "*.timeout.com", "timeshifter.com",
+    "*.timeshifter.com", "tiqets.com", "*.tiqets.com", "trainline.com",
+    "*.trainline.com", "travelex.com", "*.travelex.com", "travelguard.com",
+    "*.travelguard.com", "travelocity.com", "*.travelocity.com", "travelpro.com",
+    "*.travelpro.com", "travelsafe.com", "*.travelsafe.com", "travelzoo.com",
+    "*.travelzoo.com", "trenitalia.com", "*.trenitalia.com", "tripadvisor.com",
+    "*.tripadvisor.com", "tripit.com", "*.tripit.com", "trivago.com",
+    "*.trivago.com", "tumi.com", "*.tumi.com", "turkish.com", "*.turkish.com",
+    "turnkey.com", "*.turnkey.com", "turo.com", "*.turo.com", "uber.com",
+    "*.uber.com", "united.com", "*.united.com", "vacasa.com", "*.vacasa.com",
+    "via.com", "*.via.com", "viator.com", "*.viator.com", "vietnamairlines.com",
+    "*.vietnamairlines.com", "vikingcruises.com", "*.vikingcruises.com",
+    "virginatlantic.com", "*.virginatlantic.com", "vrbo.com", "*.vrbo.com",
+    "vueling.com", "*.vueling.com", "waze.com", "*.waze.com", "westin.com",
+    "*.westin.com", "whimstay.com", "*.whimstay.com", "wizzair.com",
+    "*.wizzair.com", "worldnomads.com", "*.worldnomads.com", "wyndhamhotels.com",
+    "*.wyndhamhotels.com", "xe.com", "*.xe.com", "yelp.com", "*.yelp.com",
+    "zipcar.com", "*.zipcar.com", "zomato.com", "*.zomato.com"] {
     addflag "\\Seen";
+    fileinto "Travel";
 
-    # Flight & Transportation Bookings
     if anyof (
-        header :contains "subject" ["Flight Confirmation", "Flight Itinerary", "Boarding Pass",
-        "Flight Booking", "Airline Ticket", "Flight Receipt", "Travel Itinerary",
-        "Airport Check-in", "Flight Details", "E-ticket", "Departure Information"],
-        address :domain :matches "from" ["*delta.com", "*united.com", "*americanairlines.com",
-        "*southwest.com", "*emirates.com", "*lufthansa.com", "*britishairways.com"]
+        address :domain :matches "from" ["americanairlines.com",
+            "*.americanairlines.com", "britishairways.com", "*.britishairways.com",
+            "delta.com", "*.delta.com", "emirates.com", "*.emirates.com",
+            "lufthansa.com", "*.lufthansa.com", "southwest.com", "*.southwest.com",
+            "united.com", "*.united.com"],
+        header :contains "subject" ["Flight Confirmation", "Flight Itinerary",
+            "Boarding Pass", "Flight Booking", "Airline Ticket", "Flight Receipt",
+            "Travel Itinerary", "Airport Check-in", "Flight Details", "E-ticket",
+            "Departure Information"]
     ) {
         fileinto "Travel/Flights";
-        
-        # Flight confirmations (expire 90 days)
+
         if allof (
-            header :contains "subject" ["Booking Confirmation", "Flight Itinerary", 
-            "E-ticket Confirmation", "Travel Receipt", "Reservation Confirmed"],
+            header :contains "subject" ["Booking Confirmation", "Flight Itinerary",
+                "E-ticket Confirmation", "Travel Receipt", "Reservation Confirmed"],
             size :under 1M
         ) {
             expire "day" "90";
         }
-        
+
         stop;
     }
 
-    # Hotel & Accommodation Bookings
     if anyof (
-        header :contains "subject" ["Hotel Confirmation", "Hotel Reservation", "Booking Confirmed",
-        "Room Reservation", "Accommodation Details", "Hotel Receipt", "Check-in Information",
-        "Hotel Booking", "Stay Confirmation", "Reservation Number", "Hotel Voucher"],
-        address :domain :matches "from" ["*booking.com", "*hotels.com", "*expedia.com",
-        "*marriott.com", "*hilton.com", "*airbnb.com", "*vrbo.com"]
+        address :domain :matches "from" ["airbnb.com", "*.airbnb.com", "booking.com",
+            "*.booking.com", "choicehotels.com", "*.choicehotels.com", "expedia.com",
+            "*.expedia.com", "hilton.com", "*.hilton.com", "hotels.com", "*.hotels.com",
+            "marriott.com", "*.marriott.com", "vrbo.com", "*.vrbo.com",
+            "wyndhamhotels.com", "*.wyndhamhotels.com"],
+        header :contains "subject" ["Hotel Confirmation", "Hotel Reservation",
+            "Booking Confirmed", "Room Reservation", "Accommodation Details",
+            "Hotel Receipt", "Check-in Information", "Hotel Booking",
+            "Stay Confirmation", "Reservation Number", "Hotel Voucher"]
     ) {
         fileinto "Travel/Hotels";
-        
-        # Hotel confirmations (expire 90 days)
+
         if allof (
-            header :contains "subject" ["Booking Confirmation", "Hotel Reservation Details",
-            "Reservation Confirmed", "Stay Receipt", "Hotel Booking"],
+            header :contains "subject" ["Booking Confirmation",
+                "Hotel Reservation Details", "Reservation Confirmed", "Stay Receipt",
+                "Hotel Booking"],
             size :under 1M
         ) {
             expire "day" "90";
         }
-        
+
         stop;
     }
 
-    # Car Rental & Transportation
     if anyof (
-        header :contains "subject" ["Car Rental Confirmation", "Rental Agreement", "Vehicle Reservation",
-        "Pickup Information", "Car Booking", "Rental Receipt", "Transportation Booking",
-        "Ride Confirmation", "Trip Receipt", "Rental Details"],
-        address :domain :matches "from" ["*hertz.com", "*avis.com", "*enterprise.com",
-        "*uber.com", "*lyft.com", "*turo.com", "*zipcar.com"]
+        address :domain :matches "from" ["avis.com", "*.avis.com", "enterprise.com",
+            "*.enterprise.com", "hertz.com", "*.hertz.com", "lyft.com", "*.lyft.com",
+            "turo.com", "*.turo.com", "uber.com", "*.uber.com", "zipcar.com",
+            "*.zipcar.com"],
+        header :contains "subject" ["Car Rental Confirmation", "Rental Agreement",
+            "Vehicle Reservation", "Pickup Information", "Car Booking",
+            "Rental Receipt", "Transportation Booking", "Ride Confirmation",
+            "Trip Receipt", "Rental Details"]
     ) {
         fileinto "Travel/Transport";
-        
-        # Transportation confirmations (expire 60 days)
+
         if allof (
             header :contains "subject" ["Rental Confirmation", "Car Booking Confirmed",
-            "Transportation Receipt", "Ride Receipt", "Trip Summary"],
+                "Transportation Receipt", "Ride Receipt", "Trip Summary"],
             size :under 500K
         ) {
             expire "day" "60";
         }
-        
+
         stop;
     }
 
-    # Activities & Experiences
     if anyof (
-        header :contains "subject" ["Activity Booking", "Tour Confirmation", "Experience Booked",
-        "Ticket Confirmation", "Attraction Tickets", "Event Booking", "Show Tickets",
-        "Museum Pass", "Tour Guide", "Adventure Booking", "Excursion Confirmed"],
-        address :domain :matches "from" ["*viator.com", "*getyourguide.com", "*klook.com",
-        "*tiqets.com", "*citypass.com", "*eventbrite.com", "*tripadvisor.com"]
+        address :domain :matches "from" ["citypass.com", "*.citypass.com",
+            "getyourguide.com", "*.getyourguide.com", "klook.com", "*.klook.com",
+            "tiqets.com", "*.tiqets.com", "tripadvisor.com", "*.tripadvisor.com",
+            "viator.com", "*.viator.com"],
+        header :contains "subject" ["Activity Booking", "Tour Confirmation",
+            "Experience Booked", "Ticket Confirmation", "Attraction Tickets",
+            "Event Booking", "Show Tickets", "Museum Pass", "Tour Guide",
+            "Adventure Booking", "Excursion Confirmed"]
     ) {
         fileinto "Travel/Activities";
-        
-        # Activity confirmations (expire 60 days)
+
         if allof (
-            header :contains "subject" ["Activity Confirmed", "Tour Booking", "Ticket Purchase",
-            "Experience Receipt", "Activity Voucher"],
+            header :contains "subject" ["Activity Confirmed", "Tour Booking",
+                "Ticket Purchase", "Experience Receipt", "Activity Voucher"],
             size :under 500K
         ) {
             expire "day" "60";
         }
-        
+
         stop;
     }
 
-    # Travel Deals & Promotions
     if anyof (
-        header :contains "subject" ["Travel Deal Alert", "Flash Sale", "Limited Time Offer",
-        "Vacation Special", "Flight Deal", "Hotel Discount", "Travel Savings",
-        "Exclusive Offer", "Weekend Getaway", "Holiday Package", "Last Minute Deal",
-        "Price Drop Alert", "Travel Promo", "Booking Special", "Member Discount"],
+        header :contains "subject" ["Travel Deal Alert", "Flash Sale",
+            "Limited Time Offer", "Vacation Special", "Flight Deal", "Hotel Discount",
+            "Travel Savings", "Exclusive Offer", "Weekend Getaway", "Holiday Package",
+            "Last Minute Deal", "Price Drop Alert", "Travel Promo", "Booking Special",
+            "Member Discount"],
         header :contains "from" ["deals@", "offers@", "promotions@", "newsletter@"]
     ) {
         fileinto "Travel/Deals";
-        
-        # Deal alerts (expire 5 days)
+
         if allof (
             header :contains "subject" ["Flash Sale", "Limited Time", "Deal Alert",
-            "Price Drop", "Sale Ends", "Last Chance", "24-Hour Sale"],
+                "Price Drop", "Sale Ends", "Last Chance", "24-Hour Sale"],
             size :under 500K
         ) {
             expire "day" "5";
         }
-        
+
         stop;
     }
 
-    # Travel Alerts & Notifications
     if allof (
         header :contains "subject" ["Flight Delay", "Gate Change", "Check-in Reminder",
-        "Departure Alert", "Arrival Update", "Travel Advisory", "Weather Alert",
-        "Security Alert", "Cancellation Notice", "Schedule Change", "Trip Reminder",
-        "Boarding Reminder", "Flight Status", "Terminal Change", "Baggage Alert"],
-        size :under 200K  # Alerts are typically smaller
+            "Departure Alert", "Arrival Update", "Travel Advisory", "Weather Alert",
+            "Security Alert", "Cancellation Notice", "Schedule Change", "Trip Reminder",
+            "Boarding Reminder", "Flight Status", "Terminal Change", "Baggage Alert"],
+        size :under 200K
     ) {
         fileinto "Travel/Alerts";
-        
-        # Time-sensitive alerts (expire 1 day)
+
         if allof (
             header :contains "subject" ["Flight Delay", "Gate Change", "Check-in Now",
-            "Departure Alert", "Boarding", "Last Call", "Emergency Alert"],
+                "Departure Alert", "Boarding", "Last Call", "Emergency Alert"],
             size :under 500K
         ) {
             expire "day" "1";
         }
-        
+
         stop;
     }
 
-    # Travel Reviews & Recommendations
     if anyof (
-        header :contains "subject" ["Rate Your Stay", "Review Your Trip", "How Was Your Flight",
-        "Share Your Experience", "Trip Review", "Hotel Review", "Travel Feedback",
-        "Review Request", "Trip Survey", "Experience Rating", "Service Feedback"],
+        header :contains "subject" ["Rate Your Stay", "Review Your Trip",
+            "How Was Your Flight", "Share Your Experience", "Trip Review",
+            "Hotel Review", "Travel Feedback", "Review Request", "Trip Survey",
+            "Experience Rating", "Service Feedback"],
         header :contains "from" ["review@", "feedback@", "survey@", "experience@"]
     ) {
         fileinto "Travel/Reviews";
-        
-        # Review requests (expire 7 days)
+
         if allof (
-            header :contains "subject" ["Rate", "Review", "Feedback", "Survey", "Experience"],
+            header :contains "subject" ["Rate", "Review", "Feedback", "Survey",
+                "Experience"],
             size :under 500K
         ) {
             expire "day" "7";
         }
-        
+
         stop;
     }
 
-    # Travel Planning & Inspiration
     if anyof (
         header :contains "subject" ["Top Destinations", "Travel Guide", "Trip Ideas",
-        "Destination Spotlight", "Travel Tips", "Best Places to Visit", "Travel Inspiration",
-        "Hidden Gems", "Travel Blog", "Destination Review", "Travel Trends",
-        "Vacation Ideas", "Travel Newsletter", "Explore", "Wanderlust"],
+            "Destination Spotlight", "Travel Tips", "Best Places to Visit",
+            "Travel Inspiration", "Hidden Gems", "Travel Blog", "Destination Review",
+            "Travel Trends", "Vacation Ideas", "Travel Newsletter", "Explore",
+            "Wanderlust"],
         header :contains "from" ["newsletter@", "blog@", "tips@", "inspiration@"]
     ) {
         fileinto "Travel/Planning";
-        
-        # Travel inspiration (expire 10 days)
+
         if allof (
             header :contains "subject" ["Newsletter", "Weekly", "Monthly", "Guide",
-            "Tips", "Ideas", "Inspiration", "Blog"],
+                "Tips", "Ideas", "Inspiration", "Blog"],
             size :under 500K
         ) {
             expire "day" "10";
         }
-        
+
         stop;
     }
 
-    # Default to "Travel" folder
-    fileinto "Travel";
-
-    # General expiration rules for travel content
-
-    # Account & Security notifications (expire 14 days)
     if allof (
-        header :contains "subject" ["Account Update", "Password Change", "Security Alert",
-        "Profile Update", "Payment Method", "Billing Update", "Account Verification",
-        "Two-Factor Authentication", "Login Alert", "Account Activity"],
+        header :contains "subject" ["Account Update", "Password Change",
+            "Security Alert", "Profile Update", "Payment Method", "Billing Update",
+            "Account Verification", "Two-Factor Authentication", "Login Alert",
+            "Account Activity"],
         size :under 500K
     ) {
         expire "day" "14";
+
         stop;
     }
 
-    # Loyalty program updates (expire 30 days)
     if allof (
         header :contains "subject" ["Miles Update", "Points Summary", "Elite Status",
-        "Loyalty Program", "Rewards Balance", "Member Benefits", "Status Update",
-        "Points Earned", "Reward Redemption", "Member Newsletter"],
+            "Loyalty Program", "Rewards Balance", "Member Benefits", "Status Update",
+            "Points Earned", "Reward Redemption", "Member Newsletter"],
         size :under 500K
     ) {
         expire "day" "30";
+
         stop;
     }
 
-    # Newsletter & marketing (expire 7 days)
     if allof (
         header :contains "subject" ["Newsletter", "Travel News", "Weekly Update",
-        "Monthly Digest", "Travel Trends", "Industry News", "Company Update"],
+            "Monthly Digest", "Travel Trends", "Industry News", "Company Update"],
         size :under 500K
     ) {
         expire "day" "7";
+
         stop;
     }
 
-    # Default expiration for other travel content (10 days)
+    # Default retention for anything that reached none of the rules above.
     expire "day" "10";
-    
+
     stop;
 }
 
-# End of Travel Filter
+# End of Travel filter

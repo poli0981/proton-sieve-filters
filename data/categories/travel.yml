@@ -1838,6 +1838,8 @@ rules:
   - yelp.com
   - zipcar.com
   - zomato.com
+  flags:
+  - \Seen
   expire_days: 10
   stop: true
   tiers:
@@ -1891,11 +1893,13 @@ rules:
     domains:
     - airbnb.com
     - booking.com
+    - choicehotels.com
     - expedia.com
     - hilton.com
     - hotels.com
     - marriott.com
     - vrbo.com
+    - wyndhamhotels.com
     stop: true
     tiers:
     - op: allof

@@ -1,225 +1,247 @@
 # Health & Fitness filter -- filter/health.sieve
 #
+# GENERATED FILE -- do not edit. Edit data/categories/health.yml and run:
+#     python tools/generate.py
+#
 # For Proton Mail only. A paid plan is required to run this alongside other
 # filters: the free plan allows just one active filter at a time.
 #
-# This script filters messages related to health and fitness platforms/apps,
-# moves them to "Health" folder.
+# Medical, fitness and wellness services.
 #
 # Folders: Health
 #
 # WARNING: this filter sets auto-delete timers on matched mail via
 #          vnd.proton.expire. Read CHANGELOG.md before installing.
 #
-# Filters run in the order you install them, and on conflicting actions the
-# last one wins -- see docs/ for the recommended order.
+# Install position 5 of 14. Filters run in the order you install them, and on
+# conflicting actions the last one wins -- see README.md for the full order.
 #
 # Version: 0.2.1
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
-# Whitelist
+# Never touch mail from people you know.
 if header :list "from" ":addrbook:personal" {
     stop;
 }
 
-# Filter messages related to health/fitness
-if anyof (
-    # Major Fitness Apps & Platforms
-    address :domain :matches "from" ["*nike.com", "*peloton.com", "*centr.com",
-    "*classpass.com", "*lesmills.com", "*fitfusion.com", "*dailyburn.com",
-    "*obefitness.com", "*thesculptsociety.com", "*evolveyou.app", "*popsugar.com",
-    "*apple.com", "*future.co", "*joinforma.com", "*fitbod.me", "*aaptiv.com",
-    "*blogilates.com", "*8fit.com", "*asanarebel.com", "*glo.com", "*ladder.app",
-    "*pvolve.com", "*alomoves.com", "*trainwell.net", "*strongapp.me"],
-
-    # Meditation & Mental Health Apps
-    address :domain :matches "from" ["*calm.com", "*headspace.com", "*happier.com",
-    "*sleepcycle.com", "*insight-timer.com", "*ten-percent-happier.com", "*waking-up.com",
-    "*buddhify.com", "*simple-habit.com", "*breethe.com", "*sanvello.com",
-    "*youper.ai", "*daylio.net", "*moodpath.com", "*talkspace.com", "*betterhelp.com",
-    "*cerebral.com", "*brightside.com", "*lyra.com"],
-
-    # Fitness Tracking & Wearables
-    address :domain :matches "from" ["*myfitnesspal.com", "*strava.com", "*fitbit.com",
-    "*whoop.com", "*garmin.com", "*suunto.com", "*polar.com", "*samsung.com",
-    "*huawei.com", "*amazfit.com", "*withings.com", "*oura.com", "*mapmyrun.com",
-    "*mapmyfitness.com", "*runkeeper.com", "*runtastic.com", "*endomondo.com"],
-
-    # Nutrition & Diet Apps
-    address :domain :matches "from" ["*lifesum.com", "*loseit.com", "*cronometer.com",
-    "*fatsecret.com", "*sparkpeople.com", "*yazio.com", "*noom.com", "*ww.com",
-    "*weightwatchers.com", "*nutrisystem.com", "*hellofresh.com", "*blueapron.com",
-    "*freshly.com", "*sunbasket.com", "*plated.com", "*gobble.com"],
-
-    # Workout & Training Platforms
-    address :domain :matches "from" ["*beachbody.com", "*p90x.com", "*insanity.com",
-    "*21dayfix.com", "*dailyhiit.com", "*7minuteworkout.com", "*sworkit.com",
-    "*freeletics.com", "*adidas.com", "*under-armour.com", "*reebok.com",
-    "*trainiac.com", "*jefit.com", "*bodybuilding.com", "*muscleandstrength.com"],
-
-    # Yoga & Pilates Apps
-    address :domain :matches "from" ["*downdogapp.com", "*dailyyoga.com", "*yogastudio.com",
-    "*gaiam.com", "*doyogawithme.com", "*alo.com", "*corepower.com", "*yogaworks.com",
-    "*pilatesanytime.com", "*blogilates.com", "*balanced-body.com", "*stottpilates.com"],
-
-    # Health Monitoring & Medical Apps
-    address :domain :matches "from" ["*healthtap.com", "*teladoc.com", "*amwell.com",
-    "*mdlive.com", "*doctorondemand.com", "*zocdoc.com", "*practo.com", "*babylon.health",
-    "*ada.com", "*symptomate.com", "*webmd.com", "*mayoclinic.org", "*healthline.com",
-    "*medscape.com", "*drugs.com", "*goodrx.com"],
-
-    # Gaming Fitness & Activity Apps
-    address :domain :matches "from" ["*pokemon.com", "*pokemongo.com", "*niantic.com",
-    "*zombiesrungame.com", "*couchto5k.com", "*justdancenow.com", "*fitnessrpg.com",
-    "*habitica.com", "*stridekick.com", "*stepbet.com", "*dietbet.com", "*walkr.space"],
-
-    # Sleep & Recovery Apps
-    address :domain :matches "from" ["*sleep.com", "*sleepscore.com", "*pillow.com",
-    "*sleepbot.com", "*sleepio.com", "*pzizz.com", "*noisli.com", "*rainy-mood.com",
-    "*brain.fm", "*focus-app.com", "*freedom.to", "*rescue-time.com"],
-
-    # Supplement & Wellness Companies
-    address :domain :matches "from" ["*myprotein.com", "*optimumnutrition.com", "*bsn.com",
-    "*cellucor.com", "*musclepharm.com", "*dymatize.com", "*questnutrition.com",
-    "*muscletech.com", "*nutrabio.com", "*performancelab.com", "*thorne.com",
-    "*naturemade.com", "*centrum.com", "*vitafusion.com"],
-
-    # Professional Health Services
-    address :domain :matches "from" ["*23andme.com", "*ancestry.com", "*myheritage.com",
-    "*color.com", "*helix.com", "*everlywell.com", "*letsgetchecked.com", "*imaware.health",
-    "*inside-tracker.com", "*vitagene.com", "*nutrigenomix.com", "*arivale.com"],
-
-    # Specialized Health Platforms
-    address :domain :matches "from" ["*diabetes.org", "*heart.org", "*cancer.org",
-    "*arthritis.org", "*kidney.org", "*lung.org", "*alzheimers.net", "*parkinson.org",
-    "*multiple-sclerosis.org", "*crohns-colitis-foundation.org"],
-
-    # Corporate Wellness Platforms
-    address :domain :matches "from" ["*virgin-pulse.com", "*limeade.com", "*thrive.com",
-    "*achievers.com", "*welltok.com", "*castlight.com", "*jiff.com", "*redbox-rx.com",
-    "*shipt.com", "*instacart.com"]
-) {
-    # Mark email as read first
+if address :domain :matches "from" ["21dayfix.com", "*.21dayfix.com", "23andme.com",
+    "*.23andme.com", "7minuteworkout.com", "*.7minuteworkout.com", "8fit.com",
+    "*.8fit.com", "aaptiv.com", "*.aaptiv.com", "achievers.com", "*.achievers.com",
+    "ada.com", "*.ada.com", "adidas.com", "*.adidas.com", "alo.com", "*.alo.com",
+    "alomoves.com", "*.alomoves.com", "alzheimers.net", "*.alzheimers.net",
+    "amazfit.com", "*.amazfit.com", "amwell.com", "*.amwell.com", "ancestry.com",
+    "*.ancestry.com", "arthritis.org", "*.arthritis.org", "asanarebel.com",
+    "*.asanarebel.com", "babylon.health", "*.babylon.health", "balanced-body.com",
+    "*.balanced-body.com", "beachbody.com", "*.beachbody.com", "betterhelp.com",
+    "*.betterhelp.com", "blogilates.com", "*.blogilates.com", "blueapron.com",
+    "*.blueapron.com", "bodybuilding.com", "*.bodybuilding.com", "brain.fm",
+    "*.brain.fm", "breethe.com", "*.breethe.com", "brightside.com",
+    "*.brightside.com", "bsn.com", "*.bsn.com", "buddhify.com", "*.buddhify.com",
+    "calm.com", "*.calm.com", "cancer.org", "*.cancer.org", "castlight.com",
+    "*.castlight.com", "cellucor.com", "*.cellucor.com", "centr.com", "*.centr.com",
+    "centrum.com", "*.centrum.com", "cerebral.com", "*.cerebral.com",
+    "classpass.com", "*.classpass.com", "color.com", "*.color.com", "corepower.com",
+    "*.corepower.com", "couchto5k.com", "*.couchto5k.com",
+    "crohns-colitis-foundation.org", "*.crohns-colitis-foundation.org",
+    "cronometer.com", "*.cronometer.com", "dailyburn.com", "*.dailyburn.com",
+    "dailyhiit.com", "*.dailyhiit.com", "dailyyoga.com", "*.dailyyoga.com",
+    "daylio.net", "*.daylio.net", "diabetes.org", "*.diabetes.org", "dietbet.com",
+    "*.dietbet.com", "doctorondemand.com", "*.doctorondemand.com", "downdogapp.com",
+    "*.downdogapp.com", "doyogawithme.com", "*.doyogawithme.com", "drugs.com",
+    "*.drugs.com", "dymatize.com", "*.dymatize.com", "endomondo.com",
+    "*.endomondo.com", "everlywell.com", "*.everlywell.com", "evolveyou.app",
+    "*.evolveyou.app", "fatsecret.com", "*.fatsecret.com", "fitbit.com",
+    "*.fitbit.com", "fitbod.me", "*.fitbod.me", "fitfusion.com", "*.fitfusion.com",
+    "fitnessrpg.com", "*.fitnessrpg.com", "focus-app.com", "*.focus-app.com",
+    "freedom.to", "*.freedom.to", "freeletics.com", "*.freeletics.com",
+    "freshly.com", "*.freshly.com", "future.co", "*.future.co", "gaiam.com",
+    "*.gaiam.com", "garmin.com", "*.garmin.com", "glo.com", "*.glo.com",
+    "gobble.com", "*.gobble.com", "goodrx.com", "*.goodrx.com", "habitica.com",
+    "*.habitica.com", "happier.com", "*.happier.com", "headspace.com",
+    "*.headspace.com", "healthline.com", "*.healthline.com", "healthtap.com",
+    "*.healthtap.com", "heart.org", "*.heart.org", "helix.com", "*.helix.com",
+    "hellofresh.com", "*.hellofresh.com", "huawei.com", "*.huawei.com",
+    "imaware.health", "*.imaware.health", "insanity.com", "*.insanity.com",
+    "inside-tracker.com", "*.inside-tracker.com", "insight-timer.com",
+    "*.insight-timer.com", "instacart.com", "*.instacart.com", "jefit.com",
+    "*.jefit.com", "jiff.com", "*.jiff.com", "joinforma.com", "*.joinforma.com",
+    "justdancenow.com", "*.justdancenow.com", "kidney.org", "*.kidney.org",
+    "ladder.app", "*.ladder.app", "lesmills.com", "*.lesmills.com",
+    "letsgetchecked.com", "*.letsgetchecked.com", "lifesum.com", "*.lifesum.com",
+    "limeade.com", "*.limeade.com", "loseit.com", "*.loseit.com", "lung.org",
+    "*.lung.org", "lyra.com", "*.lyra.com", "mapmyfitness.com",
+    "*.mapmyfitness.com", "mapmyrun.com", "*.mapmyrun.com", "mayoclinic.org",
+    "*.mayoclinic.org", "mdlive.com", "*.mdlive.com", "medscape.com",
+    "*.medscape.com", "moodpath.com", "*.moodpath.com", "multiple-sclerosis.org",
+    "*.multiple-sclerosis.org", "muscleandstrength.com", "*.muscleandstrength.com",
+    "musclepharm.com", "*.musclepharm.com", "muscletech.com", "*.muscletech.com",
+    "myfitnesspal.com", "*.myfitnesspal.com", "myheritage.com", "*.myheritage.com",
+    "myprotein.com", "*.myprotein.com", "naturemade.com", "*.naturemade.com",
+    "niantic.com", "*.niantic.com", "nike.com", "*.nike.com", "noisli.com",
+    "*.noisli.com", "noom.com", "*.noom.com", "nutrabio.com", "*.nutrabio.com",
+    "nutrigenomix.com", "*.nutrigenomix.com", "nutrisystem.com",
+    "*.nutrisystem.com", "obefitness.com", "*.obefitness.com",
+    "optimumnutrition.com", "*.optimumnutrition.com", "oura.com", "*.oura.com",
+    "p90x.com", "*.p90x.com", "parkinson.org", "*.parkinson.org", "peloton.com",
+    "*.peloton.com", "performancelab.com", "*.performancelab.com",
+    "pilatesanytime.com", "*.pilatesanytime.com", "pillow.com", "*.pillow.com",
+    "pokemon.com", "*.pokemon.com", "pokemongo.com", "*.pokemongo.com", "polar.com",
+    "*.polar.com", "popsugar.com", "*.popsugar.com", "practo.com", "*.practo.com",
+    "pvolve.com", "*.pvolve.com", "pzizz.com", "*.pzizz.com", "questnutrition.com",
+    "*.questnutrition.com", "rainy-mood.com", "*.rainy-mood.com", "redbox-rx.com",
+    "*.redbox-rx.com", "reebok.com", "*.reebok.com", "rescue-time.com",
+    "*.rescue-time.com", "runkeeper.com", "*.runkeeper.com", "runtastic.com",
+    "*.runtastic.com", "samsung.com", "*.samsung.com", "sanvello.com",
+    "*.sanvello.com", "shipt.com", "*.shipt.com", "simple-habit.com",
+    "*.simple-habit.com", "sleep.com", "*.sleep.com", "sleepbot.com",
+    "*.sleepbot.com", "sleepcycle.com", "*.sleepcycle.com", "sleepio.com",
+    "*.sleepio.com", "sleepscore.com", "*.sleepscore.com", "sparkpeople.com",
+    "*.sparkpeople.com", "stepbet.com", "*.stepbet.com", "stottpilates.com",
+    "*.stottpilates.com", "strava.com", "*.strava.com", "stridekick.com",
+    "*.stridekick.com", "strongapp.me", "*.strongapp.me", "sunbasket.com",
+    "*.sunbasket.com", "suunto.com", "*.suunto.com", "sworkit.com", "*.sworkit.com",
+    "symptomate.com", "*.symptomate.com", "talkspace.com", "*.talkspace.com",
+    "teladoc.com", "*.teladoc.com", "ten-percent-happier.com",
+    "*.ten-percent-happier.com", "thesculptsociety.com", "*.thesculptsociety.com",
+    "thorne.com", "*.thorne.com", "thrive.com", "*.thrive.com", "trainiac.com",
+    "*.trainiac.com", "trainwell.net", "*.trainwell.net", "under-armour.com",
+    "*.under-armour.com", "virgin-pulse.com", "*.virgin-pulse.com",
+    "vitafusion.com", "*.vitafusion.com", "vitagene.com", "*.vitagene.com",
+    "waking-up.com", "*.waking-up.com", "walkr.space", "*.walkr.space", "webmd.com",
+    "*.webmd.com", "weightwatchers.com", "*.weightwatchers.com", "welltok.com",
+    "*.welltok.com", "whoop.com", "*.whoop.com", "withings.com", "*.withings.com",
+    "ww.com", "*.ww.com", "yazio.com", "*.yazio.com", "yogastudio.com",
+    "*.yogastudio.com", "yogaworks.com", "*.yogaworks.com", "youper.ai",
+    "*.youper.ai", "zocdoc.com", "*.zocdoc.com", "zombiesrungame.com",
+    "*.zombiesrungame.com"] {
     addflag "\\Seen";
-    
-    # Move to "Health" folder
     fileinto "Health";
 
-    # Daily Reminders & Notifications (expire 1 day)
     if allof (
-        header :contains "subject" ["Workout Reminder", "Daily Step Goal", "Meditation Session", 
-        "Fitness Challenge Start", "Health Tip of the Day", "Track Your Progress", 
-        "Don't Miss Your Session", "Activity Alert", "Goal Reminder", "Streak Update",
-        "Time to Move", "Stand Up Reminder", "Hydration Alert", "Medicine Reminder",
-        "Appointment Reminder", "Check-in Time", "Daily Challenge", "Morning Motivation",
-        "Evening Reflection", "Sleep Time Alert"],
+        header :contains "subject" ["Workout Reminder", "Daily Step Goal",
+            "Meditation Session", "Fitness Challenge Start", "Health Tip of the Day",
+            "Track Your Progress", "Don't Miss Your Session", "Activity Alert",
+            "Goal Reminder", "Streak Update", "Time to Move", "Stand Up Reminder",
+            "Hydration Alert", "Medicine Reminder", "Appointment Reminder",
+            "Check-in Time", "Daily Challenge", "Morning Motivation",
+            "Evening Reflection", "Sleep Time Alert"],
         size :under 500K
     ) {
         expire "day" "1";
+
         stop;
     }
 
-    # Promotional Content & Deals (expire 3 days)
     if allof (
-        header :contains "subject" ["Special Offer Inside", "Discount on Premium", 
-        "Free Trial Extension", "Limited Time Deal", "Upgrade Your Plan", "Promo Code Alert", 
-        "Membership Renewal Offer", "Flash Sale on App", "Exclusive Discount", 
-        "Rewards Program Update", "Black Friday Deal", "Summer Sale", "New Year Special",
-        "First Month Free", "50% Off Premium", "Early Bird Discount", "Member Exclusive"],
+        header :contains "subject" ["Special Offer Inside", "Discount on Premium",
+            "Free Trial Extension", "Limited Time Deal", "Upgrade Your Plan",
+            "Promo Code Alert", "Membership Renewal Offer", "Flash Sale on App",
+            "Exclusive Discount", "Rewards Program Update", "Black Friday Deal",
+            "Summer Sale", "New Year Special", "First Month Free", "50% Off Premium",
+            "Early Bird Discount", "Member Exclusive"],
         size :under 500K,
         not header :contains "subject" ["important", "urgent", "critical"]
     ) {
         expire "day" "3";
+
         stop;
     }
 
-    # Weekly Reports & Progress Updates (expire 7 days)
     if allof (
         header :contains "subject" ["Weekly Report", "Progress Summary", "Weekly Stats",
-        "Your Week in Review", "Weekly Achievement", "7-Day Summary", "Weekly Challenge Results",
-        "Week's Progress", "Weekly Insights", "Performance Summary", "Weekly Goals Review"],
+            "Your Week in Review", "Weekly Achievement", "7-Day Summary",
+            "Weekly Challenge Results", "Week's Progress", "Weekly Insights",
+            "Performance Summary", "Weekly Goals Review"],
         size :under 500K
     ) {
         expire "day" "7";
+
         stop;
     }
 
-    # Plans, Tips & Educational Content (expire 14 days)
     if allof (
-        header :contains "subject" ["Fitness Plan Update", "Nutrition Tip", "Weekly Workout Plan", 
-        "Custom Training Schedule", "Progress Report", "Meal Plan Suggestion", 
-        "Personalized Plan Ready", "Goal Achievement Update", "Health Education",
-        "Workout Tips", "Nutrition Guide", "Exercise Tutorial", "Health Article",
-        "Training Plan", "Diet Recommendation", "Wellness Guide", "Health News"],
+        header :contains "subject" ["Fitness Plan Update", "Nutrition Tip",
+            "Weekly Workout Plan", "Custom Training Schedule", "Progress Report",
+            "Meal Plan Suggestion", "Personalized Plan Ready",
+            "Goal Achievement Update", "Health Education", "Workout Tips",
+            "Nutrition Guide", "Exercise Tutorial", "Health Article", "Training Plan",
+            "Diet Recommendation", "Wellness Guide", "Health News"],
         size :under 500K
     ) {
         expire "day" "14";
+
         stop;
     }
 
-    # Monthly Reports & Long-term Analytics (expire 21 days)
     if allof (
-        header :contains "subject" ["Monthly Report", "Monthly Summary", "30-Day Challenge Results",
-        "Monthly Achievement", "Long-term Progress", "Monthly Analytics", "Trend Analysis",
-        "Monthly Insights", "Your Month in Review", "Monthly Goals Assessment"],
+        header :contains "subject" ["Monthly Report", "Monthly Summary",
+            "30-Day Challenge Results", "Monthly Achievement", "Long-term Progress",
+            "Monthly Analytics", "Trend Analysis", "Monthly Insights",
+            "Your Month in Review", "Monthly Goals Assessment"],
         size :under 500K
     ) {
         expire "day" "21";
+
         stop;
     }
 
-    # Security & Account Management (expire 28 days)
     if allof (
-        header :contains "subject" ["Account Security Alert", "Password Change Required", 
-        "Suspicious Activity", "Health Data Privacy Update", "Login Attempt Notification", 
-        "Two-Factor Setup", "Data Breach Warning", "Account Locked", "Verification Code", 
-        "Fraud Detection", "Privacy Policy Update", "Terms of Service Change",
-        "HIPAA Compliance", "Data Protection Update", "Security Update"],
+        header :contains "subject" ["Account Security Alert",
+            "Password Change Required", "Suspicious Activity",
+            "Health Data Privacy Update", "Login Attempt Notification",
+            "Two-Factor Setup", "Data Breach Warning", "Account Locked",
+            "Verification Code", "Fraud Detection", "Privacy Policy Update",
+            "Terms of Service Change", "HIPAA Compliance", "Data Protection Update",
+            "Security Update"],
         size :under 500K,
         not header :contains "subject" ["important", "urgent", "critical"]
     ) {
         expire "day" "28";
+
         stop;
     }
 
-    # App Updates & New Features (expire 10 days)
     if allof (
-        header :contains "subject" ["App Update Available", "New Feature Alert", "Version Update",
-        "Feature Release", "App Enhancement", "Bug Fix Update", "Performance Improvement",
-        "New Workout Added", "Feature Announcement", "Platform Update", "System Upgrade"],
+        header :contains "subject" ["App Update Available", "New Feature Alert",
+            "Version Update", "Feature Release", "App Enhancement", "Bug Fix Update",
+            "Performance Improvement", "New Workout Added", "Feature Announcement",
+            "Platform Update", "System Upgrade"],
         size :under 500K
     ) {
         expire "day" "10";
+
         stop;
     }
 
-    # Medical & Health Test Results (expire 90 days - important for health records)
     if allof (
-        header :contains "subject" ["Test Results", "Lab Results", "Blood Work", "Health Screening",
-        "Medical Report", "Genetic Results", "Health Assessment", "Diagnostic Results",
-        "Biomarker Results", "Health Score", "Risk Assessment", "Health Analysis"],
-        size :under 2M  # Medical reports can be larger
+        header :contains "subject" ["Test Results", "Lab Results", "Blood Work",
+            "Health Screening", "Medical Report", "Genetic Results",
+            "Health Assessment", "Diagnostic Results", "Biomarker Results",
+            "Health Score", "Risk Assessment", "Health Analysis"],
+        size :under 2M
     ) {
         expire "day" "90";
+
         stop;
     }
 
-    # Subscription & Billing (expire 365 days - important for records)
     if allof (
-        header :contains "subject" ["Subscription Renewal", "Payment Confirmation", "Invoice",
-        "Billing Statement", "Payment Receipt", "Membership Renewed", "Auto-renewal Notice",
-        "Payment Failed", "Card Expired", "Subscription Cancelled", "Refund Processed"],
+        header :contains "subject" ["Subscription Renewal", "Payment Confirmation",
+            "Invoice", "Billing Statement", "Payment Receipt", "Membership Renewed",
+            "Auto-renewal Notice", "Payment Failed", "Card Expired",
+            "Subscription Cancelled", "Refund Processed"],
         size :under 500K
     ) {
         expire "day" "365";
+
         stop;
     }
 
-    # Default expiration for other health/fitness content (5 days)
+    # Default retention for anything that reached none of the rules above.
     expire "day" "5";
-    
+
     stop;
 }
 
-# End of Health & Fitness Filter
+# End of Health & Fitness filter

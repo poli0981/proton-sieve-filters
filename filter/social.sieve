@@ -1,203 +1,195 @@
 # Social Media filter -- filter/social.sieve
 #
+# GENERATED FILE -- do not edit. Edit data/categories/social.yml and run:
+#     python tools/generate.py
+#
 # For Proton Mail only. A paid plan is required to run this alongside other
 # filters: the free plan allows just one active filter at a time.
 #
-# This script filters messages from social networks and moves them to "Social
-# Account" folder.
+# Social network notifications.
 #
-# Folders: Social Account
+# Folders: Social Account, Spam
 #
 # WARNING: this filter sets auto-delete timers on matched mail via
 #          vnd.proton.expire. Read CHANGELOG.md before installing.
 #
-# Filters run in the order you install them, and on conflicting actions the
-# last one wins -- see docs/ for the recommended order.
+# Install position 11 of 14. Filters run in the order you install them, and on
+# conflicting actions the last one wins -- see README.md for the full order.
 #
 # Version: 0.2.1
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
-# Whitelist
+# Never touch mail from people you know.
 if anyof (
     header :list "from" ":addrbook:personal",
     header :list "from" ":addrbook:myself"
-){
+) {
     stop;
 }
 
-# Delete messages if they are in the spam list
+# Drop what Proton already knows is spam.
 if header :list "from" ":incomingdefaults:spam" {
-        discard;
-        stop;
+    discard;
+    stop;
 }
 
-# Filter messages from social networks and messaging platforms
-if anyof (
-    # Major social media platforms
-    address :domain :matches "from" ["*facebook.com", "*instagram.com", "*tiktok.com",
-    "*x.com", "*twitter.com", "*linkedin.com", "*reddit.com", "*pinterest.com",
-    "*youtube.com", "*threads.net", "*snapchat.com", "*twitch.tv", "*kick.com"],
+# Known typosquats of the services this filter handles. These are lookalike
+# domains, not the real senders -- flag them instead of filing them away.
+if address :domain :matches "from" ["faceb00k.com", "*.faceb00k.com", "lnkedin.com",
+    "*.lnkedin.com", "twiter.com", "*.twiter.com", "youutube.com", "*.youutube.com"] {
+    addflag "\\Flagged";
+    fileinto "Spam";
 
-    # Alternative and emerging social platforms
-    address :domain :matches "from" ["*bsky.social", "*mastodon.social", "*bere.al",
-    "*vero.co", "*mewe.com", "*noplace.com", "*tenten.app", "*air.chat",
-    "*substack.com", "*coverstar.com", "*jagat.io", "*vk.com", "*ok.ru",
-    "*weibo.com", "*douyin.com", "*xiaohongshu.com", "*clubhouse.com",
-    "*spaces.live", "*poparazzi.com", "*dispo.fun", "*lapse.com"],
+    stop;
+}
 
-    # Professional and business networks
-    address :domain :matches "from" ["*xing.com", "*meetup.com", "*eventbrite.com",
-    "*sharechat.com", "*bumble.com", "*hinge.co", "*badoo.com", "*plentyoffish.com",
-    "*zoosk.com", "*match.com", "*eharmony.com", "*okcupid.com"],
-
-    # Gaming and streaming social platforms
-    address :domain :matches "from" ["*steam.com", "*discord.com", "*guilded.gg",
-    "*revolt.chat", "*teamspeak.com", "*mumble.info", "*ventrilo.com",
-    "*raidcall.com", "*curse.com", "*overwolf.com"],
-
-    # Messaging apps and communication platforms
-    address :domain :matches "from" ["*whatsapp.com", "*wechat.com", "*messenger.com",
-    "*telegram.org", "*viber.com", "*line.me", "*signal.org", "*apple.com",
-    "*kakao.com", "*zalo.me", "*skype.com", "*briarproject.org",
-    "*getsession.org", "*beeper.com", "*texts.com"],
-
-    # International messaging platforms
-    address :domain :matches "from" ["*wechat.com", "*qq.com", "*dingtalk.com",
-    "*feishu.cn", "*lark.com", "*slack.com", "*mattermost.com", "*rocket.chat",
-    "*element.io", "*matrix.org", "*wire.com", "*threema.ch", "*wickr.com"],
-
-    # Regional social platforms
-    address :domain :matches "from" ["*odnoklassniki.ru", "*taringa.net", "*orkut.com",
-    "*myspace.com", "*friendster.com", "*hi5.com", "*tagged.com", "*badoo.com",
-    "*migente.com", "*sonico.com", "*tuenti.com", "*cyworld.com", "*mixi.jp",
-    "*gree.jp", "*ameba.jp", "*pixiv.net", "*niconico.jp"],
-
-    # Content creation and sharing platforms
-    address :domain :matches "from" ["*medium.com", "*wordpress.com", "*blogger.com",
-    "*tumblr.com", "*deviantart.com", "*behance.net", "*dribbble.com",
-    "*500px.com", "*flickr.com", "*imgur.com", "*giphy.com", "*tenor.com"],
-
-    # Live streaming and video platforms
-    address :domain :matches "from" ["*periscope.tv", "*meerkat.co", "*bigo.tv",
-    "*liveme.com", "*younow.com", "*17.live", "*uplive.com", "*streamlabs.com",
-    "*obs.live", "*restream.io", "*streamyard.com"],
-
-    # Professional and career platforms
-    address :domain :matches "from" ["*glassdoor.com", "*indeed.com", "*monster.com",
-    "*careerbuilder.com", "*ziprecruiter.com", "*upwork.com", "*freelancer.com",
-    "*fiverr.com", "*toptal.com", "*guru.com"],
-
-    # Community and forum platforms
-    address :domain :matches "from" ["*stackexchange.com", "*stackoverflow.com",
-    "*quora.com", "*askfm.com", "*answers.yahoo.com", "*reddit.com",
-    "*digg.com", "*stumbleupon.com", "*slashdot.org", "*hackernews.com"],
-
-    # Voice and audio social platforms
-    address :domain :matches "from" ["*spotify.com", "*soundcloud.com", "*anchor.fm",
-    "*castbox.fm", "*podbean.com", "*buzzsprout.com", "*libsyn.com",
-    "*spreaker.com", "*audioboom.com", "*stitcher.com"]
-
-    ) {
-    
+if address :domain :matches "from" ["17.live", "*.17.live", "air.chat", "*.air.chat",
+    "ameba.jp", "*.ameba.jp", "askfm.com", "*.askfm.com", "badoo.com",
+    "*.badoo.com", "beeper.com", "*.beeper.com", "behance.net", "*.behance.net",
+    "bere.al", "*.bere.al", "bigo.tv", "*.bigo.tv", "blogger.com", "*.blogger.com",
+    "briarproject.org", "*.briarproject.org", "bsky.social", "*.bsky.social",
+    "bumble.com", "*.bumble.com", "careerbuilder.com", "*.careerbuilder.com",
+    "clubhouse.com", "*.clubhouse.com", "coverstar.com", "*.coverstar.com",
+    "curse.com", "*.curse.com", "cyworld.com", "*.cyworld.com", "digg.com",
+    "*.digg.com", "dingtalk.com", "*.dingtalk.com", "discord.com", "*.discord.com",
+    "dispo.fun", "*.dispo.fun", "douyin.com", "*.douyin.com", "eharmony.com",
+    "*.eharmony.com", "element.io", "*.element.io", "facebook.com",
+    "*.facebook.com", "feishu.cn", "*.feishu.cn", "fiverr.com", "*.fiverr.com",
+    "freelancer.com", "*.freelancer.com", "friendster.com", "*.friendster.com",
+    "getsession.org", "*.getsession.org", "giphy.com", "*.giphy.com",
+    "glassdoor.com", "*.glassdoor.com", "gree.jp", "*.gree.jp", "guilded.gg",
+    "*.guilded.gg", "guru.com", "*.guru.com", "hackernews.com", "*.hackernews.com",
+    "hi5.com", "*.hi5.com", "hinge.co", "*.hinge.co", "imgur.com", "*.imgur.com",
+    "indeed.com", "*.indeed.com", "instagram.com", "*.instagram.com", "jagat.io",
+    "*.jagat.io", "kakao.com", "*.kakao.com", "kick.com", "*.kick.com", "lapse.com",
+    "*.lapse.com", "lark.com", "*.lark.com", "line.me", "*.line.me", "liveme.com",
+    "*.liveme.com", "mastodon.social", "*.mastodon.social", "match.com",
+    "*.match.com", "matrix.org", "*.matrix.org", "mattermost.com",
+    "*.mattermost.com", "messenger.com", "*.messenger.com", "mewe.com",
+    "*.mewe.com", "migente.com", "*.migente.com", "mixi.jp", "*.mixi.jp",
+    "monster.com", "*.monster.com", "mumble.info", "*.mumble.info", "myspace.com",
+    "*.myspace.com", "niconico.jp", "*.niconico.jp", "noplace.com", "*.noplace.com",
+    "obs.live", "*.obs.live", "odnoklassniki.ru", "*.odnoklassniki.ru", "ok.ru",
+    "*.ok.ru", "okcupid.com", "*.okcupid.com", "overwolf.com", "*.overwolf.com",
+    "pinterest.com", "*.pinterest.com", "pixiv.net", "*.pixiv.net",
+    "plentyoffish.com", "*.plentyoffish.com", "poparazzi.com", "*.poparazzi.com",
+    "qq.com", "*.qq.com", "raidcall.com", "*.raidcall.com", "restream.io",
+    "*.restream.io", "revolt.chat", "*.revolt.chat", "rocket.chat", "*.rocket.chat",
+    "sharechat.com", "*.sharechat.com", "signal.org", "*.signal.org", "skype.com",
+    "*.skype.com", "slack.com", "*.slack.com", "slashdot.org", "*.slashdot.org",
+    "snapchat.com", "*.snapchat.com", "sonico.com", "*.sonico.com", "spaces.live",
+    "*.spaces.live", "steam.com", "*.steam.com", "streamlabs.com",
+    "*.streamlabs.com", "streamyard.com", "*.streamyard.com", "tagged.com",
+    "*.tagged.com", "taringa.net", "*.taringa.net", "teamspeak.com",
+    "*.teamspeak.com", "telegram.org", "*.telegram.org", "tenor.com", "*.tenor.com",
+    "tenten.app", "*.tenten.app", "texts.com", "*.texts.com", "threads.net",
+    "*.threads.net", "threema.ch", "*.threema.ch", "tiktok.com", "*.tiktok.com",
+    "toptal.com", "*.toptal.com", "tuenti.com", "*.tuenti.com", "tumblr.com",
+    "*.tumblr.com", "twitch.tv", "*.twitch.tv", "twitter.com", "*.twitter.com",
+    "uplive.com", "*.uplive.com", "upwork.com", "*.upwork.com", "ventrilo.com",
+    "*.ventrilo.com", "vero.co", "*.vero.co", "viber.com", "*.viber.com", "vk.com",
+    "*.vk.com", "wechat.com", "*.wechat.com", "weibo.com", "*.weibo.com",
+    "whatsapp.com", "*.whatsapp.com", "wickr.com", "*.wickr.com", "wire.com",
+    "*.wire.com", "wordpress.com", "*.wordpress.com", "x.com", "*.x.com",
+    "xiaohongshu.com", "*.xiaohongshu.com", "xing.com", "*.xing.com", "younow.com",
+    "*.younow.com", "zalo.me", "*.zalo.me", "ziprecruiter.com",
+    "*.ziprecruiter.com", "zoosk.com", "*.zoosk.com"] {
     addflag "\\Seen";
-    # Move to "Social Account" folder first
     fileinto "Social Account";
-    
-    # Mark email as read
 
-    # Social media notifications (expire 1 day)
     if allof (
-        header :contains "subject" ["Friend Request", "New Friend", "Connection Request",
-        "Like Notification", "New Like", "Post Liked", "Share Alert", "Post Shared", 
-        "Live Stream Started", "Live Now", "Message Read", "Seen Your Message", 
-        "Comment Added", "New Comment", "Tag Notification", "You Were Tagged", 
-        "Follow Request", "New Follower", "Notification", "Activity Alert",
-        "Story Update", "Status Update", "Mention Alert", "Reply Notification"],
+        header :contains "subject" ["Friend Request", "New Friend",
+            "Connection Request", "Like Notification", "New Like", "Post Liked",
+            "Share Alert", "Post Shared", "Live Stream Started", "Live Now",
+            "Message Read", "Seen Your Message", "Comment Added", "New Comment",
+            "Tag Notification", "You Were Tagged", "Follow Request", "New Follower",
+            "Notification", "Activity Alert", "Story Update", "Status Update",
+            "Mention Alert", "Reply Notification"],
         size :under 500K
     ) {
         expire "day" "1";
+
         stop;
     }
 
-    # Security alerts (expire 28 days - important to keep for reference)
     if allof (
-        header :contains "subject" ["Account Locked", "Ban Notification", "Restriction Alert", 
-        "Weak Password Warning", "Password Change Required", "Hack Detected", 
-        "Unauthorized Access", "Security Breach", "Account Compromised", 
-        "Login Attempt Alert", "Two-Factor Setup", "Verification Code", 
-        "Suspicious Activity", "Account Suspended", "Password Reset",
-        "Security Warning", "Login Alert", "New Device Login"],
+        header :contains "subject" ["Account Locked", "Ban Notification",
+            "Restriction Alert", "Weak Password Warning", "Password Change Required",
+            "Hack Detected", "Unauthorized Access", "Security Breach",
+            "Account Compromised", "Login Attempt Alert", "Two-Factor Setup",
+            "Verification Code", "Suspicious Activity", "Account Suspended",
+            "Password Reset", "Security Warning", "Login Alert", "New Device Login"],
         size :under 500K
     ) {
         expire "day" "28";
+
         stop;
     }
 
-    # Invites/Events (expire 7 days)
     if allof (
         header :contains "subject" ["Event Invite", "Group Invitation", "Join Event",
-        "Community Event", "Live Event Alert", "Invitation Accepted", "RSVP Reminder",
-        "Event Notification", "Party Invite", "Meetup Alert", "Calendar Invite",
-        "Meeting Invite", "Webinar Invite", "Conference Invite", "Workshop Invite"],
+            "Community Event", "Live Event Alert", "Invitation Accepted",
+            "RSVP Reminder", "Event Notification", "Party Invite", "Meetup Alert",
+            "Calendar Invite", "Meeting Invite", "Webinar Invite", "Conference Invite",
+            "Workshop Invite"],
         size :under 500K
     ) {
         expire "day" "7";
+
         stop;
     }
 
-    # Platform Updates/News (expire 5 days)
     if allof (
-        header :contains "subject" ["Platform Update", "New Feature Alert", "App Update Available",
-        "Version Release", "Feature Launch", "System Maintenance", "Update Notes",
-        "News Digest", "Weekly Recap", "Platform Changes", "Service Update",
-        "Bug Fix", "Performance Improvement", "New Version", "Release Notes"],
+        header :contains "subject" ["Platform Update", "New Feature Alert",
+            "App Update Available", "Version Release", "Feature Launch",
+            "System Maintenance", "Update Notes", "News Digest", "Weekly Recap",
+            "Platform Changes", "Service Update", "Bug Fix", "Performance Improvement",
+            "New Version", "Release Notes"],
         size :under 500K
     ) {
         expire "day" "5";
+
         stop;
     }
 
-    # Promotional content (expire 3 days)
     if allof (
         header :contains "subject" ["Sponsored Content", "Deal Alert", "Promo Code",
-        "Special Offer Inside", "Ad Notification", "Partner Promotion",
-        "Discount Reminder", "Flash Deal", "Limited Promo", "Sponsored Post",
-        "Advertisement", "Promoted Content", "Marketing Message", "Brand Partnership",
-        "Product Launch", "Sale Alert", "Coupon Code", "Exclusive Offer"],
+            "Special Offer Inside", "Ad Notification", "Partner Promotion",
+            "Discount Reminder", "Flash Deal", "Limited Promo", "Sponsored Post",
+            "Advertisement", "Promoted Content", "Marketing Message",
+            "Brand Partnership", "Product Launch", "Sale Alert", "Coupon Code",
+            "Exclusive Offer"],
         size :under 500K
     ) {
         expire "day" "3";
+
         stop;
     }
 
-    # Weekly/Monthly digests (expire 10 days)
     if allof (
-        header :contains "subject" ["Weekly Digest", "Monthly Summary", "Activity Summary",
-        "Weekly Roundup", "Monthly Report", "Your Week", "Your Month", "Stats Summary",
-        "Usage Report", "Engagement Report", "Performance Summary"],
+        header :contains "subject" ["Weekly Digest", "Monthly Summary",
+            "Activity Summary", "Weekly Roundup", "Monthly Report", "Your Week",
+            "Your Month", "Stats Summary", "Usage Report", "Engagement Report",
+            "Performance Summary"],
         size :under 500K
     ) {
         expire "day" "10";
+
         stop;
     }
 
     stop;
 }
 
-# Filter social media spam and fake accounts
-# NOTE (v0.2.1): a bare `header :contains "from" ["noreply", ...]` used to sit
-# in this anyof(), so any no-reply sender was filed to Social Account. The scam
-# subject list below is specific enough without it.
-if anyof (
-    header :contains "subject" ["Fake Profile Alert", "Scam Warning", "Phishing Attempt",
-    "Suspicious Account", "Report Fake Account", "Identity Theft Warning",
-    "Romance Scam", "Investment Scam", "Cryptocurrency Scam"]
-) {
-    # Keep these for security reference
-    fileinto "Social Account";
+if header :contains "subject" ["Fake Profile Alert", "Scam Warning",
+    "Phishing Attempt", "Suspicious Account", "Report Fake Account",
+    "Identity Theft Warning", "Romance Scam", "Investment Scam",
+    "Cryptocurrency Scam"] {
     addflag "\\Seen";
+    fileinto "Social Account";
+
     stop;
 }
 
-# End of Social Media Filter
+# End of Social Media filter

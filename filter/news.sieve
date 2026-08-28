@@ -1,343 +1,336 @@
 # News & Newsletters filter -- filter/news.sieve
 #
+# GENERATED FILE -- do not edit. Edit data/categories/news.yml and run:
+#     python tools/generate.py
+#
 # For Proton Mail only. A paid plan is required to run this alongside other
 # filters: the free plan allows just one active filter at a time.
 #
-# This script filters messages related to news platforms, moves them to "News"
-# folder or subfolders by category.
+# News outlets and newsletter platforms.
 #
-# Folders: News, News/Business, News/Entertainment, News/Politics,
-#          News/Science, News/Sports, News/Tech, News/Weather, News/World
+# Folders: News, News/Business, News/Entertainment, News/Politics, News/Science,
+#          News/Sports, News/Tech, News/Weather, News/World
 #
 # WARNING: this filter sets auto-delete timers on matched mail via
 #          vnd.proton.expire. Read CHANGELOG.md before installing.
 #
-# Filters run in the order you install them, and on conflicting actions the
-# last one wins -- see docs/ for the recommended order.
+# Install position 10 of 14. Filters run in the order you install them, and on
+# conflicting actions the last one wins -- see README.md for the full order.
 #
 # Version: 0.2.1
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
-# Whitelist
+# Never touch mail from people you know.
 if header :list "from" ":addrbook:personal" {
     stop;
 }
 
-# Filter messages related to news
-if anyof (
-    address :domain :matches "from" [
-    # Major US News Networks
-    "*nytimes.com", "*cnn.com", "*washingtonpost.com", "*usatoday.com",
-    "*foxnews.com", "*abcnews.com", "*cbsnews.com", "*nbcnews.com",
-    "*msnbc.com", "*huffpost.com", "*usnews.com", "*yahoo.com",
-    "*axios.com", "*vox.com", "*buzzfeed.com", "*slate.com",
-    "*salon.com", "*thedailybeast.com", "*nypost.com", "*thehill.com"],
-
-    # International News
-    address :domain :matches "from" ["*bbc.com", "*bbc.co.uk", "*theguardian.com",
-    "*reuters.com", "*apnews.com", "*aljazeera.com", "*france24.com",
-    "*dw.com", "*rt.com", "*sputniknews.com", "*xinhuanet.com",
-    "*tass.com", "*ansa.it", "*kyodonews.net", "*yonhapnews.co.kr", "*theathletic.com"],
-
-    # Business & Financial News
-    address :domain :matches "from" ["*wsj.com", "*bloomberg.com", "*cnbc.com",
-    "*forbes.com", "*marketwatch.com", "*barrons.com", "*fortune.com",
-    "*businessinsider.com", "*ft.com", "*economist.com", "*quartz.com",
-    "*fastcompany.com", "*inc.com", "*money.com", "*fool.com"],
-
-    # Technology News
-    address :domain :matches "from" ["*techcrunch.com", "*theverge.com", "*wired.com",
-    "*arstechnica.com", "*engadget.com", "*mashable.com", "*gizmodo.com",
-    "*zdnet.com", "*cnet.com", "*techradar.com", "*9to5mac.com",
-    "*androidpolice.com", "*theregister.com", "*venturebeat.com"],
-
-    # Science & Health News
-    address :domain :matches "from" ["*sciencedaily.com", "*sciencemag.org", "*nature.com",
-    "*scientificamerican.com", "*newscientist.com", "*livescience.com",
-    "*space.com", "*nasa.gov", "*nih.gov", "*cdc.gov",
-    "*who.int", "*healthline.com", "*webmd.com", "*mayoclinic.org","*getpocket.com"],
-
-    # Sports News
-    address :domain :matches "from" ["*espn.com", "*si.com", "*bleacherreport.com",
-    "*sbnation.com", "*theringer.com", "*athleticnews.com", "*cbssports.com",
-    "*nbcsports.com", "*foxsports.com", "*skysports.com"],
-
-    # Entertainment & Culture
-    address :domain :matches "from" ["*ew.com", "*people.com", "*tmz.com",
-    "*variety.com", "*hollywoodreporter.com", "*rollingstone.com",
-    "*pitchfork.com", "*vulture.com", "*avclub.com", "*entertainment.com"],
-
-    # Political News
-    address :domain :matches "from" ["*politico.com", "*thehill.com", "*nationalreview.com",
-    "*rollcall.com", "*nationaljournal.com", "*cookpolitical.com", "*ballotpedia.org",
-    "*motherjones.com", "*jacobinmag.com", "*reason.com", "*townhall.com",
-    "*dailykos.com", "*redstate.com", "*breitbart.com", "*dailywire.com"],
-
-    # Investigative & Long-form
-    address :domain :matches "from" ["*propublica.org", "*theintercept.com",
-    "*newyorker.com", "*theatlantic.com", "*harpers.org", "*newrepublic.com",
-    "*thenation.com", "*motherjones.com", "*revealnews.org"],
-
-    # Local & Regional News
-    address :domain :matches "from" ["*latimes.com", "*chicagotribune.com",
-    "*bostonglobe.com", "*seattletimes.com", "*denverpost.com",
-    "*miamiherald.com", "*dallasnews.com", "*houstonchronicle.com",
-    "*sfgate.com", "*oregonlive.com", "*cleveland.com", "*nola.com"],
-
-    # Public Media
-    address :domain :matches "from" ["*npr.org", "*pbs.org", "*pri.org",
-    "*bbc.co.uk", "*cbc.ca", "*abc.net.au", "*rte.ie", "*france24.com"],
-
-    # Newsletter Platforms & Substacks
-    address :domain :matches "from" ["*substack.com", "*medium.com", "*mailchimp.com",
-    "*constantcontact.com", "*campaignmonitor.com", "*convertkit.com",
-    "*beehiiv.com", "*ghost.org", "*newsletter.com"],
-
-    # Specialized News
-    address :domain :matches "from" ["*militarytimes.com", "*policyone.com",
-    "*firetimes.com", "*govtech.com", "*federalnewsnetwork.com",
-    "*defensenews.com", "*c4isrnet.com", "*cyberscoop.com"],
-
-    # Weather. Added in v0.2.1: the News/Weather block below tests these
-    # domains, but none of them was listed in this outer gate, so mail from
-    # weather.com could never reach it.
-    address :domain :matches "from" ["*weather.com", "*accuweather.com",
-    "*noaa.gov", "*nws.noaa.gov", "*weatherchannel.com"]
-) {
-    # Mark email as read first
+if address :domain :matches "from" ["9to5mac.com", "*.9to5mac.com", "abcnews.com",
+    "*.abcnews.com", "accuweather.com", "*.accuweather.com", "aljazeera.com",
+    "*.aljazeera.com", "androidpolice.com", "*.androidpolice.com", "ansa.it",
+    "*.ansa.it", "apnews.com", "*.apnews.com", "arstechnica.com",
+    "*.arstechnica.com", "athleticnews.com", "*.athleticnews.com", "avclub.com",
+    "*.avclub.com", "axios.com", "*.axios.com", "ballotpedia.org",
+    "*.ballotpedia.org", "barrons.com", "*.barrons.com", "beehiiv.com",
+    "*.beehiiv.com", "bleacherreport.com", "*.bleacherreport.com", "bloomberg.com",
+    "*.bloomberg.com", "bostonglobe.com", "*.bostonglobe.com", "breitbart.com",
+    "*.breitbart.com", "businessinsider.com", "*.businessinsider.com",
+    "buzzfeed.com", "*.buzzfeed.com", "c4isrnet.com", "*.c4isrnet.com",
+    "campaignmonitor.com", "*.campaignmonitor.com", "cbsnews.com", "*.cbsnews.com",
+    "cbssports.com", "*.cbssports.com", "cdc.gov", "*.cdc.gov",
+    "chicagotribune.com", "*.chicagotribune.com", "cleveland.com",
+    "*.cleveland.com", "cnbc.com", "*.cnbc.com", "cnet.com", "*.cnet.com",
+    "cnn.com", "*.cnn.com", "constantcontact.com", "*.constantcontact.com",
+    "convertkit.com", "*.convertkit.com", "cookpolitical.com",
+    "*.cookpolitical.com", "cyberscoop.com", "*.cyberscoop.com", "dailykos.com",
+    "*.dailykos.com", "dailywire.com", "*.dailywire.com", "dallasnews.com",
+    "*.dallasnews.com", "defensenews.com", "*.defensenews.com", "denverpost.com",
+    "*.denverpost.com", "dw.com", "*.dw.com", "economist.com", "*.economist.com",
+    "engadget.com", "*.engadget.com", "espn.com", "*.espn.com", "fastcompany.com",
+    "*.fastcompany.com", "federalnewsnetwork.com", "*.federalnewsnetwork.com",
+    "firetimes.com", "*.firetimes.com", "fool.com", "*.fool.com", "forbes.com",
+    "*.forbes.com", "fortune.com", "*.fortune.com", "foxnews.com", "*.foxnews.com",
+    "foxsports.com", "*.foxsports.com", "france24.com", "*.france24.com", "ft.com",
+    "*.ft.com", "getpocket.com", "*.getpocket.com", "ghost.org", "*.ghost.org",
+    "gizmodo.com", "*.gizmodo.com", "govtech.com", "*.govtech.com", "harpers.org",
+    "*.harpers.org", "houstonchronicle.com", "*.houstonchronicle.com",
+    "huffpost.com", "*.huffpost.com", "inc.com", "*.inc.com", "jacobinmag.com",
+    "*.jacobinmag.com", "kyodonews.net", "*.kyodonews.net", "latimes.com",
+    "*.latimes.com", "livescience.com", "*.livescience.com", "mailchimp.com",
+    "*.mailchimp.com", "marketwatch.com", "*.marketwatch.com", "mashable.com",
+    "*.mashable.com", "medium.com", "*.medium.com", "miamiherald.com",
+    "*.miamiherald.com", "militarytimes.com", "*.militarytimes.com", "money.com",
+    "*.money.com", "motherjones.com", "*.motherjones.com", "msnbc.com",
+    "*.msnbc.com", "nationaljournal.com", "*.nationaljournal.com",
+    "nationalreview.com", "*.nationalreview.com", "nbcnews.com", "*.nbcnews.com",
+    "nbcsports.com", "*.nbcsports.com", "newrepublic.com", "*.newrepublic.com",
+    "newscientist.com", "*.newscientist.com", "newsletter.com", "*.newsletter.com",
+    "newyorker.com", "*.newyorker.com", "noaa.gov", "*.noaa.gov", "nola.com",
+    "*.nola.com", "nws.noaa.gov", "*.nws.noaa.gov", "nypost.com", "*.nypost.com",
+    "nytimes.com", "*.nytimes.com", "oregonlive.com", "*.oregonlive.com", "pbs.org",
+    "*.pbs.org", "policyone.com", "*.policyone.com", "politico.com",
+    "*.politico.com", "pri.org", "*.pri.org", "propublica.org", "*.propublica.org",
+    "quartz.com", "*.quartz.com", "reason.com", "*.reason.com", "redstate.com",
+    "*.redstate.com", "reuters.com", "*.reuters.com", "revealnews.org",
+    "*.revealnews.org", "rollcall.com", "*.rollcall.com", "rollingstone.com",
+    "*.rollingstone.com", "rt.com", "*.rt.com", "salon.com", "*.salon.com",
+    "sbnation.com", "*.sbnation.com", "sciencedaily.com", "*.sciencedaily.com",
+    "sciencemag.org", "*.sciencemag.org", "scientificamerican.com",
+    "*.scientificamerican.com", "seattletimes.com", "*.seattletimes.com",
+    "sfgate.com", "*.sfgate.com", "si.com", "*.si.com", "skysports.com",
+    "*.skysports.com", "slate.com", "*.slate.com", "space.com", "*.space.com",
+    "sputniknews.com", "*.sputniknews.com", "substack.com", "*.substack.com",
+    "tass.com", "*.tass.com", "techcrunch.com", "*.techcrunch.com", "techradar.com",
+    "*.techradar.com", "theathletic.com", "*.theathletic.com", "theatlantic.com",
+    "*.theatlantic.com", "thedailybeast.com", "*.thedailybeast.com",
+    "theguardian.com", "*.theguardian.com", "thehill.com", "*.thehill.com",
+    "theintercept.com", "*.theintercept.com", "thenation.com", "*.thenation.com",
+    "theregister.com", "*.theregister.com", "theringer.com", "*.theringer.com",
+    "theverge.com", "*.theverge.com", "townhall.com", "*.townhall.com",
+    "usatoday.com", "*.usatoday.com", "usnews.com", "*.usnews.com",
+    "venturebeat.com", "*.venturebeat.com", "vox.com", "*.vox.com", "vulture.com",
+    "*.vulture.com", "washingtonpost.com", "*.washingtonpost.com", "weather.com",
+    "*.weather.com", "weatherchannel.com", "*.weatherchannel.com", "who.int",
+    "*.who.int", "wired.com", "*.wired.com", "wsj.com", "*.wsj.com",
+    "xinhuanet.com", "*.xinhuanet.com", "yahoo.com", "*.yahoo.com",
+    "yonhapnews.co.kr", "*.yonhapnews.co.kr", "zdnet.com", "*.zdnet.com"] {
     addflag "\\Seen";
-    
-    # Politics & Government
+    fileinto "News";
+
     if anyof (
-        header :contains "subject" ["Election Update", "Policy News", "Government Alert", 
-        "Politics Recap", "Bill Passed", "Debate Highlights", "Political Analysis", 
-        "Campaign News", "Congress Update", "White House Briefing", "Senate Vote",
-        "House Committee", "Supreme Court", "Federal Court", "Political Poll",
-        "Voting Rights", "Democracy Report", "Legislative Update"],
-        address :domain :matches "from" ["*politico.com", "*thehill.com", "*rollcall.com",
-        "*nationaljournal.com", "*cookpolitical.com", "*ballotpedia.org"]
+        address :domain :matches "from" ["ballotpedia.org", "*.ballotpedia.org",
+            "cookpolitical.com", "*.cookpolitical.com", "nationaljournal.com",
+            "*.nationaljournal.com", "politico.com", "*.politico.com", "rollcall.com",
+            "*.rollcall.com", "thehill.com", "*.thehill.com"],
+        header :contains "subject" ["Election Update", "Policy News",
+            "Government Alert", "Politics Recap", "Bill Passed", "Debate Highlights",
+            "Political Analysis", "Campaign News", "Congress Update",
+            "White House Briefing", "Senate Vote", "House Committee", "Supreme Court",
+            "Federal Court", "Political Poll", "Voting Rights", "Democracy Report",
+            "Legislative Update"]
     ) {
         fileinto "News/Politics";
-        
-        # Breaking political news (expire 2 days)
+
         if allof (
-            header :contains "subject" ["Breaking Political", "Election Results", "Vote Count",
-            "Political Breaking", "Congress Votes", "Supreme Court Ruling"],
+            header :contains "subject" ["Breaking Political", "Election Results",
+                "Vote Count", "Political Breaking", "Congress Votes",
+                "Supreme Court Ruling"],
             size :under 500K
         ) {
             expire "day" "2";
         }
-        
+
         stop;
     }
 
-    # Technology
     if anyof (
-        header :contains "subject" ["Tech News", "Gadget Review", "AI Breakthrough", 
-        "Software Update", "Cybersecurity Alert", "Innovation Report", "Tech Trends", 
-        "Startup News", "Device Launch", "Digital Transformation", "Silicon Valley",
-        "Apple News", "Google Update", "Microsoft Announcement", "Tesla News",
-        "Cryptocurrency", "Bitcoin Update", "Blockchain News", "NFT Alert"],
-        address :domain :matches "from" ["*techcrunch.com", "*theverge.com", "*wired.com",
-        "*arstechnica.com", "*engadget.com", "*gizmodo.com", "*9to5mac.com"]
+        address :domain :matches "from" ["9to5mac.com", "*.9to5mac.com",
+            "arstechnica.com", "*.arstechnica.com", "engadget.com", "*.engadget.com",
+            "gizmodo.com", "*.gizmodo.com", "techcrunch.com", "*.techcrunch.com",
+            "theverge.com", "*.theverge.com", "wired.com", "*.wired.com"],
+        header :contains "subject" ["Tech News", "Gadget Review", "AI Breakthrough",
+            "Software Update", "Cybersecurity Alert", "Innovation Report",
+            "Tech Trends", "Startup News", "Device Launch", "Digital Transformation",
+            "Silicon Valley", "Apple News", "Google Update", "Microsoft Announcement",
+            "Tesla News", "Cryptocurrency", "Bitcoin Update", "Blockchain News",
+            "NFT Alert"]
     ) {
         fileinto "News/Tech";
-        
-        # Tech product launches (expire 7 days)
+
         if allof (
-            header :contains "subject" ["Product Launch", "New iPhone", "Android Update",
-            "Software Release", "App Update", "Device Review", "Gadget Announcement"],
+            header :contains "subject" ["Product Launch", "New iPhone",
+                "Android Update", "Software Release", "App Update", "Device Review",
+                "Gadget Announcement"],
             size :under 500K
         ) {
             expire "day" "7";
         }
-        
+
         stop;
     }
 
-    # Business & Finance
     if anyof (
-        header :contains "subject" ["Market Report", "Stock News", "Economy Forecast", 
-        "Business Merger", "Financial Analysis", "Corporate Earnings", "Industry Update", 
-        "Trade News", "Investment Tips", "CEO Interview", "IPO News", "Acquisition Alert",
-        "Quarterly Report", "Market Close", "Dow Jones", "S&P 500", "NASDAQ Update",
-        "Federal Reserve", "Interest Rates", "Inflation Report", "GDP Growth"],
-        address :domain :matches "from" ["*wsj.com", "*bloomberg.com", "*cnbc.com",
-        "*marketwatch.com", "*businessinsider.com", "*fortune.com"]
+        address :domain :matches "from" ["bloomberg.com", "*.bloomberg.com",
+            "businessinsider.com", "*.businessinsider.com", "cnbc.com", "*.cnbc.com",
+            "fortune.com", "*.fortune.com", "marketwatch.com", "*.marketwatch.com",
+            "wsj.com", "*.wsj.com"],
+        header :contains "subject" ["Market Report", "Stock News", "Economy Forecast",
+            "Business Merger", "Financial Analysis", "Corporate Earnings",
+            "Industry Update", "Trade News", "Investment Tips", "CEO Interview",
+            "IPO News", "Acquisition Alert", "Quarterly Report", "Market Close",
+            "Dow Jones", "S&P 500", "NASDAQ Update", "Federal Reserve",
+            "Interest Rates", "Inflation Report", "GDP Growth"]
     ) {
         fileinto "News/Business";
-        
-        # Daily market reports (expire 3 days)
+
         if allof (
             header :contains "subject" ["Market Close", "Daily Market", "Stock Report",
-            "Market Summary", "Trading Update", "Market Recap"],
+                "Market Summary", "Trading Update", "Market Recap"],
             size :under 500K
         ) {
             expire "day" "3";
         }
-        
+
         stop;
     }
 
-    # Sports
     if anyof (
-        header :contains "subject" ["Game Recap", "Sports Highlights", "Match Results", 
-        "Player Trade", "Tournament Update", "Team News", "Athlete Profile", 
-        "Score Alert", "League Standings", "Championship Preview", "Draft News",
-        "Injury Report", "Season Recap", "Playoff Update", "World Cup", "Olympics",
-        "Super Bowl", "World Series", "NBA Finals", "Stanley Cup"],
-        address :domain :matches "from" ["*espn.com", "*si.com", "*bleacherreport.com",
-        "*cbssports.com", "*nbcsports.com", "*foxsports.com"]
+        address :domain :matches "from" ["bleacherreport.com", "*.bleacherreport.com",
+            "cbssports.com", "*.cbssports.com", "espn.com", "*.espn.com",
+            "foxsports.com", "*.foxsports.com", "nbcsports.com", "*.nbcsports.com",
+            "si.com", "*.si.com"],
+        header :contains "subject" ["Game Recap", "Sports Highlights", "Match Results",
+            "Player Trade", "Tournament Update", "Team News", "Athlete Profile",
+            "Score Alert", "League Standings", "Championship Preview", "Draft News",
+            "Injury Report", "Season Recap", "Playoff Update", "World Cup", "Olympics",
+            "Super Bowl", "World Series", "NBA Finals", "Stanley Cup"]
     ) {
         fileinto "News/Sports";
-        
-        # Live sports scores (expire 1 day)
+
         if allof (
             header :contains "subject" ["Score Alert", "Live Score", "Game Update",
-            "Final Score", "Breaking Sports", "Injury Alert"],
+                "Final Score", "Breaking Sports", "Injury Alert"],
             size :under 500K
         ) {
             expire "day" "1";
         }
-        
+
         stop;
     }
 
-    # Science & Health
     if anyof (
-        header :contains "subject" ["Scientific Discovery", "Research Findings", "Space News", 
-        "Climate Study", "Medical Breakthrough", "Tech in Science", "Environmental Report", 
-        "Biology Update", "Physics Experiment", "Astronomy Alert", "NASA Mission",
-        "Health Study", "Vaccine News", "Pandemic Update", "Disease Alert", "Drug Trial",
-        "Climate Change", "Global Warming", "Renewable Energy", "Conservation News"],
-        address :domain :matches "from" ["*sciencedaily.com", "*nature.com", "*nasa.gov",
-        "*scientificamerican.com", "*newscientist.com", "*cdc.gov", "*who.int"]
+        address :domain :matches "from" ["cdc.gov", "*.cdc.gov", "newscientist.com",
+            "*.newscientist.com", "sciencedaily.com", "*.sciencedaily.com",
+            "scientificamerican.com", "*.scientificamerican.com", "who.int",
+            "*.who.int"],
+        header :contains "subject" ["Scientific Discovery", "Research Findings",
+            "Space News", "Climate Study", "Medical Breakthrough", "Tech in Science",
+            "Environmental Report", "Biology Update", "Physics Experiment",
+            "Astronomy Alert", "NASA Mission", "Health Study", "Vaccine News",
+            "Pandemic Update", "Disease Alert", "Drug Trial", "Climate Change",
+            "Global Warming", "Renewable Energy", "Conservation News"]
     ) {
         fileinto "News/Science";
-        
-        # Health alerts (expire 14 days)
+
         if allof (
-            header :contains "subject" ["Health Alert", "Disease Outbreak", "Vaccine Update",
-            "Medical Emergency", "Public Health", "FDA Warning"],
+            header :contains "subject" ["Health Alert", "Disease Outbreak",
+                "Vaccine Update", "Medical Emergency", "Public Health", "FDA Warning"],
             size :under 500K
         ) {
             expire "day" "14";
         }
-        
+
         stop;
     }
 
-    # World & International
     if anyof (
-        header :contains "subject" ["International News", "Global Events", "World Affairs", 
-        "Foreign Policy", "Crisis Update", "Diplomatic Relations", "Geopolitical Analysis", 
-        "UN Report", "Regional Conflict", "Human Rights News", "War Update", "Peace Treaty",
-        "Embassy News", "Trade War", "Sanctions News", "Refugee Crisis", "Natural Disaster",
-        "Earthquake Alert", "Hurricane Update", "Tsunami Warning"],
-        address :domain :matches "from" ["*bbc.com", "*reuters.com", "*aljazeera.com",
-        "*apnews.com", "*france24.com", "*dw.com"]
+        address :domain :matches "from" ["aljazeera.com", "*.aljazeera.com",
+            "apnews.com", "*.apnews.com", "dw.com", "*.dw.com", "france24.com",
+            "*.france24.com", "reuters.com", "*.reuters.com"],
+        header :contains "subject" ["International News", "Global Events",
+            "World Affairs", "Foreign Policy", "Crisis Update", "Diplomatic Relations",
+            "Geopolitical Analysis", "UN Report", "Regional Conflict",
+            "Human Rights News", "War Update", "Peace Treaty", "Embassy News",
+            "Trade War", "Sanctions News", "Refugee Crisis", "Natural Disaster",
+            "Earthquake Alert", "Hurricane Update", "Tsunami Warning"]
     ) {
         fileinto "News/World";
-        
-        # Breaking international news (expire 3 days)
+
         if allof (
             header :contains "subject" ["Breaking International", "Global Breaking",
-            "World Breaking", "Crisis Alert", "Emergency Update"],
+                "World Breaking", "Crisis Alert", "Emergency Update"],
             size :under 500K
         ) {
             expire "day" "3";
         }
-        
+
         stop;
     }
 
-    # Entertainment & Culture
     if anyof (
-        header :contains "subject" ["Celebrity News", "Movie Review", "Music News", 
-        "TV Show Update", "Award Show", "Red Carpet", "Hollywood News", "Concert Review",
-        "Book Review", "Art Exhibition", "Cultural Event", "Festival News", "Grammy Awards",
-        "Oscar News", "Emmy Update", "Golden Globes", "Cannes Festival", "Comic-Con"],
-        address :domain :matches "from" ["*ew.com", "*people.com", "*variety.com",
-        "*hollywoodreporter.com", "*rollingstone.com", "*pitchfork.com"]
+        address :domain :matches "from" ["rollingstone.com", "*.rollingstone.com"],
+        header :contains "subject" ["Celebrity News", "Movie Review", "Music News",
+            "TV Show Update", "Award Show", "Red Carpet", "Hollywood News",
+            "Concert Review", "Book Review", "Art Exhibition", "Cultural Event",
+            "Festival News", "Grammy Awards", "Oscar News", "Emmy Update",
+            "Golden Globes", "Cannes Festival", "Comic-Con"]
     ) {
         fileinto "News/Entertainment";
-        
-        # Celebrity gossip (expire 2 days)
+
         if allof (
-            header :contains "subject" ["Celebrity Gossip", "Star Spotted", "Dating News",
-            "Breakup Alert", "Wedding News", "Baby News", "Social Media Drama"],
+            header :contains "subject" ["Celebrity Gossip", "Star Spotted",
+                "Dating News", "Breakup Alert", "Wedding News", "Baby News",
+                "Social Media Drama"],
             size :under 500K
         ) {
             expire "day" "2";
         }
-        
+
         stop;
     }
 
-    # Weather & Environment
     if anyof (
-        header :contains "subject" ["Weather Alert", "Storm Warning", "Hurricane Update",
-        "Tornado Watch", "Flood Warning", "Drought Alert", "Heat Wave", "Cold Snap",
-        "Blizzard Warning", "Severe Weather", "Climate Report", "Environmental News"],
-        address :domain :matches "from" ["*weather.com", "*accuweather.com", "*noaa.gov",
-        "*nws.noaa.gov", "*weatherchannel.com"]
+        address :domain :matches "from" ["accuweather.com", "*.accuweather.com",
+            "noaa.gov", "*.noaa.gov", "nws.noaa.gov", "*.nws.noaa.gov", "weather.com",
+            "*.weather.com", "weatherchannel.com", "*.weatherchannel.com"],
+        header :contains "subject" ["Weather Alert", "Storm Warning",
+            "Hurricane Update", "Tornado Watch", "Flood Warning", "Drought Alert",
+            "Heat Wave", "Cold Snap", "Blizzard Warning", "Severe Weather",
+            "Climate Report", "Environmental News"]
     ) {
         fileinto "News/Weather";
-        
-        # Weather alerts (expire 1 day)
+
         if allof (
-            header :contains "subject" ["Weather Alert", "Storm Warning", "Weather Emergency"],
+            header :contains "subject" ["Weather Alert", "Storm Warning",
+                "Weather Emergency"],
             size :under 500K
         ) {
             expire "day" "1";
         }
-        
+
         stop;
     }
 
-    # Default to "News" folder for uncategorized news
-    fileinto "News";
-
-    # General expiration rules for news content
-    
-    # Breaking news/alerts (expire 1 day)
     if allof (
-        header :contains "subject" ["Breaking News", "Urgent Alert", "Flash Update", 
-        "Live Coverage", "Developing Story", "News Alert", "Immediate Update", 
-        "Hot Off the Press", "Real-Time News", "Emergency Broadcast"],
+        header :contains "subject" ["Breaking News", "Urgent Alert", "Flash Update",
+            "Live Coverage", "Developing Story", "News Alert", "Immediate Update",
+            "Hot Off the Press", "Real-Time News", "Emergency Broadcast"],
         size :under 500K
     ) {
         expire "day" "1";
+
         stop;
     }
 
-    # Daily news/digests (expire 2 days)
     if allof (
-        header :contains "subject" ["Daily News Digest", "Morning Briefing", "Evening Recap", 
-        "Headline Summary", "Top Stories Today", "News Roundup", "Daily Update", 
-        "Newsletter Edition", "Breaking News Summary", "Quick Reads"],
+        header :contains "subject" ["Daily News Digest", "Morning Briefing",
+            "Evening Recap", "Headline Summary", "Top Stories Today", "News Roundup",
+            "Daily Update", "Newsletter Edition", "Breaking News Summary",
+            "Quick Reads"],
         size :under 500K
     ) {
         expire "day" "2";
+
         stop;
     }
 
-    # In-depth articles/analysis (expire 7 days)
     if allof (
-        header :contains "subject" ["In-Depth Report", "Feature Story", "Investigative Piece", 
-        "Long-Form Analysis", "Opinion Column", "Expert Commentary", "Deep Dive", 
-        "Special Report", "Backgrounder", "Explainer Article"],
+        header :contains "subject" ["In-Depth Report", "Feature Story",
+            "Investigative Piece", "Long-Form Analysis", "Opinion Column",
+            "Expert Commentary", "Deep Dive", "Special Report", "Backgrounder",
+            "Explainer Article"],
         size :under 500K
     ) {
         expire "day" "7";
+
         stop;
     }
 
-    # Default expiration for other news (3 days)
+    # Default retention for anything that reached none of the rules above.
     expire "day" "3";
-    
+
     stop;
 }
 
-# End of News Filter
+# End of News & Newsletters filter

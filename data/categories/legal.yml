@@ -282,6 +282,8 @@ rules:
   - Refund Policy
   - Cancellation Policy
   - Subscription Terms
+  flags:
+  - \Seen
   expire_days: 10
   stop: true
   tiers:
@@ -353,5 +355,7 @@ rules:
   - Attorney Notice
   - Legal Warning
   - Legal Violation
+  flags:
+  - \Flagged
   expire_days: 30
   stop: true

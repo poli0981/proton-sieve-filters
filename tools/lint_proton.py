@@ -120,6 +120,9 @@ def check_domain_literals(path, rep, tree):
     """Validate only the strings that are actually matched against From, so that
     subject keywords such as "Invoice no." are not mistaken for hostnames."""
     seen = set()
+    all_lits = set()
+    for node in iter_ifs(tree):
+        all_lits |= from_domains(node.arguments["test"])
     for node in iter_ifs(tree):
         for lit in from_domains(node.arguments["test"]):
             if lit in seen:
@@ -135,10 +138,10 @@ def check_domain_literals(path, rep, tree):
             elif re.search(r"[^A-Za-z0-9.\-*@_]", d):
                 rep.add(WARN, path, "domain",
                         '"%s" has characters invalid in a hostname' % lit)
-            elif not lit.startswith("*") and "." in d:
+            elif not lit.startswith("*") and "." in d and ("*." + lit) not in all_lits:
                 rep.add(WARN, path, "domain",
-                        '"%s" has no leading * -- it matches that exact domain only, '
-                        "unlike every other entry" % lit)
+                        '"%s" is an exact match with no "*.%s" beside it, so '
+                        "subdomains are not covered" % (lit, lit))
 
 
 # --------------------------------------------------------------------------- #

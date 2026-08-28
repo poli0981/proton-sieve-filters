@@ -1,27 +1,28 @@
 # Security & Account filter -- filter/security.sieve
 #
+# GENERATED FILE -- do not edit. Edit data/categories/security.yml and run:
+#     python tools/generate.py
+#
 # For Proton Mail only. A paid plan is required to run this alongside other
 # filters: the free plan allows just one active filter at a time.
 #
-# This script filters security and account-related notifications, categorizes
-# them by security level and type.
+# Account alerts, sign-in notifications, 2FA and breach warnings.
 #
-# Folders: Security, Security/Authentication, Security/Billing,
-#          Security/Changes, Security/Compliance, Security/Critical,
-#          Security/Education, Security/General, Security/Login,
-#          Security/Permissions
+# Folders: Security, Security/Authentication, Security/Billing, Security/Changes,
+#          Security/Compliance, Security/Critical, Security/Education,
+#          Security/General, Security/Login, Security/Permissions
 #
 # WARNING: this filter sets auto-delete timers on matched mail via
 #          vnd.proton.expire. Read CHANGELOG.md before installing.
 #
-# Filters run in the order you install them, and on conflicting actions the
-# last one wins -- see docs/ for the recommended order.
+# Install position 1 of 14. Filters run in the order you install them, and on
+# conflicting actions the last one wins -- see README.md for the full order.
 #
 # Version: 0.2.1
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
-# Whitelist - Always allow personal contacts
+# Never touch mail from people you know.
 if anyof (
     header :list "from" ":addrbook:personal",
     header :list "from" ":addrbook:myself"
@@ -29,327 +30,190 @@ if anyof (
     stop;
 }
 
-# Delete messages if they are in the spam list
+# Drop what Proton already knows is spam.
 if header :list "from" ":incomingdefaults:spam" {
     discard;
     stop;
 }
 
-# CRITICAL SECURITY ALERTS - Immediate Action Required
-if anyof (
-    # Account Compromise & Hacking
-    header :contains "subject" ["Account Compromised", "Unauthorized Access Detected", 
-    "Security Breach Alert", "Account Hacked", "Suspicious Login Activity", 
+if header :contains "subject" ["Account Compromised", "Unauthorized Access Detected",
+    "Security Breach Alert", "Account Hacked", "Suspicious Login Activity",
     "Unknown Device Login", "Login from New Location", "Unusual Account Activity",
     "Account Access from Unrecognized Device", "Multiple Failed Login Attempts",
-    "Password Changed by Someone Else", "Account Takeover Detected"],
-
-    # Data Breaches & Major Security Incidents  
-    header :contains "subject" ["Data Breach Alert", "Security Incident Report",
+    "Password Changed by Someone Else", "Account Takeover Detected",
+    "Data Breach Alert", "Security Incident Report",
     "Your Data May Have Been Compromised", "Security Vulnerability Found",
-    "Emergency Security Update", "Critical Security Patch", "Immediate Action Required",
-    "Urgent Security Notice", "Personal Information Exposed", "Data Leak Alert"],
-
-    # Account Lockouts & Suspensions
-    header :contains "subject" ["Account Locked", "Account Suspended", "Account Frozen",
-    "Account Temporarily Disabled", "Account Access Restricted", "Account Banned",
-    "Service Suspended", "Account Under Review", "Access Revoked", "Account Deactivated"],
-
-    # Fraud & Financial Security
-    header :contains "subject" ["Fraudulent Activity Detected", "Unauthorized Transaction",
-    "Payment Method Compromised", "Card Used Unauthorized", "Suspicious Payment Alert",
-    "Identity Theft Warning", "Fraud Alert", "Unauthorized Purchase", "Billing Alert",
-    "Credit Card Security Alert", "Payment Fraud Detection"]
-) {
-    # Mark as important and unread for immediate attention
-    addflag "\\Flagged";
+    "Emergency Security Update", "Critical Security Patch",
+    "Immediate Action Required", "Urgent Security Notice",
+    "Personal Information Exposed", "Data Leak Alert", "Account Locked",
+    "Account Suspended", "Account Frozen", "Account Temporarily Disabled",
+    "Account Access Restricted", "Account Banned", "Service Suspended",
+    "Account Under Review", "Access Revoked", "Account Deactivated",
+    "Fraudulent Activity Detected", "Unauthorized Transaction",
+    "Payment Method Compromised", "Card Used Unauthorized",
+    "Suspicious Payment Alert", "Identity Theft Warning", "Fraud Alert",
+    "Unauthorized Purchase", "Billing Alert", "Credit Card Security Alert",
+    "Payment Fraud Detection"] {
     removeflag "\\Seen";
-    
-    # Move to Critical Security folder
+    addflag "\\Flagged";
     fileinto "Security/Critical";
-    
-    # Keep for 90 days (important for investigation)
     expire "day" "90";
-    
+
     stop;
 }
 
-# PASSWORD & AUTHENTICATION SECURITY
-if anyof (
-    # Password Changes & Resets
-    header :contains "subject" ["Password Changed Successfully", "Password Reset Request",
-    "Password Change Confirmation", "Password Updated", "New Password Created",
-    "Password Modification Alert", "Password Recovery", "Reset Password Link",
-    "Password Reset Verification", "Temporary Password", "Password Expired",
-    "Password Will Expire Soon", "Change Your Password", "Weak Password Alert"],
-
-    # Two-Factor Authentication
-    header :contains "subject" ["Two-Factor Authentication", "2FA Setup", "2FA Enabled",
+if header :contains "subject" ["Password Changed Successfully",
+    "Password Reset Request", "Password Change Confirmation", "Password Updated",
+    "New Password Created", "Password Modification Alert", "Password Recovery",
+    "Reset Password Link", "Password Reset Verification", "Temporary Password",
+    "Password Expired", "Password Will Expire Soon", "Change Your Password",
+    "Weak Password Alert", "Two-Factor Authentication", "2FA Setup", "2FA Enabled",
     "2FA Disabled", "Authentication Code", "Verification Code", "Security Code",
-    "Login Code", "Access Code", "One-Time Password", "OTP Code", "Multi-Factor Authentication",
-    "MFA Setup", "Authenticator App", "Backup Codes", "Recovery Codes", "Your one-time code"],
-
-    # Authentication Methods
-    header :contains "subject" ["Security Key Added", "Security Key Removed", 
-    "Biometric Authentication", "Fingerprint Added", "Face ID Setup", 
-    "New Account Confirmation","Authentication Method Changed", 
-    "Login Method Updated", "Backup Authentication", "Disable two-step login"],
-
-    # Account Recovery and Verification
-    header :contains "subject" ["Account Recovery", "Recovery Email Updated", 
-    "Recovery Phone Updated", "Security Questions", "Account Restoration",
-    "Identity Verification Required", "Account Verification", "Verify Your Identity", 
-    "verify your email address"]
-) {
-    # Mark as read but important
+    "Login Code", "Access Code", "One-Time Password", "OTP Code",
+    "Multi-Factor Authentication", "MFA Setup", "Authenticator App", "Backup Codes",
+    "Recovery Codes", "Your one-time code", "Security Key Added",
+    "Security Key Removed", "Biometric Authentication", "Fingerprint Added",
+    "Face ID Setup", "New Account Confirmation", "Authentication Method Changed",
+    "Login Method Updated", "Backup Authentication", "Disable two-step login",
+    "Account Recovery", "Recovery Email Updated", "Recovery Phone Updated",
+    "Security Questions", "Account Restoration", "Identity Verification Required",
+    "Account Verification", "Verify Your Identity", "verify your email address"] {
     addflag "\\Seen";
     addflag "\\Flagged";
-    
-    # Move to Password & Auth folder
     fileinto "Security/Authentication";
-    
-    # Keep for 60 days (moderate importance)
     expire "day" "60";
-    
+
     stop;
 }
 
-# LOGIN & ACCESS MONITORING
-if anyof (
-    # New Device & Location Logins
-    header :contains "subject" ["New Device Login", "Login from New Location", 
-    "Unrecognized Device", "New Browser Login", "First Time Login", 
-    "Login Alert", "Access Notification", "Sign-in Alert", "Login Detected",
-    "Device Authorization", "New IP Address Login", "Location Change Alert"],
-
-    # Session Management
-    header :contains "subject" ["Session Expired", "Session Terminated", "Active Sessions",
-    "Session Security", "Remote Logout", "All Sessions Ended", "Session Alert",
-    "Login Session", "Device Sessions", "Session Management"],
-
-    # Access Patterns
-    header :contains "subject" ["Multiple Login Attempts", "Repeated Login Failures",
-    "Access Pattern Alert", "Login Frequency Alert", "Unusual Access Times",
-    "Off-Hours Access", "Weekend Login Alert", "Holiday Access Alert"]
-) {
-    # Mark as read
+if header :contains "subject" ["New Device Login", "Login from New Location",
+    "Unrecognized Device", "New Browser Login", "First Time Login", "Login Alert",
+    "Access Notification", "Sign-in Alert", "Login Detected",
+    "Device Authorization", "New IP Address Login", "Location Change Alert",
+    "Session Expired", "Session Terminated", "Active Sessions", "Session Security",
+    "Remote Logout", "All Sessions Ended", "Session Alert", "Login Session",
+    "Device Sessions", "Session Management", "Multiple Login Attempts",
+    "Repeated Login Failures", "Access Pattern Alert", "Login Frequency Alert",
+    "Unusual Access Times", "Off-Hours Access", "Weekend Login Alert",
+    "Holiday Access Alert"] {
     addflag "\\Seen";
-    
-    # Move to Login Monitoring folder  
     fileinto "Security/Login";
-    
-    # Keep for 30 days (tracking purposes)
     expire "day" "30";
-    
+
     stop;
 }
 
-# ACCOUNT SETTINGS & PROFILE CHANGES
-if anyof (
-    # Profile & Personal Information Changes
-    header :contains "subject" ["Profile Updated", "Personal Information Changed",
-    "Email Address Changed", "Phone Number Updated", "Name Changed", 
+if header :contains "subject" ["Profile Updated", "Personal Information Changed",
+    "Email Address Changed", "Phone Number Updated", "Name Changed",
     "Address Updated", "Profile Picture Changed", "Account Details Modified",
-    "Contact Information Updated", "Personal Data Changed"],
-
-    # Security Settings Changes  
-    header :contains "subject" ["Security Settings Updated", "Privacy Settings Changed",
+    "Contact Information Updated", "Personal Data Changed",
+    "Security Settings Updated", "Privacy Settings Changed",
     "Notification Preferences", "Security Preferences", "Account Preferences",
-    "Security Configuration", "Privacy Configuration", "Settings Modified"],
-
-    # Permission & Access Changes
-    header :contains "subject" ["Account Permissions", "Access Level Changed", 
-    "Role Modified", "Permissions Updated", "Access Rights", "Authorization Level",
-    "Account Privileges", "Admin Access", "User Role Changed"]
-) {
-    # Mark as read
+    "Security Configuration", "Privacy Configuration", "Settings Modified",
+    "Account Permissions", "Access Level Changed", "Role Modified",
+    "Permissions Updated", "Access Rights", "Authorization Level",
+    "Account Privileges", "Admin Access", "User Role Changed"] {
     addflag "\\Seen";
-    
-    # Move to Account Changes folder
     fileinto "Security/Changes";
-    
-    # Keep for 45 days (moderate importance)
     expire "day" "45";
-    
+
     stop;
 }
 
-# PAYMENT & BILLING SECURITY
-if anyof (
-    # Payment Method Changes
-    header :contains "subject" ["Payment Method Added", "Credit Card Added",
+if header :contains "subject" ["Payment Method Added", "Credit Card Added",
     "Payment Method Removed", "Card Expired", "Payment Method Updated",
     "Billing Information Changed", "Payment Details Modified", "Card Declined",
-    "Payment Failed", "Subscription Payment", "Auto-renewal Failed"],
-
-    # Billing Security
-    header :contains "subject" ["Billing Address Changed", "Tax Information Updated",
-    "Invoice Generated", "Payment Confirmation", "Refund Processed", 
-    "Chargeback Alert", "Billing Dispute", "Payment Verification Required"],
-
-    # Subscription & Service Changes
-    header :contains "subject" ["Subscription Cancelled", "Service Downgraded",
-    "Service Upgraded", "Plan Changed", "Billing Cycle Modified",
-    "Subscription Renewal", "Service Suspended for Payment", "Account Upgraded"]
-) {
-    # Mark as read
+    "Payment Failed", "Subscription Payment", "Auto-renewal Failed",
+    "Billing Address Changed", "Tax Information Updated", "Invoice Generated",
+    "Payment Confirmation", "Refund Processed", "Chargeback Alert",
+    "Billing Dispute", "Payment Verification Required", "Subscription Cancelled",
+    "Service Downgraded", "Service Upgraded", "Plan Changed",
+    "Billing Cycle Modified", "Subscription Renewal",
+    "Service Suspended for Payment", "Account Upgraded"] {
     addflag "\\Seen";
-    
-    # Move to Billing Security folder
     fileinto "Security/Billing";
-    
-    # Keep for 365 days (financial records)
     expire "day" "365";
-    
+
     stop;
 }
 
-# APP & SERVICE PERMISSIONS
-if anyof (
-    # Third-party App Access
-    header :contains "subject" ["App Permission Granted", "Third-party Access",
+if header :contains "subject" ["App Permission Granted", "Third-party Access",
     "OAuth Authorization", "API Access Granted", "Connected App", "App Connected",
     "Service Connected", "Integration Authorized", "Permission Revoked",
-    "App Access Removed", "Connected Service", "External App Access"],
-
-    # Device & Browser Permissions
-    header :contains "subject" ["Device Authorized", "Browser Authorized", 
-    "Device Permission", "Location Access", "Camera Permission", "Microphone Access",
-    "Notification Permission", "Storage Permission", "Contact Permission"],
-
-    # Data Access & Sharing
-    header :contains "subject" ["Data Sharing Agreement", "Information Sharing",
-    "Data Access Granted", "Privacy Consent", "Data Processing Consent",
-    "Data Export Request", "Data Download", "Account Data", "Personal Data Export"]
-) {
-    # Mark as read
+    "App Access Removed", "Connected Service", "External App Access",
+    "Device Authorized", "Browser Authorized", "Device Permission",
+    "Location Access", "Camera Permission", "Microphone Access",
+    "Notification Permission", "Storage Permission", "Contact Permission",
+    "Data Sharing Agreement", "Information Sharing", "Data Access Granted",
+    "Privacy Consent", "Data Processing Consent", "Data Export Request",
+    "Data Download", "Account Data", "Personal Data Export"] {
     addflag "\\Seen";
-    
-    # Move to Permissions folder
     fileinto "Security/Permissions";
-    
-    # Keep for 30 days (moderate importance)
     expire "day" "30";
-    
+
     stop;
 }
 
-# COMPLIANCE & LEGAL SECURITY
-if anyof (
-    # Privacy Law Compliance
-    header :contains "subject" ["GDPR Compliance", "CCPA Notice", "Privacy Law Update",
+if header :contains "subject" ["GDPR Compliance", "CCPA Notice", "Privacy Law Update",
     "Data Protection Notice", "Regulatory Compliance", "Privacy Rights",
-    "Data Subject Rights", "Right to Delete", "Data Portability", "Privacy Request"],
-
-    # Legal & Regulatory Updates
-    header :contains "subject" ["Terms of Service Update", "Privacy Policy Update",
-    "Legal Notice", "Regulatory Change", "Compliance Update", "Policy Amendment",
-    "Legal Requirement", "Regulatory Filing", "Audit Notice", "Compliance Report"],
-
-    # Data Retention & Deletion
-    header :contains "subject" ["Data Retention Policy", "Data Deletion Schedule",
-    "Account Deletion", "Data Purge Notice", "Retention Period", "Data Cleanup",
-    "Information Disposal", "Record Retention", "Data Archive"]
-) {
-    # Mark as read
+    "Data Subject Rights", "Right to Delete", "Data Portability", "Privacy Request",
+    "Terms of Service Update", "Privacy Policy Update", "Legal Notice",
+    "Regulatory Change", "Compliance Update", "Policy Amendment",
+    "Legal Requirement", "Regulatory Filing", "Audit Notice", "Compliance Report",
+    "Data Retention Policy", "Data Deletion Schedule", "Account Deletion",
+    "Data Purge Notice", "Retention Period", "Data Cleanup", "Information Disposal",
+    "Record Retention", "Data Archive"] {
     addflag "\\Seen";
-    
-    # Move to Compliance folder
     fileinto "Security/Compliance";
-    
-    # Keep for 90 days (legal importance)
     expire "day" "90";
-    
+
     stop;
 }
 
-# SECURITY EDUCATION & TIPS
-if anyof (
-    # Security Awareness
-    header :contains "subject" ["Security Tips", "Security Best Practices", 
-    "Security Awareness", "Phishing Alert", "Security Education", 
-    "Stay Safe Online", "Security Training", "Cybersecurity Tips",
-    "Privacy Tips", "Safety Reminder", "Security Newsletter"],
-
-    # Threat Alerts & Warnings
-    header :contains "subject" ["Threat Alert", "Security Warning", "Scam Alert",
-    "Phishing Warning", "Malware Alert", "Virus Warning", "Security Threat",
-    "Cyber Threat", "Security Advisory", "Safety Alert", "Fraud Warning"]
-) {
-    # Mark as read
+if header :contains "subject" ["Security Tips", "Security Best Practices",
+    "Security Awareness", "Phishing Alert", "Security Education",
+    "Stay Safe Online", "Security Training", "Cybersecurity Tips", "Privacy Tips",
+    "Safety Reminder", "Security Newsletter", "Threat Alert", "Security Warning",
+    "Scam Alert", "Phishing Warning", "Malware Alert", "Virus Warning",
+    "Security Threat", "Cyber Threat", "Security Advisory", "Safety Alert",
+    "Fraud Warning"] {
     addflag "\\Seen";
-    
-    # Move to Education folder
     fileinto "Security/Education";
-    
-    # Keep for 14 days (educational value)
     expire "day" "14";
-    
+
     stop;
 }
 
-# GENERAL SECURITY NOTIFICATIONS
-if anyof (
-    # Regular Security Updates
-    header :contains "subject" ["Security Update", "Security Patch", "Software Update",
+if header :contains "subject" ["Security Update", "Security Patch", "Software Update",
     "System Update", "Security Fix", "Vulnerability Patch", "Security Enhancement",
-    "Security Improvement", "Protection Update", "Safety Update"],
-
-    # Account Verification & Confirmation
-    header :contains "subject" ["Account Verified", "Email Verified", "Phone Verified",
-    "Identity Confirmed", "Verification Complete", "Account Activated",
-    "Registration Confirmed", "Account Setup Complete", "Welcome Security", 
-    "Please Confirm Your Account", "Please confirm your email address", "verify your email"],
-
-    # Maintenance & System Changes
-    header :contains "subject" ["System Maintenance", "Security Maintenance", 
-    "Scheduled Maintenance", "Service Update", "Platform Update", "Infrastructure Update",
-    "Server Maintenance", "Database Maintenance", "Network Maintenance"]
-) {
-    # Mark as read
+    "Security Improvement", "Protection Update", "Safety Update",
+    "Account Verified", "Email Verified", "Phone Verified", "Identity Confirmed",
+    "Verification Complete", "Account Activated", "Registration Confirmed",
+    "Account Setup Complete", "Welcome Security", "Please Confirm Your Account",
+    "Please confirm your email address", "verify your email", "System Maintenance",
+    "Security Maintenance", "Scheduled Maintenance", "Service Update",
+    "Platform Update", "Infrastructure Update", "Server Maintenance",
+    "Database Maintenance", "Network Maintenance"] {
     addflag "\\Seen";
-    
-    # Move to General Security folder
     fileinto "Security/General";
-    
-    # Keep for 21 days (standard security info)
     expire "day" "21";
-    
+
     stop;
 }
 
-# Default Security folder for uncategorized security emails
-# Catch-all for security mail that fits none of the categories above.
-#
-# NOTE (v0.2.1): this gate used to be a flat anyof() in which a bare
-# `header :contains "from" ["noreply@", ...]` stood alone, so virtually every
-# automated message on earth was filed to Security, expired after 14 days, and
-# stopped -- neutralising every filter installed after this one. Generic words
-# now require a security-related sender to go with them.
 if anyof (
-    # Specific enough to stand on their own
     header :contains "subject" ["Security Alert", "Password", "Login", "Sign-in",
-    "Authentication", "Verification Code", "Two-Factor", "Unauthorized",
-    "Suspicious Activity", "Account Recovery", "Data Breach"],
-
-    # Generic words, but only from a security-related sender
-    allof (
-        header :contains "from" ["security@", "account@", "admin@", "alerts@",
-        "notification@"],
-        header :contains "subject" ["Security", "Account", "Access", "Protect",
-        "Privacy", "Confidential"]
-    )
+        "Authentication", "Verification Code", "Two-Factor", "Unauthorized",
+        "Suspicious Activity", "Account Recovery", "Data Breach", "Security", "Account",
+        "Access", "Protect", "Privacy", "Confidential"],
+    header :contains "from" ["security@", "account@", "admin@", "alerts@",
+        "notification@"]
 ) {
-    # Mark as read
     addflag "\\Seen";
-    
-    # Move to main Security folder
     fileinto "Security";
-    
-    # Default expiration (14 days)
     expire "day" "14";
-    
+
     stop;
 }
 
-# End of Security Account Filter
+# End of Security & Account filter

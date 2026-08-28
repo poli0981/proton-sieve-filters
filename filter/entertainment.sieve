@@ -1,313 +1,316 @@
 # Entertainment filter -- filter/entertainment.sieve
 #
+# GENERATED FILE -- do not edit. Edit data/categories/entertainment.yml and run:
+#     python tools/generate.py
+#
 # For Proton Mail only. A paid plan is required to run this alongside other
 # filters: the free plan allows just one active filter at a time.
 #
-# This script filters messages related to entertainment platforms (movies,
-# music, forums, etc.), moves them to "Entertainment" folder.
+# Streaming, music, podcasts, books and events.
 #
 # Folders: Entertainment/Books, Entertainment/Comics, Entertainment/Events,
-#          Entertainment/General, Entertainment/Movies-TV,
-#          Entertainment/Music, Entertainment/News, Entertainment/Podcasts,
-#          Entertainment/Reviews
+#          Entertainment/General, Entertainment/Movies-TV, Entertainment/Music,
+#          Entertainment/News, Entertainment/Podcasts, Entertainment/Reviews
 #
 # WARNING: this filter sets auto-delete timers on matched mail via
 #          vnd.proton.expire. Read CHANGELOG.md before installing.
 #
-# Filters run in the order you install them, and on conflicting actions the
-# last one wins -- see docs/ for the recommended order.
+# Install position 9 of 14. Filters run in the order you install them, and on
+# conflicting actions the last one wins -- see README.md for the full order.
 #
 # Version: 0.2.1
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
-# Whitelist
+# Never touch mail from people you know.
 if header :list "from" ":addrbook:personal" {
     stop;
 }
 
-# Filter messages related to entertainment (movies, music, forums)
-if anyof (
-    # Movie/TV streaming platforms
-    address :domain :matches "from" ["*netflix.com", "*hulu.com", "*disneyplus.com",
-    "*primevideo.com", "*max.com", "*paramountplus.com", "*paramount.com", "*peacocktv.com",
-    "*appletv.com", "*youtube.com", "*tubitv.com", "*pluto.tv", "*kanopy.com",
-    "*criterionchannel.com", "*shudder.com", "*fubotv.com", "*sling.com",
-    "*directv.com", "*starz.com", "*crackle.com", "*popcornflix.com", "*vudu.com",
-    "*discoveryplus.com", "*fearless.li", "*kidoodle.tv", "*dazn.com", "*allarts.org"],
-
-    # International streaming platforms
-    address :domain :matches "from" ["*bbc.com", "*itv.com", "*channel4.com",
-    "*sky.com", "*now.com", "*crave.ca", "*hotstar.com", "*viu.com",
-    "*iqiyi.com", "*youku.com", "*bilibili.com", "*viki.com", "*dramafever.com",
-    "*crunchyroll.com", "*funimation.com", "*animelab.com", "*wakanim.com", "*bilibili.tv"],
-
-    # Music streaming platforms
-    address :domain :matches "from" ["*spotify.com", "*apple.com", "*music.youtube.com",
-    "*tidal.com", "*deezer.com", "*pandora.com", "*soundcloud.com", "*amazon.com",
-    "*bandcamp.com", "*qobuz.com", "*listnr.com", "*iheartradio.com", "*audible.com",
-    "*last.fm", "*mixcloud.com", "*8tracks.com", "*jamendo.com", "*freesound.org"],
-
-    # Podcast platforms
-    address :domain :matches "from" ["*anchor.fm", "*castbox.fm", "*podbean.com",
-    "*buzzsprout.com", "*libsyn.com", "*spreaker.com", "*audioboom.com",
-    "*stitcher.com", "*overcast.fm", "*pocketcasts.com", "*castro.fm"],
-
-    # Movie/TV review and rating sites
-    address :domain :matches "from" ["*imdb.com", "*rottentomatoes.com", "*letterboxd.com",
-    "*metacritic.com", "*themoviedb.org", "*trakt.tv", "*simkl.com", "*tvtime.com",
-    "*justwatch.com", "*reelgood.com", "*tv.com", "*fanart.tv"],
-
-    # Music review and discovery sites
-    address :domain :matches "from" ["*rateyourmusic.com", "*allmusic.com", "*discogs.com",
-    "*musicbrainz.org", "*setlist.fm", "*songkick.com", "*bandsintown.com",
-    "*last.fm", "*scrobbles.fm", "*pitchfork.com"],
-
-    # Entertainment news and media
-    address :domain :matches "from" ["*variety.com", "*hollywoodreporter.com", "*deadline.com",
-    "*entertainment.com", "*ew.com", "*people.com", "*tmz.com", "*accesshollywood.com",
-    "*etonline.com", "*extratv.com", "*usweekly.com", "*okmagazine.com"],
-
-    # Comic and book platforms
-    address :domain :matches "from" ["*comixology.com", "*marvel.com", "*dccomics.com",
-    "*darkhorse.com", "*imagecomics.com", "*goodreads.com", "*scribd.com",
-    "*kindle.com", "*kobo.com", "*bookbub.com", "*librivox.org"],
-
-    # Live events and ticketing
-    address :domain :matches "from" ["*ticketmaster.com", "*stubhub.com", "*vivid.com",
-    "*seatgeek.com", "*eventbrite.com", "*ticketfly.com", "*universe.com",
-    "*brownpapertickets.com", "*showclix.com", "*ticketweb.com"],
-
-    # Radio and broadcasting
-    address :domain :matches "from" ["*radio.com", "*tunein.com", "*radiotime.com",
-    "*npr.org", "*bbc.co.uk", "*cbc.ca", "*abc.net.au", "*rte.ie"],
-
-    # Art and cultural platforms
-    address :domain :matches "from" ["*artstation.com", "*deviantart.com", "*behance.net",
-    "*flickr.com", "*500px.com", "*unsplash.com", "*pixabay.com", "*pexels.com"],
-
-    # Entertainment forums and communities
-    address :domain :matches "from" ["*reddit.com", "*stackexchange.com", "*quora.com",
-    "*discord.com", "*fandom.com", "*wikia.com", "*tvtropes.org"]
-) {
-    # Mark email as read first
+if address :domain :matches "from" ["500px.com", "*.500px.com", "8tracks.com",
+    "*.8tracks.com", "abc.net.au", "*.abc.net.au", "accesshollywood.com",
+    "*.accesshollywood.com", "allarts.org", "*.allarts.org", "allmusic.com",
+    "*.allmusic.com", "anchor.fm", "*.anchor.fm", "animelab.com", "*.animelab.com",
+    "appletv.com", "*.appletv.com", "audible.com", "*.audible.com", "audioboom.com",
+    "*.audioboom.com", "bandcamp.com", "*.bandcamp.com", "bandsintown.com",
+    "*.bandsintown.com", "bbc.co.uk", "*.bbc.co.uk", "bbc.com", "*.bbc.com",
+    "bilibili.com", "*.bilibili.com", "bilibili.tv", "*.bilibili.tv", "bookbub.com",
+    "*.bookbub.com", "brownpapertickets.com", "*.brownpapertickets.com",
+    "buzzsprout.com", "*.buzzsprout.com", "castbox.fm", "*.castbox.fm", "castro.fm",
+    "*.castro.fm", "cbc.ca", "*.cbc.ca", "channel4.com", "*.channel4.com",
+    "comixology.com", "*.comixology.com", "crackle.com", "*.crackle.com",
+    "crave.ca", "*.crave.ca", "criterionchannel.com", "*.criterionchannel.com",
+    "crunchyroll.com", "*.crunchyroll.com", "darkhorse.com", "*.darkhorse.com",
+    "dazn.com", "*.dazn.com", "dccomics.com", "*.dccomics.com", "deadline.com",
+    "*.deadline.com", "deezer.com", "*.deezer.com", "deviantart.com",
+    "*.deviantart.com", "directv.com", "*.directv.com", "discogs.com",
+    "*.discogs.com", "discoveryplus.com", "*.discoveryplus.com", "disneyplus.com",
+    "*.disneyplus.com", "entertainment.com", "*.entertainment.com", "etonline.com",
+    "*.etonline.com", "eventbrite.com", "*.eventbrite.com", "ew.com", "*.ew.com",
+    "extratv.com", "*.extratv.com", "fanart.tv", "*.fanart.tv", "fandom.com",
+    "*.fandom.com", "fearless.li", "*.fearless.li", "flickr.com", "*.flickr.com",
+    "freesound.org", "*.freesound.org", "fubotv.com", "*.fubotv.com",
+    "funimation.com", "*.funimation.com", "goodreads.com", "*.goodreads.com",
+    "hollywoodreporter.com", "*.hollywoodreporter.com", "hotstar.com",
+    "*.hotstar.com", "hulu.com", "*.hulu.com", "iheartradio.com",
+    "*.iheartradio.com", "imagecomics.com", "*.imagecomics.com", "imdb.com",
+    "*.imdb.com", "iqiyi.com", "*.iqiyi.com", "itv.com", "*.itv.com", "jamendo.com",
+    "*.jamendo.com", "justwatch.com", "*.justwatch.com", "kanopy.com",
+    "*.kanopy.com", "kidoodle.tv", "*.kidoodle.tv", "kindle.com", "*.kindle.com",
+    "kobo.com", "*.kobo.com", "last.fm", "*.last.fm", "letterboxd.com",
+    "*.letterboxd.com", "librivox.org", "*.librivox.org", "libsyn.com",
+    "*.libsyn.com", "listnr.com", "*.listnr.com", "marvel.com", "*.marvel.com",
+    "max.com", "*.max.com", "mixcloud.com", "*.mixcloud.com", "music.youtube.com",
+    "*.music.youtube.com", "musicbrainz.org", "*.musicbrainz.org", "netflix.com",
+    "*.netflix.com", "now.com", "*.now.com", "npr.org", "*.npr.org",
+    "okmagazine.com", "*.okmagazine.com", "overcast.fm", "*.overcast.fm",
+    "pandora.com", "*.pandora.com", "paramount.com", "*.paramount.com",
+    "paramountplus.com", "*.paramountplus.com", "peacocktv.com", "*.peacocktv.com",
+    "people.com", "*.people.com", "pexels.com", "*.pexels.com", "pitchfork.com",
+    "*.pitchfork.com", "pixabay.com", "*.pixabay.com", "pluto.tv", "*.pluto.tv",
+    "pocketcasts.com", "*.pocketcasts.com", "podbean.com", "*.podbean.com",
+    "popcornflix.com", "*.popcornflix.com", "primevideo.com", "*.primevideo.com",
+    "qobuz.com", "*.qobuz.com", "quora.com", "*.quora.com", "radio.com",
+    "*.radio.com", "radiotime.com", "*.radiotime.com", "rateyourmusic.com",
+    "*.rateyourmusic.com", "reddit.com", "*.reddit.com", "reelgood.com",
+    "*.reelgood.com", "rottentomatoes.com", "*.rottentomatoes.com", "rte.ie",
+    "*.rte.ie", "scribd.com", "*.scribd.com", "scrobbles.fm", "*.scrobbles.fm",
+    "seatgeek.com", "*.seatgeek.com", "setlist.fm", "*.setlist.fm", "showclix.com",
+    "*.showclix.com", "shudder.com", "*.shudder.com", "simkl.com", "*.simkl.com",
+    "sky.com", "*.sky.com", "sling.com", "*.sling.com", "songkick.com",
+    "*.songkick.com", "soundcloud.com", "*.soundcloud.com", "spotify.com",
+    "*.spotify.com", "spreaker.com", "*.spreaker.com", "stackexchange.com",
+    "*.stackexchange.com", "starz.com", "*.starz.com", "stitcher.com",
+    "*.stitcher.com", "themoviedb.org", "*.themoviedb.org", "ticketfly.com",
+    "*.ticketfly.com", "ticketweb.com", "*.ticketweb.com", "tidal.com",
+    "*.tidal.com", "tmz.com", "*.tmz.com", "trakt.tv", "*.trakt.tv", "tubitv.com",
+    "*.tubitv.com", "tunein.com", "*.tunein.com", "tv.com", "*.tv.com",
+    "tvtime.com", "*.tvtime.com", "tvtropes.org", "*.tvtropes.org", "universe.com",
+    "*.universe.com", "unsplash.com", "*.unsplash.com", "usweekly.com",
+    "*.usweekly.com", "variety.com", "*.variety.com", "viki.com", "*.viki.com",
+    "viu.com", "*.viu.com", "vivid.com", "*.vivid.com", "vudu.com", "*.vudu.com",
+    "wakanim.com", "*.wakanim.com", "wikia.com", "*.wikia.com", "youku.com",
+    "*.youku.com", "youtube.com", "*.youtube.com"] {
     addflag "\\Seen";
-    
-    # Movie/TV Content
+    fileinto "Entertainment/General";
+
     if anyof (
-        header :contains "subject" ["New Movie", "TV Series", "Episode Available", "Season Finale",
-        "Movie Recommendation", "Watch Now", "Streaming Alert", "Movie Release",
-        "TV Show Update", "Binge Watch", "Movie Night", "Series Premiere",
-        "Film Festival", "Documentary", "Movie Trailer", "TV Guide"],
-        address :domain :matches "from" ["*netflix.com", "*hulu.com", "*disneyplus.com",
-        "*primevideo.com", "*max.com", "*paramount.com", "*crunchyroll.com"]
+        address :domain :matches "from" ["crunchyroll.com", "*.crunchyroll.com",
+            "disneyplus.com", "*.disneyplus.com", "hulu.com", "*.hulu.com", "max.com",
+            "*.max.com", "netflix.com", "*.netflix.com", "paramount.com",
+            "*.paramount.com", "primevideo.com", "*.primevideo.com"],
+        header :contains "subject" ["New Movie", "TV Series", "Episode Available",
+            "Season Finale", "Movie Recommendation", "Watch Now", "Streaming Alert",
+            "Movie Release", "TV Show Update", "Binge Watch", "Movie Night",
+            "Series Premiere", "Film Festival", "Documentary", "Movie Trailer",
+            "TV Guide"]
     ) {
         fileinto "Entertainment/Movies-TV";
-        
-        # New releases/recommendations (expire 7 days)
+
         if allof (
-            header :contains "subject" ["New Release Alert", "Watch This Now", "Recommended for You", 
-            "New Episode Available", "Movie Recommendation", "Top Picks This Week", 
-            "Personalized Recommendations", "Just Added", "Coming Soon"],
+            header :contains "subject" ["New Release Alert", "Watch This Now",
+                "Recommended for You", "New Episode Available", "Movie Recommendation",
+                "Top Picks This Week", "Personalized Recommendations", "Just Added",
+                "Coming Soon"],
             size :under 500K
         ) {
             expire "day" "7";
         }
-        
+
         stop;
     }
 
-    # Music Content
     if anyof (
-        header :contains "subject" ["New Album", "Playlist Update", "Track Recommendation", 
-        "Music Discovery", "Artist Alert", "Concert Tickets", "Music Release",
-        "Spotify Wrapped", "Your Mix", "Release Radar", "Discover Weekly",
-        "Concert Alert", "Tour Dates", "Music Festival", "Album Review"],
-        address :domain :matches "from" ["*spotify.com", "*apple.com", "*tidal.com",
-        "*deezer.com", "*pandora.com", "*soundcloud.com", "*bandcamp.com"]
+        address :domain :matches "from" ["bandcamp.com", "*.bandcamp.com", "deezer.com",
+            "*.deezer.com", "pandora.com", "*.pandora.com", "soundcloud.com",
+            "*.soundcloud.com", "spotify.com", "*.spotify.com", "tidal.com",
+            "*.tidal.com"],
+        header :contains "subject" ["New Album", "Playlist Update",
+            "Track Recommendation", "Music Discovery", "Artist Alert",
+            "Concert Tickets", "Music Release", "Spotify Wrapped", "Your Mix",
+            "Release Radar", "Discover Weekly", "Concert Alert", "Tour Dates",
+            "Music Festival", "Album Review"]
     ) {
         fileinto "Entertainment/Music";
-        
-        # New releases/recommendations (expire 7 days)
+
         if allof (
-            header :contains "subject" ["New Track Dropped", "Album Release", "Playlist Update",
-            "Music Recommendation", "Artist Update", "Release Alert", "New Music Friday"],
+            header :contains "subject" ["New Track Dropped", "Album Release",
+                "Playlist Update", "Music Recommendation", "Artist Update",
+                "Release Alert", "New Music Friday"],
             size :under 500K
         ) {
             expire "day" "7";
         }
-        
+
         stop;
     }
 
-    # Podcasts and Audio Content
     if anyof (
-        header :contains "subject" ["New Podcast", "Episode Released", "Podcast Recommendation",
-        "Audio Update", "Podcast Alert", "Listen Now", "Podcast Series",
-        "Audio Drama", "Talk Show", "Interview", "Audiobook"],
-        address :domain :matches "from" ["*anchor.fm", "*castbox.fm", "*spotify.com",
-        "*apple.com", "*audible.com", "*stitcher.com", "*overcast.fm"]
+        address :domain :matches "from" ["anchor.fm", "*.anchor.fm", "audible.com",
+            "*.audible.com", "castbox.fm", "*.castbox.fm", "overcast.fm",
+            "*.overcast.fm", "spotify.com", "*.spotify.com", "stitcher.com",
+            "*.stitcher.com"],
+        header :contains "subject" ["New Podcast", "Episode Released",
+            "Podcast Recommendation", "Audio Update", "Podcast Alert", "Listen Now",
+            "Podcast Series", "Audio Drama", "Talk Show", "Interview", "Audiobook"]
     ) {
         fileinto "Entertainment/Podcasts";
-        
-        # New episodes (expire 14 days)
+
         if allof (
-            header :contains "subject" ["New Episode", "Episode Available", "Latest Episode",
-            "Podcast Update", "Episode Alert", "New Chapter", "Audio Available"],
+            header :contains "subject" ["New Episode", "Episode Available",
+                "Latest Episode", "Podcast Update", "Episode Alert", "New Chapter",
+                "Audio Available"],
             size :under 500K
         ) {
             expire "day" "14";
         }
-        
+
         stop;
     }
 
-    # Books and Reading
     if anyof (
-        header :contains "subject" ["Book Recommendation", "New Release", "Reading List",
-        "Book Review", "Author Alert", "Book Club", "Reading Challenge",
-        "Bestseller", "Book Deal", "Pre-order", "Kindle Deal", "Free Book"],
-        address :domain :matches "from" ["*goodreads.com", "*kindle.com", "*kobo.com",
-        "*audible.com", "*scribd.com", "*bookbub.com"]
+        address :domain :matches "from" ["audible.com", "*.audible.com", "bookbub.com",
+            "*.bookbub.com", "goodreads.com", "*.goodreads.com", "kindle.com",
+            "*.kindle.com", "kobo.com", "*.kobo.com", "scribd.com", "*.scribd.com"],
+        header :contains "subject" ["Book Recommendation", "New Release",
+            "Reading List", "Book Review", "Author Alert", "Book Club",
+            "Reading Challenge", "Bestseller", "Book Deal", "Pre-order", "Kindle Deal",
+            "Free Book"]
     ) {
         fileinto "Entertainment/Books";
-        
-        # Book recommendations (expire 14 days)
+
         if allof (
             header :contains "subject" ["Book Deal", "Free Book", "Discount Alert",
-            "Limited Time Offer", "Book Sale", "Reading Recommendation"],
+                "Limited Time Offer", "Book Sale", "Reading Recommendation"],
             size :under 500K
         ) {
             expire "day" "14";
         }
-        
+
         stop;
     }
 
-    # Comics and Graphic Novels
     if anyof (
-        header :contains "subject" ["New Comic", "Comic Release", "Graphic Novel", 
-        "Marvel Comics", "DC Comics", "Comic Book", "Superhero", "Manga Update",
-        "Comic Review", "Comic Convention", "Artist Spotlight"],
-        address :domain :matches "from" ["*comixology.com", "*marvel.com", "*dccomics.com",
-        "*darkhorse.com", "*imagecomics.com"]
+        address :domain :matches "from" ["comixology.com", "*.comixology.com",
+            "darkhorse.com", "*.darkhorse.com", "dccomics.com", "*.dccomics.com",
+            "imagecomics.com", "*.imagecomics.com", "marvel.com", "*.marvel.com"],
+        header :contains "subject" ["New Comic", "Comic Release", "Graphic Novel",
+            "Marvel Comics", "DC Comics", "Comic Book", "Superhero", "Manga Update",
+            "Comic Review", "Comic Convention", "Artist Spotlight"]
     ) {
         fileinto "Entertainment/Comics";
-        
-        # New releases (expire 10 days)
+
         if allof (
             header :contains "subject" ["New Issue", "Comic Release", "Issue Available",
-            "Series Update", "Comic Alert", "New Chapter"],
+                "Series Update", "Comic Alert", "New Chapter"],
             size :under 500K
         ) {
             expire "day" "10";
         }
-        
+
         stop;
     }
 
-    # Live Events and Tickets
     if anyof (
+        address :domain :matches "from" ["bandsintown.com", "*.bandsintown.com",
+            "eventbrite.com", "*.eventbrite.com", "seatgeek.com", "*.seatgeek.com",
+            "songkick.com", "*.songkick.com"],
         header :contains "subject" ["Concert Tickets", "Event Alert", "Show Tickets",
-        "Live Performance", "Festival Tickets", "Theater Show", "Comedy Show",
-        "Ticket Sale", "Event Reminder", "Show Information", "Venue Alert"],
-        address :domain :matches "from" ["*ticketmaster.com", "*stubhub.com", "*seatgeek.com",
-        "*eventbrite.com", "*bandsintown.com", "*songkick.com"]
+            "Live Performance", "Festival Tickets", "Theater Show", "Comedy Show",
+            "Ticket Sale", "Event Reminder", "Show Information", "Venue Alert"]
     ) {
         fileinto "Entertainment/Events";
-        
-        # Event alerts (expire 1 day after event date - keep short)
+
         if allof (
             header :contains "subject" ["Event Reminder", "Show Tonight", "Last Chance",
-            "Event Starting", "Live Now", "Doors Open", "Show Alert"],
+                "Event Starting", "Live Now", "Doors Open", "Show Alert"],
             size :under 500K
         ) {
             expire "day" "1";
         }
-        
+
         stop;
     }
 
-    # Reviews and Critics
     if anyof (
-        header :contains "subject" ["Movie Review", "Album Review", "Book Review", "Show Review",
-        "Critics Pick", "Review Roundup", "Rating Update", "Score Alert",
-        "Review Digest", "Critical Consensus", "Expert Review"],
-        address :domain :matches "from" ["*rottentomatoes.com", "*imdb.com", "*metacritic.com",
-        "*pitchfork.com", "*variety.com", "*hollywoodreporter.com"]
+        address :domain :matches "from" ["hollywoodreporter.com",
+            "*.hollywoodreporter.com", "imdb.com", "*.imdb.com", "pitchfork.com",
+            "*.pitchfork.com", "rottentomatoes.com", "*.rottentomatoes.com",
+            "variety.com", "*.variety.com"],
+        header :contains "subject" ["Movie Review", "Album Review", "Book Review",
+            "Show Review", "Critics Pick", "Review Roundup", "Rating Update",
+            "Score Alert", "Review Digest", "Critical Consensus", "Expert Review"]
     ) {
         fileinto "Entertainment/Reviews";
-        
-        # Reviews (expire 3 days)
+
         if allof (
-            header :contains "subject" ["Review", "Rating", "Score", "Critics", "Analysis"],
+            header :contains "subject" ["Review", "Rating", "Score", "Critics",
+                "Analysis"],
             size :under 500K
         ) {
             expire "day" "3";
         }
-        
+
         stop;
     }
 
-    # Entertainment News
     if anyof (
-        header :contains "subject" ["Entertainment News", "Celebrity News", "Hollywood Update",
-        "Breaking Entertainment", "Industry News", "Show Business", "Celebrity Gossip",
-        "Red Carpet", "Award Show", "Film Festival", "TV News"],
-        address :domain :matches "from" ["*variety.com", "*deadline.com", "*tmz.com",
-        "*people.com", "*ew.com", "*accesshollywood.com"]
+        address :domain :matches "from" ["accesshollywood.com", "*.accesshollywood.com",
+            "deadline.com", "*.deadline.com", "ew.com", "*.ew.com", "people.com",
+            "*.people.com", "tmz.com", "*.tmz.com", "variety.com", "*.variety.com"],
+        header :contains "subject" ["Entertainment News", "Celebrity News",
+            "Hollywood Update", "Breaking Entertainment", "Industry News",
+            "Show Business", "Celebrity Gossip", "Red Carpet", "Award Show",
+            "Film Festival", "TV News"]
     ) {
         fileinto "Entertainment/News";
-        
-        # Entertainment news (expire 3 days)
+
         if allof (
             header :contains "subject" ["News", "Update", "Breaking", "Alert", "Report"],
             size :under 500K
         ) {
             expire "day" "3";
         }
-        
+
         stop;
     }
 
-    # General Entertainment (fallback)
-    fileinto "Entertainment/General";
-
-    # General expiration rules for all entertainment content
-
-    # Billing/invoices (expire 28 days)
     if allof (
-        header :contains "subject" ["Billing Statement", "Subscription Invoice", "Payment Confirmation", 
-        "Renewal Notice", "Account Charged", "Monthly Bill", "Receipt for Subscription", 
-        "Payment Due", "Invoice Attached", "Transaction Summary"],
+        header :contains "subject" ["Billing Statement", "Subscription Invoice",
+            "Payment Confirmation", "Renewal Notice", "Account Charged", "Monthly Bill",
+            "Receipt for Subscription", "Payment Due", "Invoice Attached",
+            "Transaction Summary"],
         size :under 500K
     ) {
         expire "day" "28";
+
         stop;
     }
 
-    # Live stream alerts (expire 1 day)
     if allof (
-        header :contains "subject" ["Live Stream Starting", "Event Reminder", "Concert Alert", 
-        "Premiere Live", "Watch Party Invite", "Live Podcast", "Stream Notification", 
-        "Upcoming Live", "Real-Time Update", "Broadcast Alert"],
+        header :contains "subject" ["Live Stream Starting", "Event Reminder",
+            "Concert Alert", "Premiere Live", "Watch Party Invite", "Live Podcast",
+            "Stream Notification", "Upcoming Live", "Real-Time Update",
+            "Broadcast Alert"],
         size :under 500K
     ) {
         expire "day" "1";
+
         stop;
     }
 
-    # Promotional content (expire 5 days)
     if allof (
-        header :contains "subject" ["Special Offer", "Limited Time", "Discount", "Free Trial",
-        "Promo Code", "Sale Alert", "Deal of the Day", "Flash Sale", "Member Exclusive"],
+        header :contains "subject" ["Special Offer", "Limited Time", "Discount",
+            "Free Trial", "Promo Code", "Sale Alert", "Deal of the Day", "Flash Sale",
+            "Member Exclusive"],
         size :under 500K
     ) {
         expire "day" "5";
+
         stop;
     }
 
     stop;
 }
 
-# End of Entertainment Filter
+# End of Entertainment filter

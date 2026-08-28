@@ -545,6 +545,10 @@ rules:
   - Billing Alert
   - Credit Card Security Alert
   - Payment Fraud Detection
+  flags:
+  - \Flagged
+  unflags:
+  - \Seen
   expire_days: 90
   stop: true
   gate: true
@@ -601,6 +605,9 @@ rules:
   - Account Verification
   - Verify Your Identity
   - verify your email address
+  flags:
+  - \Seen
+  - \Flagged
   expire_days: 60
   stop: true
 - folder: Security/Login
@@ -636,6 +643,8 @@ rules:
   - Off-Hours Access
   - Weekend Login Alert
   - Holiday Access Alert
+  flags:
+  - \Seen
   expire_days: 30
   stop: true
 - folder: Security/Changes
@@ -668,6 +677,8 @@ rules:
   - Account Privileges
   - Admin Access
   - User Role Changed
+  flags:
+  - \Seen
   expire_days: 45
   stop: true
 - folder: Security/Billing
@@ -700,6 +711,8 @@ rules:
   - Subscription Renewal
   - Service Suspended for Payment
   - Account Upgraded
+  flags:
+  - \Seen
   expire_days: 365
   stop: true
 - folder: Security/Permissions
@@ -735,6 +748,8 @@ rules:
   - Data Download
   - Account Data
   - Personal Data Export
+  flags:
+  - \Seen
   expire_days: 30
   stop: true
 - folder: Security/Compliance
@@ -769,6 +784,8 @@ rules:
   - Information Disposal
   - Record Retention
   - Data Archive
+  flags:
+  - \Seen
   expire_days: 90
   stop: true
 - folder: Security/Education
@@ -796,6 +813,8 @@ rules:
   - Security Advisory
   - Safety Alert
   - Fraud Warning
+  flags:
+  - \Seen
   expire_days: 14
   stop: true
 - folder: Security/General
@@ -832,6 +851,8 @@ rules:
   - Server Maintenance
   - Database Maintenance
   - Network Maintenance
+  flags:
+  - \Seen
   expire_days: 21
   stop: true
 - folder: Security
@@ -860,5 +881,7 @@ rules:
   - admin@
   - alerts@
   - notification@
+  flags:
+  - \Seen
   expire_days: 14
   stop: true

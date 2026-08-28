@@ -1566,6 +1566,8 @@ rules:
   - wingamestore.com
   - xbox.com
   - yostar.com
+  flags:
+  - \Seen
   stop: true
   tiers:
   - op: allof

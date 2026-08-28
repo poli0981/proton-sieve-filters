@@ -24,7 +24,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from sieve_eval import as_list, parse, unq  # noqa: E402
+from sieve_eval import as_list, parse, unescape, unq  # noqa: E402
 
 
 def _tests(test):
@@ -103,12 +103,12 @@ def _actions(node):
         name = getattr(c, "name", "")
         if name == "fileinto":
             acts["fileinto"] = unq(c.arguments["mailbox"])
-        elif name == "addflag":
-            acts["flags"] += as_list(c.arguments.get("flags"))
-        elif name == "setflag":
-            acts["flags"] += as_list(c.arguments.get("flags"))
-        elif name == "removeflag":
-            acts["unflags"] += as_list(c.arguments.get("flags"))
+        elif name in ("addflag", "setflag", "removeflag"):
+            # sievelib exposes the flag list as "variable-name", and the value is
+            # raw source: "\\Seen" holds the string \Seen.
+            raw = c.arguments.get("variable-name", c.arguments.get("flags"))
+            flags = [unescape(x) for x in as_list(raw)]
+            acts["unflags" if name == "removeflag" else "flags"] += flags
         elif name == "expire":
             acts["expire"] = int(unq(c.arguments["value"]))
         elif name == "discard":

@@ -1237,6 +1237,8 @@ rules:
   - wikia.com
   - youku.com
   - youtube.com
+  flags:
+  - \Seen
   stop: true
   tiers:
   - folder: Entertainment/Movies-TV

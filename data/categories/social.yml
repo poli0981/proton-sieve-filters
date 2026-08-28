@@ -1241,6 +1241,8 @@ rules:
   - zalo.me
   - ziprecruiter.com
   - zoosk.com
+  flags:
+  - \Seen
   stop: true
   tiers:
   - op: allof
@@ -1387,4 +1389,6 @@ rules:
   - Romance Scam
   - Investment Scam
   - Cryptocurrency Scam
+  flags:
+  - \Seen
   stop: true

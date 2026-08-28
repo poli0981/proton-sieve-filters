@@ -153,12 +153,16 @@ Typical values as shipped:
 | Newsletters, promotions, social notifications | 1–14 days |
 | Spam heuristic matches | 7 days |
 
-To keep a category forever, delete its `expire "day" "N";` line. To find every expiry in a
-script:
+To keep a category forever, remove its `expire_days` in
+[`data/categories/`](data/categories/) and regenerate. To see every retention value a
+filter sets:
 
 ```bash
 grep -n 'expire "day"' filter/shopping.sieve
 ```
+
+The tiers themselves are documented in
+[`data/shared/retention.yml`](data/shared/retention.yml).
 
 Mail from anyone in your Proton address book is skipped by every filter before any of this
 applies.
@@ -174,7 +178,9 @@ proton-sieve-filters/
 │   ├── shared/        #   the canonical retention ladder
 │   └── schema/        #   JSON Schema for a category file
 ├── filter/            # The 14 Sieve scripts
-├── tools/             # Migration, validation and linting
+├── tools/             # Generation, validation and linting
+│   ├── generate.py          # data/ -> filter/*.sieve  (--check for no drift)
+│   ├── check_roundtrip.py   # do two filter sets route mail the same way?
 │   ├── validate_sieve.py    # parses every filter with a real Sieve parser
 │   ├── lint_proton.py       # checks against Proton's dialect and known bug classes
 │   ├── check_data.py        # enforces the data model in data/
@@ -193,11 +199,10 @@ proton-sieve-filters/
 ```
 
 > [!NOTE]
-> **Edit [`data/`](data/), not `filter/`.** The 1,826 domain records and 3,992 keywords
-> live in `data/categories/*.yml`, and the `.sieve` files are generated from them. See
-> [data/README.md](data/README.md) for the model — in particular the `kind` field, which
-> makes the difference between a domain being allowlisted and a typosquat being blocked
-> explicit rather than implied by a missing `*.` prefix.
+> **`filter/*.sieve` is generated. Edit [`data/`](data/) instead.** The 1,826 domain
+> records and 3,992 keywords live in `data/categories/*.yml`; run
+> `python tools/generate.py` to rebuild the filters, and CI fails if a `.sieve` no longer
+> matches its data. See [data/README.md](data/README.md) for the model.
 
 ---
 
@@ -237,6 +242,14 @@ if header :list "from" ":addrbook:personal" {
 }
 ```
 
+### A caution on domain patterns
+
+`*example.com` is a **suffix** match, not a subdomain match. v0.2.0 used that shorthand
+everywhere, so `*ea.com` (EA) also matched `ikea.com` and `silversea.com`, and `*box.com`
+(Box) also matched `xbox.com` — 127 such collisions were shipping. The generator now emits
+the pair `"example.com", "*.example.com"`, which matches the domain and its subdomains and
+nothing else.
+
 ### A caution on `anyof`
 
 `anyof` is OR. A `size` test placed inside one satisfies the whole gate by itself, which
@@ -258,12 +271,23 @@ if allof (
 
 ```bash
 python -m pip install -r tools/requirements.txt
+python tools/generate.py          # rebuild filter/*.sieve from data/
+python tools/generate.py --check  # ...or just assert they are up to date
 python tools/validate_sieve.py    # does every filter parse?
 python tools/lint_proton.py       # Proton dialect + known bug classes
 python tools/check_data.py        # the data model in data/
 python tools/check_folders.py     # documented folders match the filters
 python tools/check_links.py       # relative links resolve
 python tests/test_regressions.py  # behavioural tests
+```
+
+To prove a change routes mail the way you expect, keep a copy of the old filters and
+compare. This builds a corpus from the data itself — one message per domain and per
+subject keyword, at five size bands — and reports every message whose destination,
+retention or flags changed:
+
+```bash
+python tools/check_roundtrip.py OLD_DIR filter
 ```
 
 All of these run in CI on every push and pull request. `validate_sieve.py` uses a real Sieve

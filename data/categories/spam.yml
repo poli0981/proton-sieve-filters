@@ -639,6 +639,8 @@ rules:
   - System Error Alert
   - Computer Virus Warning
   - Security Software Update
+  flags:
+  - \Seen
   expire_days: 7
   stop: true
   gate: true
@@ -684,5 +686,7 @@ rules:
   - '@valvesoftware.com'
   - '@discord.com'
   - '@proton.me'
+  flags:
+  - \Seen
   expire_days: 7
   stop: true

@@ -1,339 +1,347 @@
 # Study & Education filter -- filter/study.sieve
 #
+# GENERATED FILE -- do not edit. Edit data/categories/study.yml and run:
+#     python tools/generate.py
+#
 # For Proton Mail only. A paid plan is required to run this alongside other
 # filters: the free plan allows just one active filter at a time.
 #
-# This script filters messages related to educational and academic platforms,
-# moves them to appropriate Study subfolders.
+# Courses, universities, research and learning platforms.
 #
-# Folders: Study, Study/Algorithms, Study/Art, Study/Biology,
-#          Study/Business, Study/Certification, Study/Chemistry,
-#          Study/Engineering, Study/General, Study/History, Study/Languages,
-#          Study/Mathematics, Study/Medicine, Study/Music, Study/Physics,
-#          Study/Programming, Study/Research, Study/TestPrep,
-#          Study/Textbooks
+# Folders: Study, Study/Algorithms, Study/Art, Study/Biology, Study/Business,
+#          Study/Certification, Study/Chemistry, Study/Engineering, Study/General,
+#          Study/History, Study/Languages, Study/Mathematics, Study/Medicine,
+#          Study/Music, Study/Physics, Study/Programming, Study/Research,
+#          Study/TestPrep, Study/Textbooks
 #
-# Filters run in the order you install them, and on conflicting actions the
-# last one wins -- see docs/ for the recommended order.
+# Install position 7 of 14. Filters run in the order you install them, and on
+# conflicting actions the last one wins -- see README.md for the full order.
 #
 # Version: 0.2.1
 
-require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
+require ["fileinto", "imap4flags", "extlists"];
 
-# Whitelist
+# Never touch mail from people you know.
 if header :list "from" ":addrbook:personal" {
     stop;
 }
 
-# Filter messages related to education and study
-if anyof (
-    # Educational institutions
-    address :domain :matches "from" ["*university.edu", "*college.edu", "*school.edu", 
-    "*institute.edu", "*academy.edu", "*.ac.uk", "*.ac.jp", "*.edu.au",
-    "*.edu.sg", "*.edu.my", "*.edu.vn", "*.edu.cn", "*.edu.tw"],
-
-    # Research organizations
-    address :domain :matches "from" ["*research.org", "*scholarship.org", "*education.gov",
-    "*nsf.gov", "*nih.gov", "*nasa.gov", "*cern.ch", "*mit.edu", "*stanford.edu",
-    "*harvard.edu", "*oxford.ac.uk", "*cambridge.ac.uk", "*epicresearch.org", "*epic.com"],
-
-    # Online learning platforms
-    address :domain :matches "from" ["*coursera.org", "*edx.org", "*khanacademy.org", 
-    "*duolingo.com", "*udemy.com", "*skillshare.com", "*masterclass.com",
-    "*udacity.com", "*pluralsight.com", "*lynda.com", "*linkedin.com"],
-
-    # Language learning platforms
-    address :domain :matches "from" ["*babbel.com", "*rosettastone.com", "*busuu.com",
-    "*memrise.com", "*lingoda.com", "*italki.com", "*preply.com", "*cambly.com",
-    "*hellotalk.com", "*tandem.net", "*speaky.com"],
-
-    # Academic tools and platforms
-    address :domain :matches "from" ["*quizlet.com", "*classroom.google.com", "*canvas.com",
-    "*blackboard.com", "*moodle.org", "*schoology.com", "*edmodo.com", "*seesaw.me",
-    "*classdojo.com", "*kahoot.com", "*padlet.com", "*flipgrid.com"],
-
-    # Programming and tech education
-    address :domain :matches "from" ["*codecademy.com", "*freecodecamp.org", "*codepen.io",
-    "*github.com", "*stackoverflow.com", "*hackerrank.com", "*leetcode.com",
-    "*codewars.com", "*sololearn.com", "*repl.it", "*glitch.com"],
-
-    # Academic publishers and journals
-    address :domain :matches "from" ["*springer.com", "*elsevier.com", "*wiley.com",
-    "*pearson.com", "*mcgraw-hill.com", "*cengage.com",
-    "*nature.com", "*science.org", "*ieee.org", "*acm.org", "*jstor.org",
-    "*academia.edu", "*researchgate.net", "*mendeley.com", "*zotero.org"],
-
-    # Educational apps and tools
-    address :domain :matches "from" ["*photomath.com", "*wolfram.com", "*symbolab.com",
-    "*geogebra.org", "*desmos.com", "*labxchange.org", "*phet.colorado.edu",
-    "*khanacademy.org", "*ted.com", "*coursehero.com"],
-
-    # Professional certification platforms
-    address :domain :matches "from" ["*comptia.org", "*cisco.com", "*microsoft.com",
-    "*amazon.com", "*google.com", "*ibm.com", "*oracle.com", "*salesforce.com",
-    "*vmware.com", "*adobe.com", "*autodesk.com"],
-
-    # Test prep platforms
-    address :domain :matches "from" ["*ets.org", "*collegeboard.org", "*kaptest.com",
-    "*princetonreview.com", "*manhattanprep.com", "*magoosh.com", "*exampal.com"],
-
-    # Art and creative education
-    address :domain :matches "from" ["*domestika.org", "*creativelive.com", "*schoolism.com",
-    "*gnomon.edu", "*artstation.com", "*behance.net", "*dribbble.com",
-    "*proko.com", "*drawabox.com"],
-
-    # Music education
-    address :domain :matches "from" ["*fender.com", "*yousician.com", "*flowkey.com",
-    "*simply-piano.com", "*rocksmith.com", "*musictheory.net", "*tenuto.com"],
-
-    # Science and math platforms
-    address :domain :matches "from" ["*brilliant.org", "*mathway.com", "*chegg.com",
-    "*studyblue.com", "*cramfighter.com", "*anki.com", "*sporcle.com"]
-) {
-    # Programming and Computer Science
-    if anyof (
-        header :contains "subject" ["Coding Tutorial", "Programming Assignment", "Learn Python", 
-        "Code Review", "Programming Challenge", "Debugging Tips", "Software Development", 
-        "Coding Bootcamp", "Java Lesson", "C++ Project", "JavaScript", "HTML CSS",
-        "Web Development", "Mobile App", "Database", "API", "Framework", "Library",
-        "study code", "research programming", "assignment code", "leetcode", "hackerrank"],
-        address :domain :matches "from" ["*codecademy.com", "*freecodecamp.org", "*github.com",
-        "*stackoverflow.com", "*hackerrank.com", "*leetcode.com", "*codewars.com"]
-    ) {
-        fileinto "Study/Programming";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # Data Structures and Algorithms
-    if anyof (
-        header :contains "subject" ["Algorithm Problem", "Data Structures", "Sorting Algorithm", 
-        "Graph Theory", "Algorithm Assignment", "Complexity Analysis", "Dynamic Programming", 
-        "Algorithm Quiz", "Search Algorithm", "Recursion", "Tree Structure", "Hash Table",
-        "study algorithm", "research data structures", "assignment recursion", "Big O"],
-        address :domain :matches "from" ["*leetcode.com", "*hackerrank.com", "*codewars.com"]
-    ) {
-        fileinto "Study/Algorithms";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # Mathematics
-    if anyof (
-        header :contains "subject" ["Math Problem", "Calculus", "Algebra", "Geometry", 
-        "Statistics", "Differential Equations", "Linear Algebra", "Math Homework", 
-        "Probability Theory", "Math Challenge", "Trigonometry", "Number Theory",
-        "study math", "research calculus", "assignment algebra", "mathematical"],
-        address :domain :matches "from" ["*wolfram.com", "*symbolab.com", "*mathway.com",
-        "*desmos.com", "*brilliant.org", "*khanacademy.org"]
-    ) {
-        fileinto "Study/Mathematics";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # Physics
-    if anyof (
-        header :contains "subject" ["Physics Experiment", "Quantum Mechanics", "Classical Mechanics", 
-        "Thermodynamics", "Electromagnetism", "Physics Lab", "Relativity Theory", 
-        "Wave Physics", "Particle Physics", "Astrophysics", "Optics", "Nuclear Physics",
-        "study physics", "research quantum", "assignment mechanics", "physical science"],
-        address :domain :matches "from" ["*phet.colorado.edu", "*labxchange.org"]
-    ) {
-        fileinto "Study/Physics";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # Biology and Life Sciences
-    if anyof (
-        header :contains "subject" ["Biology Lab", "Genetics", "Cell Biology", "Evolution", 
-        "Ecology", "Microbiology", "Human Anatomy", "Plant Biology", "Biotechnology", 
-        "DNA Analysis", "Molecular Biology", "Biochemistry", "Physiology",
-        "study biology", "research genetics", "assignment ecology", "life science"],
-        address :domain :matches "from" ["*labxchange.org"]
-    ) {
-        fileinto "Study/Biology";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # Chemistry
-    if anyof (
-        header :contains "subject" ["Chemistry Reaction", "Organic Chemistry", "Inorganic Chemistry", 
-        "Chemical Bonding", "Periodic Table", "Lab Safety", "Biochemistry", 
-        "Analytical Chemistry", "Physical Chemistry", "Experiment Results", "Stoichiometry",
-        "study chemistry", "research organic", "assignment bonding", "chemical"],
-        address :domain :matches "from" ["*labxchange.org"]
-    ) {
-        fileinto "Study/Chemistry";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # History and Social Studies
-    if anyof (
-        header :contains "subject" ["History Timeline", "Ancient Civilizations", "World War", 
-        "Historical Figures", "Revolution", "Medieval History", "Modern History", 
-        "Cultural Heritage", "Archaeology", "Historical Analysis", "Political Science",
-        "study history", "research civilizations", "assignment revolution", "historical"]
-    ) {
-        fileinto "Study/History";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # Languages and Linguistics
-    if anyof (
-        header :contains "subject" ["Language Lesson", "Vocabulary", "Grammar", "Conversation Practice", 
-        "Language Immersion", "Translation", "Pronunciation", "Foreign Language", 
-        "Idioms", "Language Certification", "TOEFL", "IELTS", "Linguistic",
-        "study language", "research vocabulary", "assignment grammar"],
-        address :domain :matches "from" ["*duolingo.com", "*babbel.com", "*rosettastone.com",
-        "*busuu.com", "*memrise.com", "*lingoda.com", "*italki.com"]
-    ) {
-        fileinto "Study/Languages";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # Art and Design
-    if anyof (
-        header :contains "subject" ["Art Tutorial", "Design Principles", "Drawing Lesson", 
-        "Painting Technique", "Digital Art", "Graphic Design", "UI UX Design", 
-        "Photography", "3D Modeling", "Animation", "Illustration", "Creative Process",
-        "study art", "research design", "assignment drawing"],
-        address :domain :matches "from" ["*domestika.org", "*creativelive.com", "*schoolism.com",
-        "*proko.com", "*drawabox.com", "*skillshare.com"]
-    ) {
-        fileinto "Study/Art";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # Music and Audio
-    if anyof (
-        header :contains "subject" ["Music Theory", "Piano Lesson", "Guitar Tutorial", 
-        "Music Composition", "Audio Production", "Music History", "Instrument Practice", 
-        "Music Technology", "Sound Design", "Music Performance",
-        "study music", "research composition", "assignment theory"],
-        address :domain :matches "from" ["*fender.com", "*yousician.com", "*flowkey.com",
-        "*simply-piano.com", "*musictheory.net"]
-    ) {
-        fileinto "Study/Music";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # Business and Economics
-    if anyof (
-        header :contains "subject" ["Business Administration", "Economics", "Finance", 
-        "Marketing", "Management", "Entrepreneurship", "Business Strategy", 
-        "Accounting", "Investment", "MBA", "Business Case Study",
-        "study business", "research economics", "assignment marketing"]
-    ) {
-        fileinto "Study/Business";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # Engineering
-    if anyof (
-        header :contains "subject" ["Engineering Design", "Mechanical Engineering", "Electrical Engineering", 
-        "Civil Engineering", "Chemical Engineering", "Software Engineering", 
-        "Engineering Mathematics", "CAD", "Circuit Design", "Structural Analysis",
-        "study engineering", "research design", "assignment circuit"]
-    ) {
-        fileinto "Study/Engineering";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # Medicine and Health
-    if anyof (
-        header :contains "subject" ["Medical Studies", "Anatomy", "Physiology", "Pharmacology", 
-        "Clinical Medicine", "Medical Research", "Health Science", "Nursing", 
-        "Public Health", "Medical Ethics", "Patient Care",
-        "study medicine", "research clinical", "assignment anatomy"]
-    ) {
-        fileinto "Study/Medicine";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # Test Preparation
-    if anyof (
-        header :contains "subject" ["SAT Prep", "GRE Preparation", "GMAT Study", "TOEFL Test", 
-        "IELTS Preparation", "ACT Practice", "Test Strategy", "Exam Preparation", 
-        "Practice Test", "Test Score", "Standardized Test",
-        "study test", "research exam", "assignment practice"],
-        address :domain :matches "from" ["*ets.org", "*collegeboard.org", "*kaptest.com",
-        "*princetonreview.com", "*magoosh.com"]
-    ) {
-        fileinto "Study/TestPrep";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # Professional Certification
-    if anyof (
-        header :contains "subject" ["Certification Exam", "Professional Certificate", "IT Certification", 
-        "AWS Certification", "Microsoft Certification", "Google Certification", 
-        "CompTIA", "Cisco Certification", "Project Management", "PMP",
-        "study certification", "research certificate", "assignment exam"],
-        address :domain :matches "from" ["*comptia.org", "*cisco.com", "*microsoft.com",
-        "*amazon.com", "*google.com", "*salesforce.com"]
-    ) {
-        fileinto "Study/Certification";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # Research and Academic Writing
-    if anyof (
-        header :contains "subject" ["Research Paper", "Academic Writing", "Thesis", "Dissertation", 
-        "Literature Review", "Research Methodology", "Citation", "Bibliography", 
-        "Peer Review", "Academic Publication", "Journal Article",
-        "study research", "research writing", "assignment thesis"],
-        address :domain :matches "from" ["*springer.com", "*elsevier.com", "*nature.com",
-        "*jstor.org", "*academia.edu", "*researchgate.net", "*mendeley.com"]
-    ) {
-        fileinto "Study/Research";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # Textbooks and References
-    if anyof (
-        header :contains "subject" ["Textbook", "Reference Book", "Course Book", "Study Guide", 
-        "Academic Book", "Digital Book", "Ebook", "Required Reading", 
-        "Course Material", "Study Resources",
-        "study textbook", "research book", "assignment reading"],
-        address :domain :matches "from" ["*pearson.com", "*mcgraw-hill.com", "*cengage.com",
-        "*wiley.com", "*springer.com"]
-    ) {
-        fileinto "Study/Textbooks";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # General Academic (catch-all for unspecified study content)
-    if anyof (
-        header :contains "subject" ["Study", "Learning", "Education", "Academic", "Course", 
-        "Lesson", "Tutorial", "Lecture", "Assignment", "Homework", "Quiz", 
-        "Exam", "Grade", "Semester", "Module", "Workshop", "Webinar",
-        "study general", "research overview", "assignment general", "educational"]
-    ) {
-        fileinto "Study/General";
-        addflag "\\Seen";
-        stop;
-    }
-
-    # Default: if no specific category matches, file to Study folder
-    fileinto "Study";
+if address :domain :matches "from" ["*.ac.jp", "*.ac.uk", "academia.edu",
+    "*.academia.edu", "academy.edu", "*.academy.edu", "acm.org", "*.acm.org",
+    "adobe.com", "*.adobe.com", "anki.com", "*.anki.com", "artstation.com",
+    "*.artstation.com", "autodesk.com", "*.autodesk.com", "babbel.com",
+    "*.babbel.com", "blackboard.com", "*.blackboard.com", "brilliant.org",
+    "*.brilliant.org", "busuu.com", "*.busuu.com", "cambly.com", "*.cambly.com",
+    "cambridge.ac.uk", "*.cambridge.ac.uk", "canvas.com", "*.canvas.com",
+    "cengage.com", "*.cengage.com", "cern.ch", "*.cern.ch", "chegg.com",
+    "*.chegg.com", "cisco.com", "*.cisco.com", "classdojo.com", "*.classdojo.com",
+    "classroom.google.com", "*.classroom.google.com", "codecademy.com",
+    "*.codecademy.com", "codepen.io", "*.codepen.io", "codewars.com",
+    "*.codewars.com", "college.edu", "*.college.edu", "collegeboard.org",
+    "*.collegeboard.org", "comptia.org", "*.comptia.org", "coursehero.com",
+    "*.coursehero.com", "coursera.org", "*.coursera.org", "cramfighter.com",
+    "*.cramfighter.com", "creativelive.com", "*.creativelive.com", "desmos.com",
+    "*.desmos.com", "domestika.org", "*.domestika.org", "drawabox.com",
+    "*.drawabox.com", "dribbble.com", "*.dribbble.com", "duolingo.com",
+    "*.duolingo.com", "edmodo.com", "*.edmodo.com", "*.edu.au", "*.edu.cn",
+    "*.edu.my", "*.edu.sg", "*.edu.tw", "*.edu.vn", "education.gov",
+    "*.education.gov", "edx.org", "*.edx.org", "elsevier.com", "*.elsevier.com",
+    "epic.com", "epicresearch.org", "*.epicresearch.org", "ets.org", "*.ets.org",
+    "exampal.com", "*.exampal.com", "fender.com", "*.fender.com", "flipgrid.com",
+    "*.flipgrid.com", "flowkey.com", "*.flowkey.com", "freecodecamp.org",
+    "*.freecodecamp.org", "geogebra.org", "*.geogebra.org", "glitch.com",
+    "*.glitch.com", "gnomon.edu", "*.gnomon.edu", "hackerrank.com",
+    "*.hackerrank.com", "harvard.edu", "*.harvard.edu", "hellotalk.com",
+    "*.hellotalk.com", "ibm.com", "*.ibm.com", "ieee.org", "*.ieee.org",
+    "institute.edu", "*.institute.edu", "italki.com", "*.italki.com", "jstor.org",
+    "*.jstor.org", "kahoot.com", "*.kahoot.com", "kaptest.com", "*.kaptest.com",
+    "khanacademy.org", "*.khanacademy.org", "labxchange.org", "*.labxchange.org",
+    "leetcode.com", "*.leetcode.com", "lingoda.com", "*.lingoda.com", "lynda.com",
+    "*.lynda.com", "magoosh.com", "*.magoosh.com", "manhattanprep.com",
+    "*.manhattanprep.com", "masterclass.com", "*.masterclass.com", "mathway.com",
+    "*.mathway.com", "mcgraw-hill.com", "*.mcgraw-hill.com", "memrise.com",
+    "*.memrise.com", "mendeley.com", "*.mendeley.com", "mit.edu", "*.mit.edu",
+    "moodle.org", "*.moodle.org", "musictheory.net", "*.musictheory.net",
+    "nasa.gov", "*.nasa.gov", "nature.com", "*.nature.com", "nih.gov", "*.nih.gov",
+    "nsf.gov", "*.nsf.gov", "oracle.com", "*.oracle.com", "oxford.ac.uk",
+    "*.oxford.ac.uk", "padlet.com", "*.padlet.com", "pearson.com", "*.pearson.com",
+    "phet.colorado.edu", "*.phet.colorado.edu", "photomath.com", "*.photomath.com",
+    "pluralsight.com", "*.pluralsight.com", "preply.com", "*.preply.com",
+    "princetonreview.com", "*.princetonreview.com", "proko.com", "*.proko.com",
+    "quizlet.com", "*.quizlet.com", "repl.it", "*.repl.it", "research.org",
+    "*.research.org", "researchgate.net", "*.researchgate.net", "rocksmith.com",
+    "*.rocksmith.com", "rosettastone.com", "*.rosettastone.com", "salesforce.com",
+    "*.salesforce.com", "scholarship.org", "*.scholarship.org", "school.edu",
+    "*.school.edu", "schoolism.com", "*.schoolism.com", "schoology.com",
+    "*.schoology.com", "science.org", "*.science.org", "seesaw.me", "*.seesaw.me",
+    "simply-piano.com", "*.simply-piano.com", "skillshare.com", "*.skillshare.com",
+    "sololearn.com", "*.sololearn.com", "speaky.com", "*.speaky.com", "sporcle.com",
+    "*.sporcle.com", "springer.com", "*.springer.com", "stanford.edu",
+    "*.stanford.edu", "studyblue.com", "*.studyblue.com", "symbolab.com",
+    "*.symbolab.com", "tandem.net", "*.tandem.net", "ted.com", "*.ted.com",
+    "tenuto.com", "*.tenuto.com", "udacity.com", "*.udacity.com", "udemy.com",
+    "*.udemy.com", "university.edu", "*.university.edu", "vmware.com",
+    "*.vmware.com", "wiley.com", "*.wiley.com", "wolfram.com", "*.wolfram.com",
+    "yousician.com", "*.yousician.com", "zotero.org", "*.zotero.org"] {
     addflag "\\Seen";
+    fileinto "Study";
+
+    if anyof (
+        address :domain :matches "from" ["codecademy.com", "*.codecademy.com",
+            "codewars.com", "*.codewars.com", "freecodecamp.org", "*.freecodecamp.org",
+            "hackerrank.com", "*.hackerrank.com", "leetcode.com", "*.leetcode.com"],
+        header :contains "subject" ["Coding Tutorial", "Programming Assignment",
+            "Learn Python", "Code Review", "Programming Challenge", "Debugging Tips",
+            "Software Development", "Coding Bootcamp", "Java Lesson", "C++ Project",
+            "JavaScript", "HTML CSS", "Web Development", "Mobile App", "Database",
+            "API", "Framework", "Library", "study code", "research programming",
+            "assignment code", "leetcode", "hackerrank"]
+    ) {
+        addflag "\\Seen";
+        fileinto "Study/Programming";
+
+        stop;
+    }
+
+    if anyof (
+        address :domain :matches "from" ["codewars.com", "*.codewars.com",
+            "hackerrank.com", "*.hackerrank.com", "leetcode.com", "*.leetcode.com"],
+        header :contains "subject" ["Algorithm Problem", "Data Structures",
+            "Sorting Algorithm", "Graph Theory", "Algorithm Assignment",
+            "Complexity Analysis", "Dynamic Programming", "Algorithm Quiz",
+            "Search Algorithm", "Recursion", "Tree Structure", "Hash Table",
+            "study algorithm", "research data structures", "assignment recursion",
+            "Big O"]
+    ) {
+        addflag "\\Seen";
+        fileinto "Study/Algorithms";
+
+        stop;
+    }
+
+    if anyof (
+        address :domain :matches "from" ["brilliant.org", "*.brilliant.org",
+            "desmos.com", "*.desmos.com", "khanacademy.org", "*.khanacademy.org",
+            "mathway.com", "*.mathway.com", "symbolab.com", "*.symbolab.com",
+            "wolfram.com", "*.wolfram.com"],
+        header :contains "subject" ["Math Problem", "Calculus", "Algebra", "Geometry",
+            "Statistics", "Differential Equations", "Linear Algebra", "Math Homework",
+            "Probability Theory", "Math Challenge", "Trigonometry", "Number Theory",
+            "study math", "research calculus", "assignment algebra", "mathematical"]
+    ) {
+        addflag "\\Seen";
+        fileinto "Study/Mathematics";
+
+        stop;
+    }
+
+    if anyof (
+        address :domain :matches "from" ["labxchange.org", "*.labxchange.org",
+            "phet.colorado.edu", "*.phet.colorado.edu"],
+        header :contains "subject" ["Physics Experiment", "Quantum Mechanics",
+            "Classical Mechanics", "Thermodynamics", "Electromagnetism", "Physics Lab",
+            "Relativity Theory", "Wave Physics", "Particle Physics", "Astrophysics",
+            "Optics", "Nuclear Physics", "study physics", "research quantum",
+            "assignment mechanics", "physical science"]
+    ) {
+        addflag "\\Seen";
+        fileinto "Study/Physics";
+
+        stop;
+    }
+
+    if anyof (
+        address :domain :matches "from" ["labxchange.org", "*.labxchange.org"],
+        header :contains "subject" ["Biology Lab", "Genetics", "Cell Biology",
+            "Evolution", "Ecology", "Microbiology", "Human Anatomy", "Plant Biology",
+            "Biotechnology", "DNA Analysis", "Molecular Biology", "Biochemistry",
+            "Physiology", "study biology", "research genetics", "assignment ecology",
+            "life science"]
+    ) {
+        addflag "\\Seen";
+        fileinto "Study/Biology";
+
+        stop;
+    }
+
+    if anyof (
+        address :domain :matches "from" ["labxchange.org", "*.labxchange.org"],
+        header :contains "subject" ["Chemistry Reaction", "Organic Chemistry",
+            "Inorganic Chemistry", "Chemical Bonding", "Periodic Table", "Lab Safety",
+            "Biochemistry", "Analytical Chemistry", "Physical Chemistry",
+            "Experiment Results", "Stoichiometry", "study chemistry",
+            "research organic", "assignment bonding", "chemical"]
+    ) {
+        addflag "\\Seen";
+        fileinto "Study/Chemistry";
+
+        stop;
+    }
+
+    if header :contains "subject" ["History Timeline", "Ancient Civilizations",
+        "World War", "Historical Figures", "Revolution", "Medieval History",
+        "Modern History", "Cultural Heritage", "Archaeology", "Historical Analysis",
+        "Political Science", "study history", "research civilizations",
+        "assignment revolution", "historical"] {
+        addflag "\\Seen";
+        fileinto "Study/History";
+
+        stop;
+    }
+
+    if anyof (
+        address :domain :matches "from" ["babbel.com", "*.babbel.com", "busuu.com",
+            "*.busuu.com", "duolingo.com", "*.duolingo.com", "italki.com",
+            "*.italki.com", "lingoda.com", "*.lingoda.com", "memrise.com",
+            "*.memrise.com", "rosettastone.com", "*.rosettastone.com"],
+        header :contains "subject" ["Language Lesson", "Vocabulary", "Grammar",
+            "Conversation Practice", "Language Immersion", "Translation",
+            "Pronunciation", "Foreign Language", "Idioms", "Language Certification",
+            "TOEFL", "IELTS", "Linguistic", "study language", "research vocabulary",
+            "assignment grammar"]
+    ) {
+        addflag "\\Seen";
+        fileinto "Study/Languages";
+
+        stop;
+    }
+
+    if anyof (
+        address :domain :matches "from" ["creativelive.com", "*.creativelive.com",
+            "domestika.org", "*.domestika.org", "drawabox.com", "*.drawabox.com",
+            "proko.com", "*.proko.com", "schoolism.com", "*.schoolism.com",
+            "skillshare.com", "*.skillshare.com"],
+        header :contains "subject" ["Art Tutorial", "Design Principles",
+            "Drawing Lesson", "Painting Technique", "Digital Art", "Graphic Design",
+            "UI UX Design", "Photography", "3D Modeling", "Animation", "Illustration",
+            "Creative Process", "study art", "research design", "assignment drawing"]
+    ) {
+        addflag "\\Seen";
+        fileinto "Study/Art";
+
+        stop;
+    }
+
+    if anyof (
+        address :domain :matches "from" ["fender.com", "*.fender.com", "flowkey.com",
+            "*.flowkey.com", "musictheory.net", "*.musictheory.net", "simply-piano.com",
+            "*.simply-piano.com", "yousician.com", "*.yousician.com"],
+        header :contains "subject" ["Music Theory", "Piano Lesson", "Guitar Tutorial",
+            "Music Composition", "Audio Production", "Music History",
+            "Instrument Practice", "Music Technology", "Sound Design",
+            "Music Performance", "study music", "research composition",
+            "assignment theory"]
+    ) {
+        addflag "\\Seen";
+        fileinto "Study/Music";
+
+        stop;
+    }
+
+    if header :contains "subject" ["Business Administration", "Economics", "Finance",
+        "Marketing", "Management", "Entrepreneurship", "Business Strategy",
+        "Accounting", "Investment", "MBA", "Business Case Study", "study business",
+        "research economics", "assignment marketing"] {
+        addflag "\\Seen";
+        fileinto "Study/Business";
+
+        stop;
+    }
+
+    if header :contains "subject" ["Engineering Design", "Mechanical Engineering",
+        "Electrical Engineering", "Civil Engineering", "Chemical Engineering",
+        "Software Engineering", "Engineering Mathematics", "CAD", "Circuit Design",
+        "Structural Analysis", "study engineering", "research design",
+        "assignment circuit"] {
+        addflag "\\Seen";
+        fileinto "Study/Engineering";
+
+        stop;
+    }
+
+    if header :contains "subject" ["Medical Studies", "Anatomy", "Physiology",
+        "Pharmacology", "Clinical Medicine", "Medical Research", "Health Science",
+        "Nursing", "Public Health", "Medical Ethics", "Patient Care",
+        "study medicine", "research clinical", "assignment anatomy"] {
+        addflag "\\Seen";
+        fileinto "Study/Medicine";
+
+        stop;
+    }
+
+    if anyof (
+        address :domain :matches "from" ["collegeboard.org", "*.collegeboard.org",
+            "ets.org", "*.ets.org", "kaptest.com", "*.kaptest.com", "magoosh.com",
+            "*.magoosh.com", "princetonreview.com", "*.princetonreview.com"],
+        header :contains "subject" ["SAT Prep", "GRE Preparation", "GMAT Study",
+            "TOEFL Test", "IELTS Preparation", "ACT Practice", "Test Strategy",
+            "Exam Preparation", "Practice Test", "Test Score", "Standardized Test",
+            "study test", "research exam", "assignment practice"]
+    ) {
+        addflag "\\Seen";
+        fileinto "Study/TestPrep";
+
+        stop;
+    }
+
+    if anyof (
+        address :domain :matches "from" ["cisco.com", "*.cisco.com",
+            "classroom.google.com", "*.classroom.google.com", "comptia.org",
+            "*.comptia.org", "salesforce.com", "*.salesforce.com"],
+        header :contains "subject" ["Certification Exam", "Professional Certificate",
+            "IT Certification", "AWS Certification", "Microsoft Certification",
+            "Google Certification", "CompTIA", "Cisco Certification",
+            "Project Management", "PMP", "study certification", "research certificate",
+            "assignment exam"]
+    ) {
+        addflag "\\Seen";
+        fileinto "Study/Certification";
+
+        stop;
+    }
+
+    if anyof (
+        address :domain :matches "from" ["academia.edu", "*.academia.edu",
+            "elsevier.com", "*.elsevier.com", "jstor.org", "*.jstor.org",
+            "mendeley.com", "*.mendeley.com", "nature.com", "*.nature.com",
+            "researchgate.net", "*.researchgate.net", "springer.com", "*.springer.com"],
+        header :contains "subject" ["Research Paper", "Academic Writing", "Thesis",
+            "Dissertation", "Literature Review", "Research Methodology", "Citation",
+            "Bibliography", "Peer Review", "Academic Publication", "Journal Article",
+            "study research", "research writing", "assignment thesis"]
+    ) {
+        addflag "\\Seen";
+        fileinto "Study/Research";
+
+        stop;
+    }
+
+    if anyof (
+        address :domain :matches "from" ["cengage.com", "*.cengage.com",
+            "mcgraw-hill.com", "*.mcgraw-hill.com", "pearson.com", "*.pearson.com",
+            "springer.com", "*.springer.com", "wiley.com", "*.wiley.com"],
+        header :contains "subject" ["Textbook", "Reference Book", "Course Book",
+            "Study Guide", "Academic Book", "Digital Book", "Ebook", "Required Reading",
+            "Course Material", "Study Resources", "study textbook", "research book",
+            "assignment reading"]
+    ) {
+        addflag "\\Seen";
+        fileinto "Study/Textbooks";
+
+        stop;
+    }
+
+    if header :contains "subject" ["Study", "Learning", "Education", "Academic",
+        "Course", "Lesson", "Tutorial", "Lecture", "Assignment", "Homework", "Quiz",
+        "Exam", "Grade", "Semester", "Module", "Workshop", "Webinar",
+        "study general", "research overview", "assignment general", "educational"] {
+        addflag "\\Seen";
+        fileinto "Study/General";
+
+        stop;
+    }
 
     stop;
 }
 
-# End of Study Filter
+# End of Study & Education filter

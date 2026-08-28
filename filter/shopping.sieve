@@ -1,345 +1,314 @@
 # Shopping filter -- filter/shopping.sieve
 #
+# GENERATED FILE -- do not edit. Edit data/categories/shopping.yml and run:
+#     python tools/generate.py
+#
 # For Proton Mail only. A paid plan is required to run this alongside other
 # filters: the free plan allows just one active filter at a time.
 #
-# This script filters messages related to shopping/e-commerce platforms, moves
-# them to "Shopping" folder.
+# E-commerce, orders, shipping and deals.
 #
-# Folders: Shopping, Shopping/Account, Shopping/Cart, Shopping/Deals,
-#          Shopping/Orders, Shopping/Recommendations, Shopping/Returns,
-#          Shopping/Reviews, Shopping/Rewards, Shopping/Shipping,
-#          Shopping/Subscriptions, Shopping/Wishlist
+# Folders: Shopping, Shopping/Account, Shopping/Cart, Shopping/Deals, Shopping/Orders,
+#          Shopping/Recommendations, Shopping/Returns, Shopping/Reviews,
+#          Shopping/Rewards, Shopping/Shipping, Shopping/Subscriptions,
+#          Shopping/Wishlist, Spam
 #
 # WARNING: this filter sets auto-delete timers on matched mail via
 #          vnd.proton.expire. Read CHANGELOG.md before installing.
 #
-# Filters run in the order you install them, and on conflicting actions the
-# last one wins -- see docs/ for the recommended order.
+# Install position 13 of 14. Filters run in the order you install them, and on
+# conflicting actions the last one wins -- see README.md for the full order.
 #
 # Version: 0.2.1
 
 require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 
-# Whitelist
+# Never touch mail from people you know.
 if header :list "from" ":addrbook:personal" {
     stop;
 }
 
-# Filter messages related to shopping/e-commerce
-if anyof (
-    address :domain :matches "from" [
-    # Major E-commerce Platforms
-    "*amazon.com", "*amazon.ca", "*amazon.co.uk", "*amazon.de", "*amazon.fr",
-    "*amazon.es", "*amazon.it", "*amazon.com.au", "*amazon.co.jp", "*amazon.in",
-    "*ebay.com", "*ebay.ca", "*ebay.co.uk", "*ebay.de", "*ebay.fr", "*ebay.es",
-    "*aliexpress.com", "*alibaba.com", "*dhgate.com", "*banggood.com",
-    "*shopee.com", "*lazada.com", "*wish.com", "*temu.com", "*shein.com",
-    
-    # US Retail Giants
-    "*walmart.com", "*target.com", "*costco.com", "*bestbuy.com", "*samsclub.com",
-    "*bjs.com", "*menards.com", "*homedepot.com", "*lowes.com", "*wayfair.com",
-    "*overstock.com", "*newegg.com", "*tigerdirect.com", "*bhphotovideo.com",
-    
-    # Fashion & Apparel
-    "*zara.com", "*hm.com", "*uniqlo.com", "*gap.com", "*oldnavy.com",
-    "*bananarepublic.com", "*jcrew.com", "*madewell.com", "*abercrombie.com",
-    "*hollisterco.com", "*ae.com", "*aeropostale.com", "*forever21.com",
-    "*express.com", "*urbanoutfitters.com", "*anthropologie.com", "*freepeople.com",
-    "*nordstrom.com", "*nordstromrack.com", "*macys.com", "*bloomingdales.com",
-    "*saksfifthavenue.com", "*neimanmarcus.com", "*dillards.com", "*belk.com",
-    "*kohls.com", "*jcpenney.com", "*boscovs.com", "*lordandtaylor.com",
-    
-    # Sportswear & Athletic
-    "*nike.com", "*adidas.com", "*underarmour.com", "*puma.com", "*reebok.com",
-    "*newbalance.com", "*asics.com", "*vans.com", "*converse.com", "*skechers.com",
-    "*lululemon.com", "*athleta.com", "*patagonia.com", "*thenorthface.com",
-    "*columbia.com", "*rei.com", "*backcountry.com", "*moosejaw.com",
-    "*dickssportinggoods.com", "*academy.com", "*sportsmans.com", "*cabelas.com",
-    
-    # Footwear
-    "*zappos.com", "*dsw.com", "*famousfootwear.com", "*footlocker.com",
-    "*champssports.com", "*footaction.com", "*eastbay.com", "*finishline.com",
-    "*ugg.com", "*timberland.com", "*clarks.com", "*crocs.com", "*birkenstock.com",
-    
-    # Beauty & Personal Care
-    "*sephora.com", "*ulta.com", "*sallybeauty.com", "*beautybrands.com",
-    "*dermstore.com", "*skinstore.com", "*bathandbodyworks.com", "*lushusa.com",
-    "*thebodyshop.com", "*kiehls.com", "*clinique.com", "*maccosmetics.com",
-    
-    # Electronics & Tech
-    "*apple.com", "*samsung.com", "*lg.com", "*sony.com", "*hp.com", "*dell.com",
-    "*lenovo.com", "*asus.com", "*acer.com", "*microsoft.com", "*google.com",
-    "*tesla.com", "*dji.com", "*gopro.com", "*fitbit.com", "*garmin.com",
-    
-    # Home & Garden
-    "*ikea.com", "*crateandbarrel.com", "*potterybarn.com", "*westelm.com",
-    "*williams-sonoma.com", "*bedbathandbeyond.com", "*containerstore.com",
-    "*worldmarket.com", "*pier1.com", "*homegoods.com", "*tjmaxx.com",
-    
-    # Specialty & Niche
-    "*etsy.com", "*etsystudio.com", "*artfire.com", "*bonanza.com", "*mercari.com",
-    "*poshmark.com", "*thredup.com", "*vestiairecollective.com", "*therealreal.com",
-    "*fashionphile.com", "*rebag.com", "*whatgoesaroundnyc.com",
-    
-    # Asian Markets
-    "*taobao.com", "*tmall.com", "*jd.com", "*rakuten.com", "*rakuten.co.jp",
-    "*flipkart.com", "*myntra.com", "*ajio.com", "*snapdeal.com", "*nykaa.com",
-    
-    # Print & Custom Products
-    "*vistaprint.com", "*shutterfly.com", "*snapfish.com", "*cafepress.com",
-    "*redbubble.com", "*teespring.com", "*spreadshirt.com", "*threadless.com",
-    "*society6.com", "*zazzle.com", "*customink.com", "*printful.com",
-    
-    # Books & Media
-    "*barnesandnoble.com", "*booksamillion.com", "*thriftbooks.com", "*abebooks.com",
-    "*bookdepository.com", "*powells.com", "*audible.com", "*kindle.com",
-    "*spotify.com", "*netflix.com", "*hulu.com", "*disneyplus.com", "*hbomax.com",
-    
-    # Food & Grocery
-    "*instacart.com", "*shipt.com", "*amazonfresh.com", "*wholefoodsmarket.com",
-    "*kroger.com", "*safeway.com", "*albertsons.com", "*publix.com", "*wegmans.com",
-    "*hellofresh.com", "*blueapron.com", "*freshly.com", "*sunbasket.com",
-    
-    # Subscription Services
-    "*netflix.com", "*spotify.com", "*disney.com", "*hulu.com", "*paramount.com",
-    "*discovery.com", "*peacocktv.com", "*appletv.com", "*youtube.com",
-    
-    # Payment & Shopping Services
-    "*paypal.com", "*stripe.com", "*square.com", "*klarna.com", "*afterpay.com",
-    "*affirm.com", "*sezzle.com", "*quadpay.com", "*splitit.com", "*zip.co"
-    ],
-    
-    # Shopping-related keywords.
-    # NOTE (v0.2.1): bare single words ("Order", "Payment", "Receipt", "Invoice",
-    # "Shipping", "Sale", "Deal", "Offer") were removed here. With no sender
-    # constraint they pulled in mail from any sender and hijacked
-    # invoice_filter.sieve. Only unambiguous shopping phrases remain.
-    header :contains "subject" ["Order Confirmation", "Purchase Confirmation",
-    "Your Cart", "Abandoned Cart", "Checkout", "Order Shipped", "Out for Delivery",
-    "Tracking Number", "Flash Sale", "Black Friday", "Cyber Monday",
-    "Holiday Sale", "Limited Time Offer", "Clearance Sale", "Promo Code"]
-) {
-    # Mark email as read (apply before fileinto)
-    addflag "\\Seen";
+# Known typosquats of the services this filter handles. These are lookalike
+# domains, not the real senders -- flag them instead of filing them away.
+if address :domain :matches "from" ["amazcn.com", "*.amazcn.com", "ebay-inc.com",
+    "*.ebay-inc.com", "paypai.com", "*.paypai.com", "target-store.com",
+    "*.target-store.com", "wallmart.com", "*.wallmart.com"] {
+    addflag "\\Flagged";
+    fileinto "Spam";
 
-    # Move to "Shopping" folder by default
+    stop;
+}
+
+if anyof (
+    address :domain :matches "from" ["abebooks.com", "*.abebooks.com",
+        "abercrombie.com", "*.abercrombie.com", "academy.com", "*.academy.com",
+        "acer.com", "*.acer.com", "ae.com", "*.ae.com", "aeropostale.com",
+        "*.aeropostale.com", "ajio.com", "*.ajio.com", "albertsons.com",
+        "*.albertsons.com", "alibaba.com", "*.alibaba.com", "aliexpress.com",
+        "*.aliexpress.com", "amazon.ca", "*.amazon.ca", "amazon.co.jp",
+        "*.amazon.co.jp", "amazon.co.uk", "*.amazon.co.uk", "amazon.com",
+        "*.amazon.com", "amazon.com.au", "*.amazon.com.au", "amazon.de", "*.amazon.de",
+        "amazon.es", "*.amazon.es", "amazon.fr", "*.amazon.fr", "amazon.in",
+        "*.amazon.in", "amazon.it", "*.amazon.it", "amazonfresh.com",
+        "*.amazonfresh.com", "anthropologie.com", "*.anthropologie.com", "artfire.com",
+        "*.artfire.com", "asics.com", "*.asics.com", "asus.com", "*.asus.com",
+        "athleta.com", "*.athleta.com", "backcountry.com", "*.backcountry.com",
+        "bananarepublic.com", "*.bananarepublic.com", "banggood.com", "*.banggood.com",
+        "barnesandnoble.com", "*.barnesandnoble.com", "bathandbodyworks.com",
+        "*.bathandbodyworks.com", "beautybrands.com", "*.beautybrands.com",
+        "bedbathandbeyond.com", "*.bedbathandbeyond.com", "belk.com", "*.belk.com",
+        "bhphotovideo.com", "*.bhphotovideo.com", "birkenstock.com",
+        "*.birkenstock.com", "bjs.com", "*.bjs.com", "bloomingdales.com",
+        "*.bloomingdales.com", "bonanza.com", "*.bonanza.com", "bookdepository.com",
+        "*.bookdepository.com", "booksamillion.com", "*.booksamillion.com",
+        "boscovs.com", "*.boscovs.com", "cabelas.com", "*.cabelas.com", "cafepress.com",
+        "*.cafepress.com", "champssports.com", "*.champssports.com", "clarks.com",
+        "*.clarks.com", "clinique.com", "*.clinique.com", "columbia.com",
+        "*.columbia.com", "containerstore.com", "*.containerstore.com", "converse.com",
+        "*.converse.com", "costco.com", "*.costco.com", "crateandbarrel.com",
+        "*.crateandbarrel.com", "crocs.com", "*.crocs.com", "customink.com",
+        "*.customink.com", "dell.com", "*.dell.com", "dermstore.com", "*.dermstore.com",
+        "dhgate.com", "*.dhgate.com", "dickssportinggoods.com",
+        "*.dickssportinggoods.com", "dillards.com", "*.dillards.com", "discovery.com",
+        "*.discovery.com", "disney.com", "*.disney.com", "dji.com", "*.dji.com",
+        "dsw.com", "*.dsw.com", "eastbay.com", "*.eastbay.com", "ebay.ca", "*.ebay.ca",
+        "ebay.co.uk", "*.ebay.co.uk", "ebay.de", "*.ebay.de", "ebay.es", "*.ebay.es",
+        "ebay.fr", "*.ebay.fr", "express.com", "*.express.com", "famousfootwear.com",
+        "*.famousfootwear.com", "fashionphile.com", "*.fashionphile.com",
+        "finishline.com", "*.finishline.com", "flipkart.com", "*.flipkart.com",
+        "footaction.com", "*.footaction.com", "footlocker.com", "*.footlocker.com",
+        "forever21.com", "*.forever21.com", "freepeople.com", "*.freepeople.com",
+        "gap.com", "*.gap.com", "gopro.com", "*.gopro.com", "hbomax.com",
+        "*.hbomax.com", "hm.com", "*.hm.com", "hollisterco.com", "*.hollisterco.com",
+        "homedepot.com", "*.homedepot.com", "homegoods.com", "*.homegoods.com",
+        "hp.com", "*.hp.com", "ikea.com", "*.ikea.com", "jcpenney.com",
+        "*.jcpenney.com", "jcrew.com", "*.jcrew.com", "jd.com", "*.jd.com",
+        "kiehls.com", "*.kiehls.com", "kohls.com", "*.kohls.com", "kroger.com",
+        "*.kroger.com", "lazada.com", "*.lazada.com", "lenovo.com", "*.lenovo.com",
+        "lg.com", "*.lg.com", "lordandtaylor.com", "*.lordandtaylor.com", "lowes.com",
+        "*.lowes.com", "lululemon.com", "*.lululemon.com", "lushusa.com",
+        "*.lushusa.com", "maccosmetics.com", "*.maccosmetics.com", "macys.com",
+        "*.macys.com", "madewell.com", "*.madewell.com", "menards.com", "*.menards.com",
+        "mercari.com", "*.mercari.com", "moosejaw.com", "*.moosejaw.com", "myntra.com",
+        "*.myntra.com", "neimanmarcus.com", "*.neimanmarcus.com", "newbalance.com",
+        "*.newbalance.com", "nordstrom.com", "*.nordstrom.com", "nordstromrack.com",
+        "*.nordstromrack.com", "nykaa.com", "*.nykaa.com", "oldnavy.com",
+        "*.oldnavy.com", "overstock.com", "*.overstock.com", "patagonia.com",
+        "*.patagonia.com", "pier1.com", "*.pier1.com", "poshmark.com", "*.poshmark.com",
+        "potterybarn.com", "*.potterybarn.com", "powells.com", "*.powells.com",
+        "printful.com", "*.printful.com", "publix.com", "*.publix.com", "puma.com",
+        "*.puma.com", "quadpay.com", "*.quadpay.com", "rakuten.co.jp",
+        "*.rakuten.co.jp", "rakuten.com", "*.rakuten.com", "rebag.com", "*.rebag.com",
+        "redbubble.com", "*.redbubble.com", "rei.com", "*.rei.com", "safeway.com",
+        "*.safeway.com", "saksfifthavenue.com", "*.saksfifthavenue.com",
+        "sallybeauty.com", "*.sallybeauty.com", "samsclub.com", "*.samsclub.com",
+        "sephora.com", "*.sephora.com", "shein.com", "*.shein.com", "shopee.com",
+        "*.shopee.com", "shutterfly.com", "*.shutterfly.com", "skechers.com",
+        "*.skechers.com", "skinstore.com", "*.skinstore.com", "snapdeal.com",
+        "*.snapdeal.com", "snapfish.com", "*.snapfish.com", "society6.com",
+        "*.society6.com", "sony.com", "*.sony.com", "sportsmans.com",
+        "*.sportsmans.com", "spreadshirt.com", "*.spreadshirt.com", "square.com",
+        "*.square.com", "taobao.com", "*.taobao.com", "teespring.com",
+        "*.teespring.com", "temu.com", "*.temu.com", "tesla.com", "*.tesla.com",
+        "thebodyshop.com", "*.thebodyshop.com", "thenorthface.com",
+        "*.thenorthface.com", "therealreal.com", "*.therealreal.com", "threadless.com",
+        "*.threadless.com", "thredup.com", "*.thredup.com", "thriftbooks.com",
+        "*.thriftbooks.com", "tigerdirect.com", "*.tigerdirect.com", "timberland.com",
+        "*.timberland.com", "tjmaxx.com", "*.tjmaxx.com", "tmall.com", "*.tmall.com",
+        "ugg.com", "*.ugg.com", "ulta.com", "*.ulta.com", "underarmour.com",
+        "*.underarmour.com", "uniqlo.com", "*.uniqlo.com", "urbanoutfitters.com",
+        "*.urbanoutfitters.com", "vans.com", "*.vans.com", "vestiairecollective.com",
+        "*.vestiairecollective.com", "vistaprint.com", "*.vistaprint.com",
+        "wayfair.com", "*.wayfair.com", "wegmans.com", "*.wegmans.com", "westelm.com",
+        "*.westelm.com", "whatgoesaroundnyc.com", "*.whatgoesaroundnyc.com",
+        "wholefoodsmarket.com", "*.wholefoodsmarket.com", "williams-sonoma.com",
+        "*.williams-sonoma.com", "wish.com", "*.wish.com", "worldmarket.com",
+        "*.worldmarket.com", "zappos.com", "*.zappos.com", "zara.com", "*.zara.com",
+        "zazzle.com", "*.zazzle.com"],
+    header :contains "subject" ["Order Confirmation", "Purchase Confirmation",
+        "Your Cart", "Abandoned Cart", "Checkout", "Order Shipped", "Out for Delivery",
+        "Tracking Number", "Flash Sale", "Black Friday", "Cyber Monday", "Holiday Sale",
+        "Limited Time Offer", "Clearance Sale", "Promo Code"]
+) {
+    addflag "\\Seen";
     fileinto "Shopping";
 
-    # ========================================================================
-    # ORDER CONFIRMATIONS & RECEIPTS - Keep longer for records
-    # ========================================================================
-    
     if allof (
-        header :contains "subject" ["Order Confirmation", "Purchase Confirmation", 
-        "Order Receipt", "Purchase Receipt", "Transaction Complete", "Payment Received",
-        "Order Placed Successfully", "Thank You for Your Order", "Order Summary",
-        "Invoice", "Receipt", "Transaction Summary", "Payment Confirmation"],
-        size :under 1M  # Receipts can have attachments
+        header :contains "subject" ["Order Confirmation", "Purchase Confirmation",
+            "Order Receipt", "Purchase Receipt", "Transaction Complete",
+            "Payment Received", "Order Placed Successfully", "Thank You for Your Order",
+            "Order Summary", "Invoice", "Receipt", "Transaction Summary",
+            "Payment Confirmation"],
+        size :under 1M
     ) {
         fileinto "Shopping/Orders";
         expire "day" "365";
+
         stop;
     }
 
-    # ========================================================================
-    # SHIPPING & DELIVERY - Important tracking info
-    # ========================================================================
-    
     if allof (
         header :contains "subject" ["Shipped", "Tracking Number", "On the Way",
-        "Out for Delivery", "Delivered", "Package Arrived", "Delivery Update",
-        "Shipment Notification", "In Transit", "Delivery Attempt", "Ready for Pickup",
-        "Package Delayed", "Delivery Rescheduled", "Signature Required"],
+            "Out for Delivery", "Delivered", "Package Arrived", "Delivery Update",
+            "Shipment Notification", "In Transit", "Delivery Attempt",
+            "Ready for Pickup", "Package Delayed", "Delivery Rescheduled",
+            "Signature Required"],
         size :under 500K
     ) {
         fileinto "Shopping/Shipping";
         expire "day" "60";
+
         stop;
     }
 
-    # ========================================================================
-    # DEALS & PROMOTIONS - Short retention for time-sensitive offers
-    # ========================================================================
-    
     if allof (
         header :contains "subject" ["Flash Sale", "Daily Deal", "Limited Time Offer",
-        "Sale Alert", "Price Drop", "Clearance Sale", "Black Friday", "Cyber Monday",
-        "Holiday Sale", "Weekend Sale", "Exclusive Deal", "Member Sale",
-        "VIP Sale", "Early Access", "Presale", "Special Offer", "Discount Alert",
-        "Coupon Inside", "Promo Code", "% Off", "Free Shipping", "Buy One Get One"],
+            "Sale Alert", "Price Drop", "Clearance Sale", "Black Friday",
+            "Cyber Monday", "Holiday Sale", "Weekend Sale", "Exclusive Deal",
+            "Member Sale", "VIP Sale", "Early Access", "Presale", "Special Offer",
+            "Discount Alert", "Coupon Inside", "Promo Code", "% Off", "Free Shipping",
+            "Buy One Get One"],
         size :under 500K,
         not header :contains "subject" ["Order", "Confirmation", "Receipt"]
     ) {
         fileinto "Shopping/Deals";
-        
-        # Flash sales expire quickly
-        if header :contains "subject" ["Flash Sale", "Today Only", "Ends Tonight", 
-        "Last Hours", "Final Hours", "Midnight Sale"] {
+
+        if header :contains "subject" ["Flash Sale", "Today Only", "Ends Tonight",
+            "Last Hours", "Final Hours", "Midnight Sale"] {
             expire "day" "1";
-        # Regular sales
-        } else {
-            expire "day" "5";
         }
-        
+
         stop;
     }
 
-    # ========================================================================
-    # CART ABANDONMENT & REMINDERS - Very short retention
-    # ========================================================================
-    
     if allof (
-        header :contains "subject" ["Abandoned Cart", "Items in Your Cart", 
-        "Complete Your Purchase", "Forgot Something", "Cart Reminder",
-        "Don't Miss Out", "Still Interested", "Your Cart Expires",
-        "Items Reserved", "Checkout Now", "Return to Cart", "Save Your Cart"],
+        header :contains "subject" ["Abandoned Cart", "Items in Your Cart",
+            "Complete Your Purchase", "Forgot Something", "Cart Reminder",
+            "Don't Miss Out", "Still Interested", "Your Cart Expires", "Items Reserved",
+            "Checkout Now", "Return to Cart", "Save Your Cart"],
         size :under 300K
     ) {
         fileinto "Shopping/Cart";
         expire "day" "2";
+
         stop;
     }
 
-    # ========================================================================
-    # RECOMMENDATIONS & PERSONALIZED SUGGESTIONS
-    # ========================================================================
-    
     if allof (
-        header :contains "subject" ["Recommended for You", "You Might Like", 
-        "Personalized Picks", "Based on Your Browsing", "Similar Items",
-        "Customers Also Bought", "New Arrivals", "Trending Now", "Popular Items",
-        "Curated Selection", "Handpicked", "Just for You", "Inspired by"],
+        header :contains "subject" ["Recommended for You", "You Might Like",
+            "Personalized Picks", "Based on Your Browsing", "Similar Items",
+            "Customers Also Bought", "New Arrivals", "Trending Now", "Popular Items",
+            "Curated Selection", "Handpicked", "Just for You", "Inspired by"],
         size :under 500K
     ) {
         fileinto "Shopping/Recommendations";
         expire "day" "7";
+
         stop;
     }
 
-    # ========================================================================
-    # RETURNS & REFUNDS - Important for customer service
-    # ========================================================================
-    
     if allof (
         header :contains "subject" ["Return", "Refund", "Exchange", "Credit Issued",
-        "Returned Item", "Refund Processed", "Return Label", "RMA Number",
-        "Return Authorized", "Exchange Approved", "Store Credit", "Refund Status"],
+            "Returned Item", "Refund Processed", "Return Label", "RMA Number",
+            "Return Authorized", "Exchange Approved", "Store Credit", "Refund Status"],
         size :under 500K
     ) {
         fileinto "Shopping/Returns";
         expire "day" "90";
+
         stop;
     }
 
-    # ========================================================================
-    # LOYALTY & REWARDS PROGRAMS
-    # ========================================================================
-    
     if allof (
-        header :contains "subject" ["Rewards Points", "Loyalty Program", "Member Benefits",
-        "Points Earned", "Cashback", "Reward Balance", "VIP Status", "Tier Update",
-        "Member Exclusive", "Points Expiring", "Redeem Points", "Reward Available"],
+        header :contains "subject" ["Rewards Points", "Loyalty Program",
+            "Member Benefits", "Points Earned", "Cashback", "Reward Balance",
+            "VIP Status", "Tier Update", "Member Exclusive", "Points Expiring",
+            "Redeem Points", "Reward Available"],
         size :under 300K
     ) {
         fileinto "Shopping/Rewards";
         expire "day" "30";
+
         stop;
     }
 
-    # ========================================================================
-    # PRODUCT REVIEWS & FEEDBACK
-    # ========================================================================
-    
     if allof (
-        header :contains "subject" ["Review Your Purchase", "Rate Your Order", 
-        "How Was Your Experience", "Product Review", "Share Your Thoughts",
-        "Tell Us About", "Feedback Request", "Review Reminder", "Rate This Item"],
+        header :contains "subject" ["Review Your Purchase", "Rate Your Order",
+            "How Was Your Experience", "Product Review", "Share Your Thoughts",
+            "Tell Us About", "Feedback Request", "Review Reminder", "Rate This Item"],
         size :under 300K
     ) {
         fileinto "Shopping/Reviews";
         expire "day" "14";
+
         stop;
     }
 
-    # ========================================================================
-    # SUBSCRIPTION & RECURRING ORDERS
-    # ========================================================================
-    
     if allof (
         header :contains "subject" ["Subscription", "Auto-delivery", "Recurring Order",
-        "Subscription Renewal", "Auto-renewal", "Subscribe & Save", "Monthly Delivery",
-        "Subscription Update", "Pause Subscription", "Cancel Subscription"],
+            "Subscription Renewal", "Auto-renewal", "Subscribe & Save",
+            "Monthly Delivery", "Subscription Update", "Pause Subscription",
+            "Cancel Subscription"],
         size :under 500K
     ) {
         fileinto "Shopping/Subscriptions";
         expire "day" "90";
+
         stop;
     }
 
-    # ========================================================================
-    # WISHLISTS & SAVED ITEMS
-    # ========================================================================
-    
     if allof (
         header :contains "subject" ["Wishlist", "Saved Items", "Price Drop on Saved",
-        "Item Back in Stock", "Saved for Later", "Favorites Update", "Watch List"],
+            "Item Back in Stock", "Saved for Later", "Favorites Update", "Watch List"],
         size :under 300K
     ) {
         fileinto "Shopping/Wishlist";
         expire "day" "21";
+
         stop;
     }
 
-    # ========================================================================
-    # ACCOUNT & SECURITY (Shopping-related)
-    # ========================================================================
-    
     if allof (
-        header :contains "subject" ["Account Update", "Password Changed", "Payment Method",
-        "Billing Address", "Security Alert", "Login Alert", "Account Verification",
-        "Profile Update", "Settings Changed", "Two-Factor Authentication"],
+        header :contains "subject" ["Account Update", "Password Changed",
+            "Payment Method", "Billing Address", "Security Alert", "Login Alert",
+            "Account Verification", "Profile Update", "Settings Changed",
+            "Two-Factor Authentication"],
         size :under 500K
     ) {
         fileinto "Shopping/Account";
         expire "day" "60";
+
         stop;
     }
 
-    # ========================================================================
-    # GENERAL EXPIRATION RULES
-    # ========================================================================
-
-    # Newsletter & company updates (expire 7 days)
     if allof (
         header :contains "subject" ["Newsletter", "Company News", "Brand Update",
-        "New Collection", "Season Preview", "Style Guide", "Trend Report"],
+            "New Collection", "Season Preview", "Style Guide", "Trend Report"],
         size :under 500K,
         not header :contains "subject" ["Sale", "Deal", "Offer", "Discount"]
     ) {
         expire "day" "7";
+
         stop;
     }
 
-    # General promotional emails (expire 10 days).
-    # NOTE (v0.2.1): this rule had no positive subject gate, so it matched every
-    # message under 500K and stopped -- making the 14-day default below dead
-    # code. It now requires an actually promotional subject.
     if allof (
-        size :under 500K,
         header :contains "subject" ["Sale", "Deal", "Discount", "Coupon", "Promo",
-        "Offer", "Clearance", "Save ", "% Off", "Newsletter", "New Arrivals",
-        "Recommended", "Just for You", "Back in Stock"],
-        not header :contains "subject" ["Order", "Shipping", "Delivery", "Return", "Refund"]
+            "Offer", "Clearance", "Save ", "% Off", "Newsletter", "New Arrivals",
+            "Recommended", "Just for You", "Back in Stock"],
+        size :under 500K,
+        not header :contains "subject" ["Order", "Shipping", "Delivery", "Return",
+            "Refund"]
     ) {
         expire "day" "10";
+
         stop;
     }
 
-    # Default expiration for uncategorized shopping emails
+    # Default retention for anything that reached none of the rules above.
     expire "day" "14";
-    
+
     stop;
 }
 
-# End of Sieve script for shopping filter
+# End of Shopping filter

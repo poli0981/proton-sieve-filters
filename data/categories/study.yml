@@ -1343,6 +1343,8 @@ rules:
   - wolfram.com
   - yousician.com
   - zotero.org
+  flags:
+  - \Seen
   stop: true
   tiers:
   - folder: Study/Programming
@@ -1379,6 +1381,8 @@ rules:
     - hackerrank.com
     - leetcode.com
     - stackoverflow.com
+    flags:
+    - \Seen
     stop: true
   - folder: Study/Algorithms
     op: anyof
@@ -1403,6 +1407,8 @@ rules:
     - codewars.com
     - hackerrank.com
     - leetcode.com
+    flags:
+    - \Seen
     stop: true
   - folder: Study/Mathematics
     op: anyof
@@ -1430,6 +1436,8 @@ rules:
     - mathway.com
     - symbolab.com
     - wolfram.com
+    flags:
+    - \Seen
     stop: true
   - folder: Study/Physics
     op: anyof
@@ -1453,6 +1461,8 @@ rules:
     domains:
     - labxchange.org
     - phet.colorado.edu
+    flags:
+    - \Seen
     stop: true
   - folder: Study/Biology
     op: anyof
@@ -1476,6 +1486,8 @@ rules:
     - life science
     domains:
     - labxchange.org
+    flags:
+    - \Seen
     stop: true
   - folder: Study/Chemistry
     op: anyof
@@ -1497,6 +1509,8 @@ rules:
     - chemical
     domains:
     - labxchange.org
+    flags:
+    - \Seen
     stop: true
   - folder: Study/History
     op: anyof
@@ -1516,6 +1530,8 @@ rules:
     - research civilizations
     - assignment revolution
     - historical
+    flags:
+    - \Seen
     stop: true
   - folder: Study/Languages
     op: anyof
@@ -1544,6 +1560,8 @@ rules:
     - lingoda.com
     - memrise.com
     - rosettastone.com
+    flags:
+    - \Seen
     stop: true
   - folder: Study/Art
     op: anyof
@@ -1570,6 +1588,8 @@ rules:
     - proko.com
     - schoolism.com
     - skillshare.com
+    flags:
+    - \Seen
     stop: true
   - folder: Study/Music
     op: anyof
@@ -1593,6 +1613,8 @@ rules:
     - musictheory.net
     - simply-piano.com
     - yousician.com
+    flags:
+    - \Seen
     stop: true
   - folder: Study/Business
     op: anyof
@@ -1611,6 +1633,8 @@ rules:
     - study business
     - research economics
     - assignment marketing
+    flags:
+    - \Seen
     stop: true
   - folder: Study/Engineering
     op: anyof
@@ -1628,6 +1652,8 @@ rules:
     - study engineering
     - research design
     - assignment circuit
+    flags:
+    - \Seen
     stop: true
   - folder: Study/Medicine
     op: anyof
@@ -1646,6 +1672,8 @@ rules:
     - study medicine
     - research clinical
     - assignment anatomy
+    flags:
+    - \Seen
     stop: true
   - folder: Study/TestPrep
     op: anyof
@@ -1670,6 +1698,8 @@ rules:
     - kaptest.com
     - magoosh.com
     - princetonreview.com
+    flags:
+    - \Seen
     stop: true
   - folder: Study/Certification
     op: anyof
@@ -1690,10 +1720,13 @@ rules:
     domains:
     - amazon.com
     - cisco.com
+    - classroom.google.com
     - comptia.org
     - google.com
     - microsoft.com
     - salesforce.com
+    flags:
+    - \Seen
     stop: true
   - folder: Study/Research
     op: anyof
@@ -1720,6 +1753,8 @@ rules:
     - nature.com
     - researchgate.net
     - springer.com
+    flags:
+    - \Seen
     stop: true
   - folder: Study/Textbooks
     op: anyof
@@ -1743,6 +1778,8 @@ rules:
     - pearson.com
     - springer.com
     - wiley.com
+    flags:
+    - \Seen
     stop: true
   - folder: Study/General
     op: anyof
@@ -1768,5 +1805,7 @@ rules:
     - research overview
     - assignment general
     - educational
+    flags:
+    - \Seen
     stop: true
   gate: true

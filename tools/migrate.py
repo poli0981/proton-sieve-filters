@@ -451,6 +451,24 @@ def main(argv=None):
     ap.add_argument("--report", default="MIGRATION-REPORT.md")
     args = ap.parse_args(argv)
 
+    # This is a ONE-OFF bootstrap. domain/ and keyword/ were removed once their
+    # content reached data/, and running without them would quietly rebuild the
+    # category files with no `kind` classification and no keywords at all --
+    # silently discarding 22 typosquat records, 32 quarantined TLDs and 3,992
+    # keywords. Refuse rather than destroy.
+    missing = [d for d in ("domain", "keyword") if not os.path.isdir(d)]
+    if missing:
+        sys.stderr.write(
+            "refusing to run: %s no longer exist(s).\n\n"
+            "tools/migrate.py is a one-off bootstrap that read the legacy"
+            " Markdown lists. They were removed in v0.2.1 once data/"
+            " replaced them, so running it now would rebuild"
+            " data/categories/*.yml from the filters alone and drop every"
+            " kind classification and every keyword.\n\n"
+            "data/ is the source of truth now -- edit it directly.\n"
+            % ", ".join(missing))
+        return 2
+
     report = Report()
     extracted, catalogue, keywords, conflicts = build(report)
     written = emit(extracted, catalogue, keywords, report)

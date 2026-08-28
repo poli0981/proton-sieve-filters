@@ -379,6 +379,8 @@ rules:
   - protonmail.com
   - protonstatus.com
   - protonvpn.com
+  flags:
+  - \Seen
   expire_days: 10
   stop: true
   tiers:
@@ -396,6 +398,10 @@ rules:
     - Device Authorization
     - Login from New Location
     - Security Warning
+    flags:
+    - \Flagged
+    unflags:
+    - \Seen
     expire_days: 90
     stop: true
   - op: allof

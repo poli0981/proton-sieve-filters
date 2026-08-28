@@ -9,6 +9,51 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+### Added — filters are generated
+
+- **`tools/generate.py` renders `filter/*.sieve` from `data/categories/*.yml`**, and
+  `--check` fails the build when a `.sieve` no longer matches its data. The `.sieve`
+  files in this repository are now generated output; edits go to `data/`.
+
+- **Domain patterns are precise.** v0.2.0 wrote `*example.com`, which is a *suffix*
+  match, not a subdomain match — so `*ea.com` (EA) also matched `ikea.com` and
+  `silversea.com`, `*box.com` (Box) also matched `xbox.com`, and `*ew.com` (Entertainment
+  Weekly) also matched `nationalreview.com`, filing a political magazine into
+  `News/Entertainment`. **127 such collisions were shipping.** The generator now emits the
+  pair `"example.com", "*.example.com"`.
+
+- **Typosquat entries cover subdomains.** `login.payp4l.com` is as malicious as
+  `payp4l.com`, so a `kind: block` record always emits both forms.
+
+- **Retention defaults moved after their subrules.** A category's default `expire` is
+  emitted after the rules nested inside it, so it applies only to mail that reached none
+  of them — matching how the hand-written filters were laid out. Emitting it first would
+  have put a delete timer on every message the filter touched.
+
+- **`tools/check_roundtrip.py`** — builds a corpus from the data (one message per domain
+  and per subject keyword, at five size bands) and reports every message whose folder,
+  retention or flags differ between two sets of filters.
+
+  The migration was verified with it: **20,568 messages route identically**, 96 differ,
+  and every difference is accounted for — a domain ceded to another category, a typosquat
+  now sent to Spam, or the `nationalreview.com` correction above. Three domains the old
+  suffix shorthand had caught usefully (`choicehotels.com`, `wyndhamhotels.com`,
+  `classroom.google.com`) were added to their subrules explicitly so no coverage was lost.
+
+- **`tools/migrate.py` now refuses to run** once `domain/` and `keyword/` are gone.
+  Re-running it against the filters alone silently rebuilt the category files with no
+  `kind` classification and no keywords at all — 22 typosquat records, 32 quarantined
+  TLDs and 3,992 keywords discarded without a word.
+
+- Filter parsing is memoised in `tools/sieve_eval.py`, taking the round-trip check from
+  over two minutes to ten seconds.
+
+### Fixed
+
+- `tools/sieve_extract.py` dropped every `addflag`/`removeflag`, because sievelib exposes
+  the flag list as `variable-name` rather than `flags`. 48 flag operations were missing
+  from the extracted data.
+
 ### Added — `data/` is now the source of truth
 
 - **`data/categories/*.yml` replaces `domain/*.md` and `keyword/*.md`.** The Markdown

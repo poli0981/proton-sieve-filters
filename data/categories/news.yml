@@ -1340,6 +1340,8 @@ rules:
   - yahoo.com
   - yonhapnews.co.kr
   - zdnet.com
+  flags:
+  - \Seen
   expire_days: 3
   stop: true
   tiers:

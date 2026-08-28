@@ -1716,6 +1716,8 @@ rules:
   - zoho.com
   - zoom.us
   - zoomus.com
+  flags:
+  - \Seen
   expire_days: 14
   stop: true
   tiers:

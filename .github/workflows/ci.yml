@@ -23,6 +23,11 @@ jobs:
       - name: Install tooling
         run: python -m pip install --disable-pip-version-check -r tools/requirements.txt
 
+      # filter/*.sieve is generated from data/. This fails if a .sieve was edited
+      # by hand, or if someone changed data/ and forgot to regenerate.
+      - name: Filters match the data
+        run: python tools/generate.py --check
+
       # Parses every filter with a real Sieve parser. v0.2.0 shipped a filter
       # that did not parse at all, so this is the check that matters most.
       - name: Syntax

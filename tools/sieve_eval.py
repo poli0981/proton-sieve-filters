@@ -3,7 +3,7 @@
 Enough to answer "where does this message end up?" so the P0 fixes can be
 regression-tested. Not a general Sieve implementation.
 """
-import fnmatch, re
+import fnmatch, os, re
 import sievelib.commands as sc
 from sievelib.parser import Parser
 
@@ -28,6 +28,19 @@ if "expire" not in sc.get_command_instance.__globals__.get("commands", {}):
 
 def unq(s):
     return s[1:-1] if isinstance(s, str) and len(s) >= 2 and s[0] == '"' else s
+
+
+def unescape(s):
+    """Undo Sieve string escaping: the source "\\Seen" holds a single backslash."""
+    out, i = [], 0
+    while i < len(s):
+        if s[i] == "\\" and i + 1 < len(s):
+            out.append(s[i + 1])
+            i += 2
+        else:
+            out.append(s[i])
+            i += 1
+    return "".join(out)
 
 
 def as_list(v):
@@ -165,10 +178,29 @@ def run(nodes, msg, res):
             return
 
 
+_PARSE_CACHE = {}
+
+
 def parse(path):
+    """Parse a filter, memoised on (path, mtime, size).
+
+    check_roundtrip runs tens of thousands of messages through a handful of
+    files; re-parsing each time dominated its runtime.
+    """
+    try:
+        st = os.stat(path)
+        key = (os.path.abspath(path), st.st_mtime_ns, st.st_size)
+    except OSError:
+        key = None
+
+    if key is not None and key in _PARSE_CACHE:
+        return _PARSE_CACHE[key]
+
     p = Parser()
     if not p.parse_file(path):
         raise SyntaxError(f"{path}: {p.error}")
+    if key is not None:
+        _PARSE_CACHE[key] = p.result
     return p.result
 
 

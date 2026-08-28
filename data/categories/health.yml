@@ -1501,6 +1501,8 @@ rules:
   - youper.ai
   - zocdoc.com
   - zombiesrungame.com
+  flags:
+  - \Seen
   expire_days: 5
   stop: true
   tiers:

@@ -1875,6 +1875,8 @@ rules:
   - zara.com
   - zazzle.com
   - zip.co
+  flags:
+  - \Seen
   expire_days: 14
   stop: true
   tiers:
