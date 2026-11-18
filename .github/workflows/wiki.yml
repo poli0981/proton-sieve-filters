@@ -23,9 +23,9 @@ jobs:
     name: Publish docs/ to the Wiki
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: Andrew-Chen-Wang/github-wiki-action@v4
+      - uses: Andrew-Chen-Wang/github-wiki-action@v5
         with:
           path: docs
           # The Wiki has no directories, so relative links between pages work as
