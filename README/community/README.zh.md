@@ -5,7 +5,8 @@
 > 重命名，且已修复一个会删除邮件的缺陷。请以英文版 [README.md](../../README.md) 和
 > [CHANGELOG.md](../../CHANGELOG.md) 为准。
 >
-> 欢迎提交翻译更新。
+> 本项目自 2026 年 11 月 18 日起进入维护模式，不再接受翻译更新。详情请见
+> [MAINTENANCE.md](../../MAINTENANCE.md)。
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![GitHub contributors](https://img.shields.io/badge/Contributors-Welcome-brightgreen.svg)](https://github.com/poli0981/proton-sieve-filters/graphs/contributors)

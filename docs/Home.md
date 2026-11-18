@@ -5,6 +5,12 @@
 22 Sieve scripts that sort a Proton Mail inbox into folders, generated from a typed dataset
 of sender domains and subject keywords.
 
+> [!NOTE]
+> **Maintenance mode since 2026-11-18.** v0.3.0 is the last feature release. Domain fixes,
+> security fixes, dependency updates and changes to keep up with Proton's Sieve dialect
+> continue; new filters and features do not. See the
+> [maintenance policy](https://github.com/poli0981/proton-sieve-filters/blob/main/MAINTENANCE.md).
+
 > [!WARNING]
 > **These filters delete mail.** They set auto-delete timers on the messages they match.
 > Read [Retention & auto-delete](Retention-and-Auto-Delete.md) before installing anything.
@@ -57,6 +63,7 @@ is no `body` test and no filter here can act on what an email actually says.
 ## Project links
 
 [Repository](https://github.com/poli0981/proton-sieve-filters) ·
+[Maintenance](../MAINTENANCE.md) ·
 [Changelog](../CHANGELOG.md) ·
 [Disclaimer](../DISCLAIMER.md) ·
 [Privacy](../PRIVACY.md) ·

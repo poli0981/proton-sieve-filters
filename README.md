@@ -1,10 +1,13 @@
 # Proton Sieve Filters
 
+[![Status: maintenance mode](https://img.shields.io/badge/Status-Maintenance%20mode-orange.svg)](MAINTENANCE.md)
 [![CI](https://github.com/poli0981/proton-sieve-filters/actions/workflows/ci.yml/badge.svg)](https://github.com/poli0981/proton-sieve-filters/actions/workflows/ci.yml)
 [![Code MIT](https://img.shields.io/badge/Code-MIT-green.svg)](LICENSE)
 [![Data CC0](https://img.shields.io/badge/Data-CC0--1.0-green.svg)](LICENSES/CC0-1.0.txt)
 [![Version](https://img.shields.io/badge/Version-0.3.0-blue.svg)](CHANGELOG.md)
-[![Contributions welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](https://github.com/poli0981/proton-sieve-filters/issues)
+[![Last commit](https://img.shields.io/github/last-commit/poli0981/proton-sieve-filters)](https://github.com/poli0981/proton-sieve-filters/commits/main)
+[![Dependabot](https://img.shields.io/badge/Dependabot-monthly-blue.svg?logo=dependabot)](.github/dependabot.yml)
+[![Contributions: domain fixes only](https://img.shields.io/badge/Contributions-Domain%20fixes%20only-yellow.svg)](MAINTENANCE.md#what-is-still-done)
 
 22 Sieve scripts that sort a Proton Mail inbox into folders — shopping, travel, work,
 security, phishing protection, and seventeen more. Sieve is the server-side filtering language Proton exposes to
@@ -14,6 +17,11 @@ paid accounts.
 Community translations, currently out of date:
 [日本語](README/community/README.ja.md) ·
 [简体中文](README/community/README.zh.md)
+
+> [!NOTE]
+> **Maintenance mode since 2026-11-18.** v0.3.0 is the last feature release. Domain fixes,
+> security fixes, dependency updates and changes to keep up with Proton's Sieve dialect
+> continue; new filters, categories and features do not. See [MAINTENANCE.md](MAINTENANCE.md).
 
 > [!WARNING]
 > **These filters delete mail.** They use Proton's `expire` extension to set
@@ -216,7 +224,7 @@ proton-sieve-filters/
 │   ├── categories/    #   one .yml per filter
 │   ├── shared/        #   the canonical retention ladder
 │   └── schema/        #   JSON Schema for a category file
-├── filter/            # The 14 Sieve scripts
+├── filter/            # The 22 Sieve scripts
 ├── tools/             # Generation, validation and linting
 │   ├── generate.py          # data/ -> filter/*.sieve  (--check for no drift)
 │   ├── check_roundtrip.py   # do two filter sets route mail the same way?
@@ -233,6 +241,7 @@ proton-sieve-filters/
 ├── README/            # Translations
 ├── CHANGELOG.md
 ├── DISCLAIMER.md
+├── MAINTENANCE.md     # What is still accepted, now the project is in maintenance mode
 ├── MIGRATION-REPORT.md
 └── LICENSE
 ```
@@ -360,9 +369,21 @@ filter skips address-book senders before doing anything else.
 
 ## 🤝 Contributing
 
-Most contributions are one line in a YAML file. See [CONTRIBUTING.md](CONTRIBUTING.md) for
-where it goes and what the build will check. The project follows the
-[Contributor Covenant](CODE_OF_CONDUCT.md).
+The project is in **maintenance mode** — see [MAINTENANCE.md](MAINTENANCE.md). Still
+accepted:
+
+- **Domain fixes** — add, remove or correct a domain: wrong category, renamed, defunct, or
+  the website returns 404. Use the
+  [Domain fix](https://github.com/poli0981/proton-sieve-filters/issues/new?template=domain-fix.yml)
+  form, or send a pull request that edits one file in [`data/categories/`](data/categories/)
+  — [CONTRIBUTING.md](CONTRIBUTING.md) shows where the line goes.
+- **Proton Sieve changes** — Proton's editor rejects an unmodified filter:
+  [Proton Sieve change](https://github.com/poli0981/proton-sieve-filters/issues/new?template=proton-sieve-change.yml).
+- **Security problems** — privately, as described in [SECURITY.md](SECURITY.md).
+
+New filters, categories, keywords and features are not accepted. Issues and pull requests
+proposing them are labelled `out-of-scope` and closed automatically. The project follows
+the [Contributor Covenant](CODE_OF_CONDUCT.md).
 
 ---
 
@@ -404,6 +425,7 @@ Details in [LICENSES/README.md](LICENSES/README.md); citation metadata in
 
 Before opening an issue, check the [existing issues](https://github.com/poli0981/proton-sieve-filters/issues)
 and [Proton's Sieve documentation](https://proton.me/support/sieve-advanced-custom-filters).
+Issues are limited to the cases in [MAINTENANCE.md](MAINTENANCE.md).
 
 ## 📚 Documentation
 
@@ -421,8 +443,8 @@ Full documentation is in [`docs/`](docs/), mirrored to the
 | [AI disclosure](docs/AI-Disclosure.md) | Who wrote what, and what it means for the data |
 | [FAQ](docs/FAQ.md) | |
 
-Project policies: [Disclaimer](DISCLAIMER.md) · [Privacy](PRIVACY.md) ·
-[Security](SECURITY.md) · [Contributing](CONTRIBUTING.md) ·
+Project policies: [Maintenance](MAINTENANCE.md) · [Disclaimer](DISCLAIMER.md) ·
+[Privacy](PRIVACY.md) · [Security](SECURITY.md) · [Contributing](CONTRIBUTING.md) ·
 [Code of conduct](CODE_OF_CONDUCT.md) · [Licences](LICENSES/README.md)
 
 ## 🔗 External
@@ -436,7 +458,7 @@ Project policies: [Disclaimer](DISCLAIMER.md) · [Privacy](PRIVACY.md) ·
 ---
 
 **Repository**: https://github.com/poli0981/proton-sieve-filters
-**Version**: 0.3.0 · **Last updated**: 2026-08-28
+**Version**: 0.3.0 · **Status**: maintenance mode · **Last updated**: 2026-11-18
 
 *This project is not affiliated with, endorsed by, or sponsored by Proton AG. Proton and
 Proton Mail are trademarks of Proton AG.*

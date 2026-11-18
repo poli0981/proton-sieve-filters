@@ -1,0 +1,32 @@
+# Scheduled dependency updates -- case 1 of MAINTENANCE.md.
+#
+# One grouped pull request per ecosystem per month keeps a maintenance-mode project
+# from drowning in single-package bumps. Security updates are not grouped or scheduled:
+# Dependabot raises those as soon as an advisory is published.
+version: 2
+updates:
+  # sievelib, PyYAML, jsonschema -- CI and contributor tooling only; nothing here ships
+  # to users, who paste plain-text filters into Proton.
+  - package-ecosystem: pip
+    directory: /tools
+    schedule:
+      interval: monthly
+    labels: [dependencies]
+    commit-message:
+      prefix: deps
+    groups:
+      python-tooling:
+        patterns: ["*"]
+
+  # actions/checkout, actions/setup-python, actions/github-script and the wiki sync.
+  # The reusable workflows in poli0981/.github are pinned to @main and not tracked.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    labels: [dependencies]
+    commit-message:
+      prefix: ci
+    groups:
+      github-actions:
+        patterns: ["*"]

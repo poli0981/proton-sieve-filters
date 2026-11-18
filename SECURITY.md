@@ -26,7 +26,24 @@ for most software, and they are mostly about **mail going somewhere it should no
 | Anything in `tools/` that executes data as code | The generator reads untrusted YAML from pull requests |
 
 Ordinary misrouting — "my Etsy mail goes to Shopping instead of Payments" — is a normal
-[issue](https://github.com/poli0981/proton-sieve-filters/issues), not a security report.
+[Domain fix](https://github.com/poli0981/proton-sieve-filters/issues/new?template=domain-fix.yml)
+issue, not a security report.
+
+## Vulnerable dependencies
+
+The project is in [maintenance mode](MAINTENANCE.md), but security fixes are one of the
+things it still does. The only dependencies are the Python tooling in
+[`tools/requirements.txt`](tools/requirements.txt) and the GitHub Actions used by CI —
+neither ships to users. [Dependabot](.github/dependabot.yml) proposes updates monthly and
+raises an alert when an advisory is published.
+
+| Severity | Handling |
+| --- | --- |
+| **Critical or High** — or an Actions runtime that is end-of-life or insecure | Fixed out of cycle, ahead of anything else |
+| Medium or Low | The next monthly update |
+
+Advisories against these packages are already public, so there is nothing to report
+privately — but if you notice one before Dependabot does, an issue is welcome.
 
 ## Out of scope
 

@@ -6,7 +6,8 @@
 > 正確な情報は英語版の [README.md](../../README.md) と [CHANGELOG.md](../../CHANGELOG.md)
 > をご覧ください。
 >
-> 翻訳の更新を歓迎します。
+> 本プロジェクトは2026年11月18日からメンテナンスモードに移行しており、翻訳の更新は受け付けて
+> いません。詳しくは [MAINTENANCE.md](../../MAINTENANCE.md) をご覧ください。
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![GitHub contributors](https://img.shields.io/badge/Contributors-Welcome-brightgreen.svg)](https://github.com/poli0981/proton-sieve-filters/graphs/contributors)
