@@ -206,10 +206,6 @@ so bundles are emitted in reverse install order.
   domains (`proton.me`, `protonmail.com`, `pm.me`, `protonmail.ch`). It is the least
   clear-cut entry in that list and is annotated as such.
 
----
-
-## [Unreleased]
-
 ### Added — filters are generated
 
 - **`tools/generate.py` renders `filter/*.sieve` from `data/categories/*.yml`**, and
@@ -512,6 +508,8 @@ those folders too.
 
 - Initial release.
 
-[0.2.1]: https://github.com/poli0981/proton-sieve-filters/compare/v0.2.0...v0.2.1
+[Unreleased]: https://github.com/poli0981/proton-sieve-filters/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/poli0981/proton-sieve-filters/compare/v0.2.0...v0.3.0
+[0.2.1]: https://github.com/poli0981/proton-sieve-filters/compare/v0.2.0...5e84b5a
 [0.2.0]: https://github.com/poli0981/proton-sieve-filters/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/poli0981/proton-sieve-filters/releases/tag/v0.1.0
