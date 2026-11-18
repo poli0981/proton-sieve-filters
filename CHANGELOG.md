@@ -7,6 +7,43 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [Unreleased]
+
+### Changed — the project enters maintenance mode
+
+As of **2026-11-18**, v0.3.0 is the last feature release. [`MAINTENANCE.md`](MAINTENANCE.md)
+sets out what is still done — scheduled dependency updates, High/Critical security fixes,
+changes to follow Proton's Sieve dialect, and domain fixes (add, remove, or correct a
+domain that is wrong, renamed, defunct or returns 404) — and what is not: new filters,
+categories, keywords and features.
+
+### Added
+
+- **`.github/workflows/maintenance-triage.yml`** — labels out-of-scope issues and pull
+  requests `out-of-scope`, closes them, and comments with the policy. Pull requests are
+  judged by the files they change; issues opened outside the forms by feature-request
+  phrasing in English, Vietnamese, Chinese and Japanese. Exercised against 35 simulated
+  events before merge, with five deliberately broken variants each caught.
+- **`.github/dependabot.yml`** — monthly, grouped updates for the Python tooling and the
+  GitHub Actions. The first run is expected to propose moving `actions/checkout@v4` and
+  `actions/setup-python@v5` off Node 20 — every CI job currently warns that both are
+  being forced onto Node 24.
+- **Issue forms**: *Domain fix* (replacing *Wrong or missing domain / keyword* and *Mail
+  went to the wrong folder*) and *Proton Sieve change*. Blank issues are disabled, and a
+  contact link explains that feature requests are not accepted.
+- README badges for status, last commit, Dependabot and contribution scope, in English and
+  Vietnamese.
+
+### Fixed — documentation
+
+- The issue forms applied the labels `data` and `routing`, which did not exist in the
+  repository. GitHub drops a form label that does not exist, so every report would have
+  arrived unlabelled. The new forms' labels are created alongside them.
+- `README/README.vi.md` still described the pre-v0.3.0 layout: `domain/` and `keyword/`
+  directories that had been retired, "14" filters, and a note promising the data migration
+  that v0.3.0 delivered. It now matches the English README.
+- `README.md` called `filter/` "the 14 Sieve scripts"; there are 22.
+
 ## [0.3.0] — 2026-08-28
 
 ### Changed — documentation rewritten

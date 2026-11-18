@@ -1,10 +1,13 @@
 # Proton Sieve Filters
 
+[![Trạng thái: bảo trì](https://img.shields.io/badge/Tr%E1%BA%A1ng%20th%C3%A1i-B%E1%BA%A3o%20tr%C3%AC-orange.svg)](../MAINTENANCE.md)
 [![CI](https://github.com/poli0981/proton-sieve-filters/actions/workflows/ci.yml/badge.svg)](https://github.com/poli0981/proton-sieve-filters/actions/workflows/ci.yml)
 [![MIT License](https://img.shields.io/badge/Code-MIT-green.svg)](../LICENSE)
 [![Data CC0](https://img.shields.io/badge/Data-CC0--1.0-green.svg)](../LICENSES/CC0-1.0.txt)
 [![Version](https://img.shields.io/badge/Version-0.3.0-blue.svg)](../CHANGELOG.md)
-[![Contributions welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](https://github.com/poli0981/proton-sieve-filters/issues)
+[![Last commit](https://img.shields.io/github/last-commit/poli0981/proton-sieve-filters)](https://github.com/poli0981/proton-sieve-filters/commits/main)
+[![Dependabot](https://img.shields.io/badge/Dependabot-monthly-blue.svg?logo=dependabot)](../.github/dependabot.yml)
+[![Đóng góp: chỉ sửa domain](https://img.shields.io/badge/%C4%90%C3%B3ng%20g%C3%B3p-Ch%E1%BB%89%20s%E1%BB%ADa%20domain-yellow.svg)](../MAINTENANCE.md#what-is-still-done)
 
 22 script Sieve giúp sắp xếp hộp thư Proton Mail vào các thư mục — mua sắm, du lịch, công
 việc, bảo mật, chống giả mạo tên miền và mười bảy danh mục khác. Sieve là ngôn ngữ lọc thư
@@ -14,6 +17,12 @@ phía máy chủ mà Proton mở cho các tài khoản trả phí.
 Bản dịch cộng đồng, hiện đã lỗi thời:
 [日本語](community/README.ja.md) ·
 [简体中文](community/README.zh.md)
+
+> [!NOTE]
+> **Chế độ bảo trì từ 18-11-2026.** v0.3.0 là bản phát hành tính năng cuối cùng. Việc sửa
+> domain, sửa lỗi bảo mật, cập nhật dependency và theo kịp các thay đổi trong dialect Sieve
+> của Proton vẫn tiếp tục; bộ lọc, danh mục và tính năng mới thì không. Xem
+> [MAINTENANCE.md](../MAINTENANCE.md).
 
 > [!WARNING]
 > **Các bộ lọc này xoá thư.** Chúng dùng extension `expire` của Proton để đặt hẹn giờ tự
@@ -210,12 +219,20 @@ kỳ điều gì ở trên được áp dụng.
 
 ```
 proton-sieve-filters/
-├── filter/            # 14 script Sieve
-├── domain/            # Danh sách domain tham khảo theo danh mục (xem ghi chú)
-├── keyword/           # Danh sách từ khoá tham khảo theo danh mục (xem ghi chú)
-├── tools/             # Kiểm tra và lint
+├── data/              # NGUỒN GỐC -- mọi domain và từ khoá nằm ở đây
+│   ├── categories/    #   mỗi bộ lọc một file .yml
+│   ├── shared/        #   thang thời gian lưu trữ chuẩn
+│   └── schema/        #   JSON Schema cho một file danh mục
+├── filter/            # 22 script Sieve
+├── tools/             # Sinh bộ lọc, kiểm tra và lint
+│   ├── generate.py          # data/ -> filter/*.sieve  (--check để phát hiện lệch)
+│   ├── check_roundtrip.py   # hai bộ lọc có định tuyến thư giống nhau không?
 │   ├── validate_sieve.py    # parse mọi bộ lọc bằng parser Sieve thật
 │   ├── lint_proton.py       # kiểm tra theo dialect Proton và các lớp lỗi đã biết
+│   ├── check_data.py        # áp mô hình dữ liệu trong data/
+│   ├── check_folders.py     # thư mục trong tài liệu phải khớp với bộ lọc
+│   ├── check_links.py       # link Markdown tương đối phải trỏ tới file có thật
+│   ├── migrate.py           # dùng một lần: danh sách Markdown cũ -> data/
 │   ├── proton_dialect.py    # extension, test và giới hạn Proton hỗ trợ
 │   └── sieve_eval.py        # bộ thông dịch cho tập con Sieve được dùng ở đây
 ├── tests/
@@ -223,14 +240,16 @@ proton-sieve-filters/
 ├── README/            # Bản dịch
 ├── CHANGELOG.md
 ├── DISCLAIMER.md
+├── MAINTENANCE.md     # Những gì còn được nhận khi dự án ở chế độ bảo trì
+├── MIGRATION-REPORT.md
 └── LICENSE
 ```
 
 > [!NOTE]
-> `domain/` và `keyword/` là **tài liệu tham khảo đã lệch khỏi các script** — chúng không
-> phải nguồn để sinh ra bộ lọc. Hơn 700 từ khoá tiếng Việt, tiếng Trung và tiếng Nhật được
-> ghi trong đó nhưng được triển khai trong **0** bộ lọc. Việc biến các danh sách này thành
-> nguồn dữ liệu duy nhất là thay đổi được lên kế hoạch kế tiếp.
+> **`filter/*.sieve` được sinh tự động. Hãy sửa [`data/`](../data/).** Mọi domain và từ
+> khoá nằm trong `data/categories/*.yml`; chạy `python tools/generate.py` để sinh lại bộ
+> lọc, và CI sẽ báo lỗi nếu một file `.sieve` không còn khớp với dữ liệu. Xem
+> [data/README.md](../data/README.md) để hiểu mô hình dữ liệu.
 
 ---
 
@@ -323,9 +342,21 @@ người gửi có trong sổ địa chỉ trước khi làm bất cứ điều 
 
 ## 🤝 Đóng góp
 
-Phần lớn đóng góp chỉ là một dòng trong file YAML. Xem
-[CONTRIBUTING.md](../CONTRIBUTING.md) để biết dòng đó đặt ở đâu và build sẽ kiểm tra gì.
-Dự án tuân theo [Contributor Covenant](../CODE_OF_CONDUCT.md).
+Dự án đang ở **chế độ bảo trì** — xem [MAINTENANCE.md](../MAINTENANCE.md). Vẫn được nhận:
+
+- **Sửa domain** — thêm, xoá hoặc sửa một domain: sai danh mục, đã đổi tên, ngừng hoạt
+  động, hoặc website trả về 404. Dùng form
+  [Domain fix](https://github.com/poli0981/proton-sieve-filters/issues/new?template=domain-fix.yml),
+  hoặc gửi pull request sửa một file trong [`data/categories/`](../data/categories/) —
+  [CONTRIBUTING.md](../CONTRIBUTING.md) chỉ rõ dòng đó đặt ở đâu.
+- **Thay đổi Sieve từ phía Proton** — trình soạn của Proton từ chối một bộ lọc chưa chỉnh
+  sửa: form
+  [Proton Sieve change](https://github.com/poli0981/proton-sieve-filters/issues/new?template=proton-sieve-change.yml).
+- **Vấn đề bảo mật** — báo riêng tư theo [SECURITY.md](../SECURITY.md).
+
+Bộ lọc, danh mục, từ khoá và tính năng mới **không** được nhận. Issue và pull request đề
+xuất chúng sẽ được gắn nhãn `out-of-scope` và tự động đóng. Dự án tuân theo
+[Contributor Covenant](../CODE_OF_CONDUCT.md).
 
 ---
 
@@ -366,6 +397,7 @@ Chi tiết trong [LICENSES/README.md](../LICENSES/README.md); thông tin trích 
 
 Trước khi mở issue, hãy xem [các issue hiện có](https://github.com/poli0981/proton-sieve-filters/issues)
 và [tài liệu Sieve của Proton](https://proton.me/support/sieve-advanced-custom-filters).
+Issue chỉ giới hạn trong các trường hợp nêu ở [MAINTENANCE.md](../MAINTENANCE.md).
 
 ## 📚 Tài liệu
 
@@ -383,8 +415,8 @@ Tài liệu đầy đủ nằm trong [`docs/`](../docs/) (tiếng Anh), được
 | [AI disclosure](../docs/AI-Disclosure.md) | Ai viết phần nào, và điều đó nghĩa là gì |
 | [FAQ](../docs/FAQ.md) | |
 
-Chính sách dự án: [Disclaimer](../DISCLAIMER.md) · [Privacy](../PRIVACY.md) ·
-[Security](../SECURITY.md) · [Contributing](../CONTRIBUTING.md) ·
+Chính sách dự án: [Maintenance](../MAINTENANCE.md) · [Disclaimer](../DISCLAIMER.md) ·
+[Privacy](../PRIVACY.md) · [Security](../SECURITY.md) · [Contributing](../CONTRIBUTING.md) ·
 [Code of conduct](../CODE_OF_CONDUCT.md) · [Giấy phép](../LICENSES/README.md)
 
 ## 🔗 Tài nguyên ngoài
@@ -398,7 +430,7 @@ Chính sách dự án: [Disclaimer](../DISCLAIMER.md) · [Privacy](../PRIVACY.md
 ---
 
 **Kho mã**: https://github.com/poli0981/proton-sieve-filters
-**Phiên bản**: 0.3.0 · **Cập nhật lần cuối**: 28-08-2026
+**Phiên bản**: 0.3.0 · **Trạng thái**: bảo trì · **Cập nhật lần cuối**: 18-11-2026
 
 *Dự án này không liên kết với, không được chứng thực hay tài trợ bởi Proton AG. Proton và
 Proton Mail là thương hiệu của Proton AG.*

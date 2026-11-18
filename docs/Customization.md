@@ -140,4 +140,6 @@ reports more than you intended, your change is wider than you thought.
 
 - [`data/README.md`](../data/README.md) — the data model in full
 - [Proton's Sieve dialect](Proton-Sieve-Dialect.md) — what the language allows
-- [`CONTRIBUTING.md`](../CONTRIBUTING.md) — sending a change back
+- [`CONTRIBUTING.md`](../CONTRIBUTING.md) — sending a domain fix back. The project is in
+  [maintenance mode](https://github.com/poli0981/proton-sieve-filters/blob/main/MAINTENANCE.md),
+  so keyword, category and feature changes stay in your own copy.

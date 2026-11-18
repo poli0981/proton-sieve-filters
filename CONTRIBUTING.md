@@ -2,7 +2,13 @@
 
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 
-Most contributions are one line in a YAML file. Here is where that line goes.
+> [!IMPORTANT]
+> **The project is in maintenance mode.** Pull requests are accepted for **domain fixes
+> only** — adding, removing or correcting a domain in an existing category. Anything else
+> (new categories, keywords, tooling, docs) is labelled `out-of-scope` and closed
+> automatically. [MAINTENANCE.md](MAINTENANCE.md) has the full policy.
+
+A domain fix is one line in a YAML file. Here is where that line goes.
 
 ## The one rule
 
@@ -54,7 +60,25 @@ python tools/check_data.py
 
 Commit the regenerated `.sieve` files along with the data change.
 
-## Adding a keyword
+## Removing or correcting a domain
+
+- **Defunct, or the site returns 404** — delete the record.
+- **Renamed or moved** — change `match` to the new domain, and say in `note` what it was.
+- **Wrong category** — make it `kind: allow` in the category that should own it, and in
+  the old one either delete the record or change it to `kind: ceded` with `ceded_to`
+  naming the new owner. See [data/README.md](data/README.md).
+- **Wrong owner in the note** — fix the `note`.
+
+Then regenerate and run the checks below. `docs/Filter-Reference.md` carries per-filter
+domain counts, so run `python tools/gen_docs.py` too and commit what it changes.
+
+## For your own copy: keywords and categories
+
+Pull requests that add keywords or categories are **not accepted** during maintenance mode
+and are closed automatically. The rest of this section is for people changing their own
+fork — the data is CC0 and the code MIT, so nothing stops you.
+
+### Adding a keyword
 
 Same file, under `keyword_groups`. Non-English keywords go under the language code and are
 emitted for any category whose `languages:` list includes it:
@@ -69,7 +93,7 @@ keyword_groups:
 Prefer specific multi-word phrases. A bare common word in a gate with no sender constraint
 is how v0.2.0 ended up with filters that swallowed the whole mailbox.
 
-## Adding a category
+### Adding a category
 
 Copy the shape of an existing small one — `data/categories/ai.yml` is a good model — and:
 
@@ -80,6 +104,11 @@ Copy the shape of an existing small one — `data/categories/ai.yml` is a good m
 3. Regenerate and run everything below.
 
 ## Before you open a pull request
+
+A pull request may change only **existing** files in `data/categories/`, plus what is
+regenerated from them: `filter/*.sieve`, `bundles/*.sieve`, `docs/Filter-Reference.md` and
+`docs/Retention-and-Auto-Delete.md`. One that touches anything else is closed by
+[`maintenance-triage.yml`](.github/workflows/maintenance-triage.yml) before review.
 
 ```bash
 python tools/generate.py --check     # filters match the data
@@ -120,12 +149,17 @@ These are all defects that actually shipped in v0.2.0, so they are checked now:
 
 ## Reporting a problem instead
 
-An issue is welcome and does not need any of the above. If a message went to the wrong
-folder, the **sender's domain** and the **subject pattern** are what is needed — redacted
-is fine (`something@example-shop.com`, subject contains "Order"). Do not paste real mail
-into a public issue; see [PRIVACY.md](PRIVACY.md).
+An issue does not need any of the above. Issues go through two forms:
 
-For anything security-sensitive, see [SECURITY.md](SECURITY.md).
+- [**Domain fix**](https://github.com/poli0981/proton-sieve-filters/issues/new?template=domain-fix.yml)
+  — a domain to add, remove or correct. A message that went to the wrong folder belongs
+  here too: the **sender's domain** and the **subject pattern** are what is needed, and
+  redacted is fine (`something@example-shop.com`, subject contains "Order").
+- [**Proton Sieve change**](https://github.com/poli0981/proton-sieve-filters/issues/new?template=proton-sieve-change.yml)
+  — Proton's editor rejects a filter you have not edited.
+
+Do not paste real mail into a public issue; see [PRIVACY.md](PRIVACY.md). For anything
+security-sensitive, see [SECURITY.md](SECURITY.md).
 
 ## Licensing your contribution
 

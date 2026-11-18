@@ -1,0 +1,101 @@
+name: Domain fix
+description: Add, remove or correct a domain — wrong category, renamed, defunct, or the site returns 404.
+title: "[Domain] "
+labels: [domain-fix]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The project is in **maintenance mode** — see
+        [MAINTENANCE.md](https://github.com/poli0981/proton-sieve-filters/blob/main/MAINTENANCE.md).
+        Domain corrections are one of the few things still accepted, and the most useful:
+        the lists were compiled with AI assistance and are not individually verified
+        ([AI disclosure](https://github.com/poli0981/proton-sieve-filters/blob/main/docs/AI-Disclosure.md)).
+
+        New filters, categories, keywords and features are **not** accepted and will be
+        closed automatically.
+
+        A legitimate service wrongly in the **phishing** list publicly accuses a third
+        party — consider a
+        [private report](https://github.com/poli0981/proton-sieve-filters/security/advisories/new)
+        instead.
+  - type: dropdown
+    id: change
+    attributes:
+      label: What needs to change
+      options:
+        - Add a missing domain
+        - Remove a domain — the service is defunct or no longer sends mail
+        - Domain is in the wrong category — mail goes to the wrong folder
+        - Domain was renamed or moved to a new domain
+        - Domain belongs to a different company than its note says
+        - Website returns 404 Not Found, or the domain no longer resolves
+        - A legitimate domain is in the phishing blocklist
+    validations:
+      required: true
+  - type: input
+    id: domain
+    attributes:
+      label: Domain
+      description: The registrable domain, no wildcard.
+      placeholder: example.com
+    validations:
+      required: true
+  - type: input
+    id: replacement
+    attributes:
+      label: New domain
+      description: Only if the domain was renamed or moved.
+      placeholder: example.net
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category it is in, or should be in
+      options:
+        - Not sure
+        - ai
+        - bills
+        - devtools
+        - entertainment
+        - food
+        - gaming
+        - government
+        - health
+        - invoice
+        - legal
+        - news
+        - phishing
+        - proton
+        - recruiting
+        - security
+        - shipping
+        - shopping
+        - social
+        - spam
+        - study
+        - travel
+        - work
+  - type: textarea
+    id: evidence
+    attributes:
+      label: How do you know
+      description: |
+        A link to the company's site or an announcement is ideal. For a 404, the URL you
+        tried. For mail in the wrong folder, the sender's domain and the subject pattern —
+        redacted is fine (`something@example-shop.com`, subject contains "Order").
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: 0.3.0 — see the VERSION file or a filter's header
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Before you submit
+      options:
+        - label: This is only about a domain.
+          required: true
+        - label: I have not pasted real message content.
+          required: true

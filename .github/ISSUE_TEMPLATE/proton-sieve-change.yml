@@ -1,0 +1,64 @@
+name: Proton Sieve change
+description: Proton changed its Sieve dialect — its editor now rejects an unmodified filter, or Proton announced a change.
+title: "[Sieve] "
+labels: [sieve-dialect]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The project is in **maintenance mode**, but keeping up with Proton's Sieve dialect
+        is one of the things still done — see
+        [MAINTENANCE.md](https://github.com/poli0981/proton-sieve-filters/blob/main/MAINTENANCE.md).
+
+        **Only for filters you have not edited.** If you changed a filter and Proton
+        rejects it, run `python tools/validate_sieve.py` and `python tools/lint_proton.py`
+        first — see
+        [Troubleshooting](https://github.com/poli0981/proton-sieve-filters/blob/main/docs/Troubleshooting.md).
+
+        A filter that sends mail to Spam or Trash, or deletes it, at scale is a security
+        issue — report it
+        [privately](https://github.com/poli0981/proton-sieve-filters/security/advisories/new).
+  - type: input
+    id: filter
+    attributes:
+      label: Which filter or bundle
+      placeholder: shopping.sieve, or bundles/essentials.sieve
+    validations:
+      required: true
+  - type: dropdown
+    id: edited
+    attributes:
+      label: Did you edit it?
+      options:
+        - No — pasted unmodified from the repository
+        - Yes, but the unmodified file fails the same way
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: What Proton's editor says
+      description: The exact error, or what changed in behaviour.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: announcement
+    attributes:
+      label: Proton's announcement, if there is one
+      description: A changelog entry, support article or blog post describing the change.
+      placeholder: https://proton.me/support/sieve-advanced-custom-filters
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: 0.3.0 — see the VERSION file or a filter's header
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Before you submit
+      options:
+        - label: I have not pasted real message content.
+          required: true

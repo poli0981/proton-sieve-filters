@@ -1,0 +1,158 @@
+name: Maintenance triage
+
+# The project is in maintenance mode -- see MAINTENANCE.md. This labels issues and pull
+# requests that fall outside that policy `out-of-scope`, closes them, and says why.
+#
+#   - pull requests that touch anything but existing data/categories/*.yml files and the
+#     files regenerated from them
+#   - issues opened outside the issue forms that read as a feature request
+#   - anything a maintainer labels `out-of-scope` by hand
+#
+# The maintainer's own items and bots (Dependabot) are never touched. It acts only on
+# `opened` and on the `out-of-scope` label, so an item a maintainer reopens stays open.
+#
+# SECURITY: pull_request_target runs with a write token, in the context of the base
+# branch, even for pull requests from forks. That is safe here ONLY because nothing from
+# the pull request is checked out or executed -- the script reads file NAMES through the
+# API and nothing else. Do not add actions/checkout of the head ref to this workflow.
+
+on:
+  issues:
+    types: [opened, labeled]
+  pull_request_target:
+    types: [opened, labeled]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: maintenance-triage-${{ github.event.issue.number || github.event.pull_request.number }}
+
+jobs:
+  triage:
+    name: Close out-of-scope items
+    runs-on: ubuntu-latest
+    if: github.event.action == 'opened' || github.event.label.name == 'out-of-scope'
+    steps:
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const LABEL = 'out-of-scope';
+            const { owner, repo } = context.repo;
+            const POLICY = `https://github.com/${owner}/${repo}/blob/main/MAINTENANCE.md`;
+            const FORMS = `https://github.com/${owner}/${repo}/issues/new/choose`;
+
+            // An issue that came through a form is decided by a person, not a regex. The
+            // forms apply these labels -- but only if the label exists in the repository,
+            // so the headings the forms render are checked as well.
+            const IN_SCOPE_LABELS = ['domain-fix', 'sieve-dialect', 'dependencies', 'security'];
+            const FORM_HEADINGS = ['### What needs to change', "### What Proton's editor says"];
+
+            // What an outside pull request may change: existing category files, and the
+            // files `tools/generate.py` and `tools/gen_docs.py` regenerate from them.
+            // A new or deleted category file is a new feature, so only `modified` counts.
+            const ALLOWED_PATHS = [
+              /^data\/categories\/[^/]+\.ya?ml$/,
+              /^filter\/[^/]+\.sieve$/,
+              /^bundles\/[^/]+\.sieve$/,
+              /^docs\/(?:Filter-Reference|Retention-and-Auto-Delete)\.md$/,
+            ];
+
+            // Deliberately narrow. "add example.com", "support for <service>" and
+            // "suggestion" are how domain requests are phrased, so they are not here.
+            const TITLE_PREFIX = /^\s*[\[(]?\s*(?:feat|feature|enhancement|rfe)\b/i;
+            const FEATURE_PATTERNS = [
+              /\bfeature[\s_-]*requests?\b/i,
+              /\bnew\s+(?:feature|filter|category|categories)\b/i,
+              /\benhancement\b/i,
+              /tính năng mới|yêu cầu tính năng|đề xuất tính năng/i,
+              /新功能|功能请求|功能建议/,
+              /新機能|機能リクエスト|機能要望/,
+            ];
+
+            const isPR = context.eventName === 'pull_request_target';
+            const item = isPR ? context.payload.pull_request : context.payload.issue;
+            const number = item.number;
+            const kind = isPR ? 'pull request' : 'issue';
+
+            // Labelled last, so that even if the label event did start a run, the item it
+            // saw would already be closed and the `labeled` branch below would do nothing.
+            async function closeWith(body) {
+              await github.rest.issues.createComment({ owner, repo, issue_number: number, body });
+              if (isPR) {
+                await github.rest.pulls.update({ owner, repo, pull_number: number, state: 'closed' });
+              } else {
+                await github.rest.issues.update({
+                  owner, repo, issue_number: number, state: 'closed', state_reason: 'not_planned',
+                });
+              }
+              await github.rest.issues.addLabels({ owner, repo, issue_number: number, labels: [LABEL] });
+              core.notice(`Closed ${kind} #${number} as ${LABEL}`);
+            }
+
+            const footer = [
+              '',
+              `This project is in **maintenance mode** and only accepts the changes listed in [MAINTENANCE.md](${POLICY}):`,
+              'scheduled dependency updates, High/Critical security fixes, changes to keep up with Proton\'s Sieve dialect,',
+              `and domain fixes (add, remove or correct a domain — wrong category, renamed, defunct, or 404) through the [issue forms](${FORMS}).`,
+              '',
+              'Closing is not a verdict on the idea. The data is CC0 and the code MIT, so a fork can build it freely.',
+              'If this **is** one of the cases above, reply here and say which — the maintainer will reopen it.',
+            ].join('\n');
+
+            // 1. A maintainer applied the label by hand.
+            if (context.payload.action === 'labeled') {
+              if (item.state !== 'open') {
+                core.info(`#${number} is already ${item.state}; nothing to do`);
+                return;
+              }
+              await closeWith(`Thanks for taking the time. A maintainer marked this ${kind} as out of scope.\n${footer}`);
+              return;
+            }
+
+            // 2. Opened. Never second-guess the maintainer or a bot.
+            const trusted = ['OWNER', 'MEMBER', 'COLLABORATOR'];
+            if (trusted.includes(item.author_association) || item.user.type === 'Bot') {
+              core.info(`#${number}: opened by ${item.user.login} (${item.author_association}); skipped`);
+              return;
+            }
+
+            if (isPR) {
+              const files = await github.paginate(github.rest.pulls.listFiles, {
+                owner, repo, pull_number: number, per_page: 100,
+              });
+              const outside = files.filter(f =>
+                f.status !== 'modified' || !ALLOWED_PATHS.some(re => re.test(f.filename)));
+              if (outside.length === 0) {
+                core.info(`#${number}: ${files.length} file(s), all within data/ and its generated output`);
+                return;
+              }
+              const shown = outside.slice(0, 20).map(f => `- \`${f.filename}\` (${f.status})`);
+              if (outside.length > 20) shown.push(`- …and ${outside.length - 20} more`);
+              await closeWith([
+                'Thanks for the pull request. It changes files outside what this project accepts during maintenance mode:',
+                '',
+                ...shown,
+                '',
+                'A domain fix only edits an **existing** file in `data/categories/` and commits what',
+                '`python tools/generate.py` and `python tools/gen_docs.py` regenerate from it.',
+                footer,
+              ].join('\n'));
+              return;
+            }
+
+            const labels = (item.labels || []).map(l => (typeof l === 'string' ? l : l.name));
+            const body = item.body || '';
+            if (labels.some(l => IN_SCOPE_LABELS.includes(l)) || FORM_HEADINGS.some(h => body.includes(h))) {
+              core.info(`#${number}: opened through a form (${labels.join(', ') || 'no label'}); left for the maintainer`);
+              return;
+            }
+            const text = `${item.title || ''}\n${item.body || ''}`;
+            const hit = TITLE_PREFIX.test(item.title || '') || FEATURE_PATTERNS.some(re => re.test(text));
+            if (!hit) {
+              core.info(`#${number}: no feature-request signal; left for the maintainer`);
+              return;
+            }
+            await closeWith(`Thanks for taking the time. This reads as a feature request, which this project no longer takes.\n${footer}`);

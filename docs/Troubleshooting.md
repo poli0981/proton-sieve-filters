@@ -23,8 +23,10 @@ python tools/validate_sieve.py
 python tools/lint_proton.py
 ```
 
-If you did **not** edit it and Proton still refuses, that is a bug — please
-[report it](https://github.com/poli0981/proton-sieve-filters/issues) with the exact error.
+If you did **not** edit it and Proton still refuses, Proton has probably changed its Sieve
+dialect — please report it with the
+[Proton Sieve change](https://github.com/poli0981/proton-sieve-filters/issues/new?template=proton-sieve-change.yml)
+form and the exact error.
 
 ## The filter saves, but nothing happens
 
@@ -81,8 +83,9 @@ unverified lists, so a false accusation is possible — `proton.com` is annotate
 as the least clear-cut of them.
 
 Remove the entry from `data/categories/phishing.yml`, regenerate, and
-[tell us](https://github.com/poli0981/proton-sieve-filters/issues) so it is fixed for
-everyone. See [SECURITY.md](../SECURITY.md) — this counts as a security report.
+[tell us privately](https://github.com/poli0981/proton-sieve-filters/security/advisories/new)
+so it is fixed for everyone. See [SECURITY.md](../SECURITY.md) — this counts as a security
+report.
 
 ## Everything lands in one folder
 
@@ -96,8 +99,10 @@ If you see it, you are either on an old version or on a hand-edited filter. Run:
 python tools/lint_proton.py
 ```
 
-and [report it](https://github.com/poli0981/proton-sieve-filters/issues) if the file is
-unmodified.
+and, if the file is unmodified,
+[report it privately](https://github.com/poli0981/proton-sieve-filters/security/advisories/new)
+— mail filed at scale under a delete timer is a security issue; see
+[SECURITY.md](../SECURITY.md).
 
 ## The build fails after I edited something
 
@@ -113,9 +118,18 @@ unmodified.
 
 ## Getting help
 
-[Search the issues](https://github.com/poli0981/proton-sieve-filters/issues) first, then
-open one. Useful details: which filter, which version, the sender **domain** and the subject
-**pattern**.
+[Search the issues](https://github.com/poli0981/proton-sieve-filters/issues) first. The
+project is in [maintenance mode](https://github.com/poli0981/proton-sieve-filters/blob/main/MAINTENANCE.md),
+so issues go through one of two forms:
+
+- [Domain fix](https://github.com/poli0981/proton-sieve-filters/issues/new?template=domain-fix.yml)
+  — a domain to add, remove or correct, including mail that went to the wrong folder.
+  Useful details: which filter, which version, the sender **domain** and the subject
+  **pattern**.
+- [Proton Sieve change](https://github.com/poli0981/proton-sieve-filters/issues/new?template=proton-sieve-change.yml)
+  — Proton's editor rejects a filter you have not edited.
+
+Questions go to [Discussions](https://github.com/poli0981/proton-sieve-filters/discussions/categories/q-a).
 
 **Do not paste real message content into a public issue** — see [PRIVACY.md](../PRIVACY.md).
 

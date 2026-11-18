@@ -77,7 +77,21 @@ company, and entries that were not valid hostnames. See [AI disclosure](AI-Discl
 
 No. It is an independent, unofficial project with **no affiliation to Proton AG**. Send
 Proton problems to [Proton support](https://proton.me/support) and filter problems
-[here](https://github.com/poli0981/proton-sieve-filters/issues).
+[here](https://github.com/poli0981/proton-sieve-filters/issues/new/choose).
+
+## Is this project still maintained?
+
+Yes, in **maintenance mode** since 2026-11-18. v0.3.0 is the last feature release. Still
+done: domain fixes (add, remove or correct a domain — wrong category, renamed, defunct, or
+404), High/Critical security fixes, scheduled dependency updates, and changes to keep up
+with Proton's Sieve dialect. See the
+[maintenance policy](https://github.com/poli0981/proton-sieve-filters/blob/main/MAINTENANCE.md).
+
+## Can I request a new filter or feature?
+
+No. Feature requests, new filters, categories and keywords are labelled `out-of-scope` and
+closed automatically. Build it in your own copy instead — the data is CC0 and the code MIT,
+and [Customisation](Customization.md) shows how.
 
 ## Can I use the domain lists in my own project?
 
@@ -89,8 +103,8 @@ code is MIT and the documentation CC-BY-4.0; see [LICENSES/README.md](../LICENSE
 It should not be. Those entries came from the same unverified source as everything else, and
 `proton.com` is annotated in the data as the least clear-cut. Remove it from
 `data/categories/phishing.yml`, regenerate, and please
-[report it](https://github.com/poli0981/proton-sieve-filters/issues) — see
-[SECURITY.md](../SECURITY.md).
+[report it privately](https://github.com/poli0981/proton-sieve-filters/security/advisories/new)
+— see [SECURITY.md](../SECURITY.md).
 
 ## Can it filter calendar invites?
 
@@ -105,6 +119,9 @@ Sieve is not.
 
 ## Something else
 
-[Troubleshooting](Troubleshooting.md), then
-[open an issue](https://github.com/poli0981/proton-sieve-filters/issues). Do not paste real
-message content into a public issue.
+[Troubleshooting](Troubleshooting.md) first. Issues are limited to
+[domain fixes](https://github.com/poli0981/proton-sieve-filters/issues/new?template=domain-fix.yml)
+and [Proton Sieve changes](https://github.com/poli0981/proton-sieve-filters/issues/new?template=proton-sieve-change.yml);
+questions go to
+[Discussions](https://github.com/poli0981/proton-sieve-filters/discussions/categories/q-a).
+Do not paste real message content anywhere public.

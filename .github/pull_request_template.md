@@ -1,11 +1,19 @@
+<!-- This project is in maintenance mode: see MAINTENANCE.md.
+     Pull requests are accepted for DOMAIN FIXES ONLY -- adding, removing or correcting a
+     domain in an existing data/categories/*.yml file. A pull request that changes
+     anything else (new categories, keywords, tools, docs, workflows) is labelled
+     `out-of-scope` and closed automatically. -->
+
 ## What changed and why
 
-<!-- One or two sentences. -->
+<!-- Which domain, what was wrong (wrong category, renamed, defunct, 404, missing), and
+     how you know -- a link to the company's site or an announcement is ideal. -->
 
 ## Checklist
 
+- [ ] This only adds, removes or corrects domains in an **existing** `data/categories/*.yml`
 - [ ] I edited `data/`, not `filter/*.sieve` — those are generated
-- [ ] `python tools/generate.py` run, and the regenerated filters are committed
+- [ ] `python tools/generate.py` and `python tools/gen_docs.py` run, and what they regenerated is committed
 - [ ] Checks pass:
 
 ```bash
@@ -26,6 +34,3 @@ Paste the output of the routing comparison, and say why the differences are inte
 ```bash
 python tools/check_roundtrip.py OLD_DIR filter
 ```
-
-<!-- Adding a category? It also needs a row in README.md and README/README.vi.md
-     — CI checks both. -->
